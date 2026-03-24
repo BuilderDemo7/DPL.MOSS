@@ -1,0 +1,211 @@
+|Framework:	MOSS
+|Game:	Driver: Parallel Lines
+|By: BuilderDemo7
+
+// Events
+
+# should be defined as 
+# function <event name>(<parameters if there are ny>)
+# e.g. -> function step() end
+
+void start() # called everytime the loading screen is finished and that the player is ready to move
+void shutdown() # called everytime the simulation is shutting down completely (even in restarts), WARNING: not called in mission checkpoints / mini-games!
+
+void step() # called every frame the game updates when unpaused
+void post_step() # called after step(), usually in the same frame but in a different position
+
+void draw_mission() # called every frame the mission is about to be drawn
+
+// Global
+
+# Mission
+
+Character GetPlayerCharacter()
+void ShowMissionComment(float duration, string message)
+void EndAllLifeEvents() # exclude all missions!
+
+# HUD
+
+void ActivatePager()
+
+# Object Creation & Destruction
+
+Vehicle CreateVehicle(int model, float x, float y, float z, [ float angle = 0.0)
+void DestroyVehicle(Vehicle vehicle)
+Helicopter CreateHelicopter(float x, float y, float z, [ float velx = 0.0, float vely = 0.0, float velz = 0.0, float angle = 0.0, bool isGoonHeli = true, bool destroyable = false, bool isLanded = false, bool helicopterOnlySpline = false)
+
+# Music / Sounds
+
+void SetMusicTrack(int trackId)
+
+# Profile Settings
+
+float GetMileometer() # probably needs to be converted in kilometer or miles
+int GetMoney()
+void SetMoney(int amount)
+
+# Felony Manager
+
+void SetVehicleFelonyLevel(Vehicle vehicle, float felony, [ AIFelonySystemPatrolCarTypeEnum patrolType = E_PATROLCARTYPE_COP) # equivalent to Vehicle:SetFelony(...)
+void SetFelonyLevel(Character character, float felony, [ AIFelonySystemPatrolCarTypeEnum patrolType = E_PATROLCARTYPE_COP) # equivalent to Character:SetFelony(...)
+float GetFelonyLevel(Character character, [ AIFelonySystemPatrolCarTypeEnum patrolType = E_PATROLCARTYPE_COP)
+void SetChaseCarMaxChasers(int maxChasers, [ AIFelonySystemPatrolCarTypeEnum patrolType = E_PATROLCARTYPE_COP)
+void CreatePatrolHelicopterUnit(float x, float y, float z, [ float angle, AIFelonySystemPatrolCarTypeEnum patrolType = E_PATROLCARTYPE_COP) : void CreatePatrolHelicopterUnit(Vector position, [ float angle, AIFelonySystemPatrolCarTypeEnum patrolType = E_PATROLCARTYPE_COP)
+void CreatePatrolCharacterOnFoot(float x, float y, float z, [ float angle, AIFelonySystemPatrolCarTypeEnum patrolType = E_PATROLCARTYPE_COP) : void CreatePatrolCharacterOnFoot(Vector position, [ float angle, AIFelonySystemPatrolCarTypeEnum patrolType = E_PATROLCARTYPE_COP)
+void CreatePatrolVehicleUnit(float x, float y, float z, float angle, [ AIFelonySystemPatrolCarTypeEnum patrolType = E_PATROLCARTYPE_COP, bool snapToTerrain = false, bool useSecondaryVehicleType = false) : void CreatePatrolVehicleUnit(Vector position, [ float angle,  AIFelonySystemPatrolCarTypeEnum patrolType = E_PATROLCARTYPE_COP,  bool snapToTerrain = false, bool useSecondaryVehicleType = false)
+
+# Player Functions
+
+bool IsPlayerFreeAiming()
+bool HasPlayerShotRecently()
+void AddAllWeaponsForPlayer()
+
+# Overhead Map
+
+MapItem AddMapItem(int type, Vector position, float angle) : MapItem AddMapItem(int type, float x, float y, float z, float angle)
+{ MapItem } GetMapItems() # all map items are returned except the map marker, player and camera items
+bool GetMapMarkerActive()
+void SetMapMarkerActive(bool active)
+MapItem GetPlayerMapItem()
+MapItem GetCameraMapItem()
+MapItem GetMapMarkerItem()
+
+# Memory Editing
+
+void memwrite(uint address, string buffer, uint size)
+string memread(uint address, uint size)
+void mempatch(uint address, string buffer)
+void meminject(uint address, string labelBuffer, int type)
+
+# Memory Cast
+
+float castfloat(string buffer, [ int offset = 0)
+double castdouble(string buffer, [ int offset = 0)
+int castint(string buffer, [ int offset = 0)
+uint castuint(string buffer, [ int offset = 0)
+short castshort(string buffer, [ int offset = 0)
+ushort castushort(string buffer, [ int offset = 0)
+
+# Input
+
+int GetAsyncKeyState(int keycode)
+
+# Math
+
+float GetDistanceBetweenPoints2D(float x1, float y1, float x2, float y2)
+float GetDistanceBetweenPoints2D(float x1, float y1, float z1, float x2, float y2, z2)
+
+// Classes
+
+# Vector
+
+float Vector.X
+float Vector.Y
+float Vector.Z
+float Vector.Magnitude # read-only
+float Vector.MagnitudeSqr # read-only
+float Vector.Heading # angle in radians, read-only
+
+Vector Vector.new([ float x = 0, float y = 0, float = z) # local vec = Vector.new()
+
+void Vector:Destroy()
+Vector Vector:operator*(Vector a, Vector b) # expression: a * b
+Vector Vector:operator+(Vector a, Vector b) # expression: a + b
+Vector Vector:operator-(Vector a, Vector b) # expression: a - b
+
+# Quaternion
+
+float Quaternion.X
+float Quaternion.Y
+float Quaternion.Z
+float Quaternion.W
+
+Quaternion Quaternion.new([float x = 0, float y = 0, z = 0, w = 0) # local qua = Quaternion.new()
+Quaternion Quaternion.FromEuler(float yaw, float pitch, float roll)
+
+void Quaternion:Destroy()
+Vector Quaternion:ToEuler() # returned in degrees, use math.rad() to convert
+
+# Character
+
+void Character:SetPosition(float x, float y, float z) : Character:SetPosition(Vector pos)
+Vector Character:GetPosition()
+float Character:GetAngle() : float Character:GetHeading() # returned in radians, use math.deg() to convert
+void Character:SetAngle(float radAngle) : float Character:SetHeading() # will use radians
+intptr_t Character:GetPointer()
+Vehicle Character:GetVehicle()
+void Character:TeleportIntoVehicle(Vehicle target, int seat)
+bool Character:GetCanExitVehicle() 
+void Character:SetCanExitVehicle(bool status)
+void Character:ForceIdleMode()
+void Character:SetFelony(float felony, [ AIFelonySystemPatrolCarTypeEnum patrolType = E_PATROLCARTYPE_COP) 
+float Character:GetFelony([ AIFelonySystemPatrolCarTypeEnum patrolType = E_PATROLCARTYPE_COP)
+Vector Character:GetForward() : Vector Character:GetForwardVector()
+Vector Character:GetRight() : Vector Character:GetRightVector()
+??? Character:PlayMissionAnimation(???) # W.I.P, DO NOT USE
+void Character:EnterVehicle(Vehicle vehicle, int seat, bool hijack);
+void Character:ExitVehicle()
+void Character:EjectFromVehicle()
+void Character:SetArrested()
+void Character:SetHealth(float health) # from 0 to 1, e.g. 0.5, 0.6, etc.
+float Character:GetHealth()
+??? Character:SwapSkin(???) # W.I.P, DO NOT USE
+
+# Vehicle
+
+void Vehicle:SetPosition(float x, float y, float z) : Vehicle:SetPosition(Vector pos)
+Vector Vehicle:GetPosition()
+float Vehicle:GetAngle() : float Vehicle:GetHeading() # returned in radians, use math.deg() to convert
+void Vehicle:SetAngle(float radAngle) : float Vehicle:SetHeading() # will use radians
+intptr_t Vehicle:GetPointer()
+Vector Vehicle:GetForward() : Vector Vehicle:GetForwardVector()
+Vector Vehicle:GetRight() : Vector Vehicle:GetRightVector()
+void Vehicle:SetVelocity(float x, float y, float z) : Vehicle:SetVelocity(Vector velocity)
+Vector Vehicle:GetVelocity()
+void Vehicle:SetRotation(Quaternion rotation)
+Quaternion Vehicle:GetRotation()
+Character Vehicle:GetDriver()
+int Vehicle:GetType() : int Vehicle:GetModel() # Vehicle names are usually in Text/vehnames.txt file
+void Vehicle:SendManipulationPacket(float thrust, float steerAngle, [ float burnout = 0, float leanFB = 0, float hornVolume = 0, bool nitro = false, bool handbrake = false, bool brakeIsPressed = false)
+void Vehicle:Destroy()
+void Vehicle:MakeInfiniteMass() : void Vehicle:GiveInfiniteMass()
+void Vehicle:MakeStatic()
+void Vehicle:MakeDynamic()
+float Vehicle:GetNitro() # from 0.0 to 1.0, e.g. 0.1, 0.5, etc.
+void Vehicle:SetNitro(float amount)
+float Vehicle:GetDamage()
+void Vehicle:SetDamage(float amount)
+void Vehicle:Explode()
+void Vehicle:Fix() : void Vehicle:Repair()
+void Vehicle:ActivateLamp(ePartSubType lightPart, bool onoff, [ bool forceOverride = false) : void Vehicle:SetLamp(ePartSubType lightPart, bool onoff, [ bool forceOverride = false)
+void Vehicle:ActivateSiren(bool onoff)
+void Vehicle:SetFelony(float felony, [ AIFelonySystemPatrolCarTypeEnum patrolType = E_PATROLCARTYPE_COP)
+
+# Helicopter
+
+void Helicopter:SetDesiredPosition(Vector pos) : void Helicopter:SetPosition(Vector pos)
+bool Helicopter:StepTo(Vector pos, [ float angle = 0, float speed = 25) # angle is in radians, returns true if reached destination otherwise false
+Vector Helicopter:GetPostion()
+float Helicopter:GetAngle() : float Helicopter:GetHeading() # returned in radians, use math.deg() to convert
+void Helicopter:SetAngle(float radAngle) : float Helicopter:SetHeading() # will use radians
+Vector Helicopter:GetDesiredPosition()
+intptr_t Helicopter:GetPointer()
+Vector Helicopter:GetForward() : Vector Helicopter:GetForwardVector()
+Vector Helicopter:GetRight() : Vector Helicopter:GetRightVector()
+void Helicopter:SetVelocity(float x, float y, float z) : Helicopter:SetPosition(Vector velocity)
+Vector Helicopter:GetVelocity()
+void Helicopter:SetDamage(float damage)
+float Helicopter:GetDamage()
+void Helicopter:UpdateMotion() # call this on function step()
+
+# MapItem
+
+void MapItem:SetPosition(Vector pos)
+Vector MapItem:GetPosition()
+intptr_t MapItem:GetPointer()
+void MapItem:SetHeading(float heading) : void MapItem:SetAngle(float angle) # will use radians
+float MapItem:SetHeading() : float MapItem:GetAngle() # returned in radians, use math.deg() to convert
+void MapItem:SetType(EMapItem type) 
+EMapItem MapItem:GetType()
+void MapItem:SetShowArrow(bool status)
+bool MapItem:GetShowArrow()

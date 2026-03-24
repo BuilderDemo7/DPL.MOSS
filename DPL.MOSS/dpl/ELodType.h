@@ -1,0 +1,19 @@
+#pragma once
+
+enum ELodType {
+	LT_NOSHADOW = 0,
+	LT_ZERO = 0,
+	LT_LOW = 1,
+	LT_HIGH = 2,
+	LT_1 = 4,
+	LT_2 = 8,
+	LT_3 = 16,
+	LT_SHADOW = 32,
+	LT_FLAGS = 96,
+	LT_ALPHA = 128,
+	LT_NOVISIBILITYTEST = 256,
+	LT_CROSSFADE = 512,
+	LT_NIGHT = 1024,
+	LT_LODS = 1055,
+	LT_CAMERADISTANCESET = 2048
+};

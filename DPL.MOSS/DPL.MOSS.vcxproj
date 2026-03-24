@@ -30,14 +30,14 @@
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -72,23 +72,25 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <TargetExt>.asi</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <TargetExt>.asi</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;DPLMOSS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_WARNINGS;_DEBUG;DPLMOSS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
@@ -96,11 +98,13 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
+      <AdditionalLibraryDirectories>lua\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>lua\lib\lua.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
@@ -112,17 +116,18 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
+      <AdditionalDependencies>lua\lib\lua.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;DPLMOSS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_WARNINGS;NDEBUG;DPLMOSS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
@@ -132,11 +137,13 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
+      <AdditionalLibraryDirectories>lua\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>lua\lib\lua.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -152,20 +159,158 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
+      <AdditionalDependencies>lua\lib\lua.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="dpl\AIFelonySystemFelonyManager.h" />
+    <ClInclude Include="dpl\AIHelicopterClass.h" />
+    <ClInclude Include="dpl\AIManager.h" />
+    <ClInclude Include="dpl\AmbientSoundManager.h" />
+    <ClInclude Include="dpl\AutoPtr.h" />
+    <ClInclude Include="dpl\CCharacter.h" />
+    <ClInclude Include="dpl\CCharacterCategoryManager.h" />
+    <ClInclude Include="dpl\CCharacterManager.h" />
+    <ClInclude Include="dpl\CGadgetHandler.h" />
+    <ClInclude Include="dpl\CHandling.h" />
+    <ClInclude Include="dpl\CharacterAIManager.h" />
+    <ClInclude Include="dpl\CLifeAcquirableVehicleManager.h" />
+    <ClInclude Include="dpl\CLifeEventDataManager.h" />
+    <ClInclude Include="dpl\CLifeInstance_Character.h" />
+    <ClInclude Include="dpl\CLifePlayer.h" />
+    <ClInclude Include="dpl\CLifeProgression.h" />
+    <ClInclude Include="dpl\CLifePropertyStream.h" />
+    <ClInclude Include="dpl\CLifeSystem.h" />
+    <ClInclude Include="dpl\CLifeSystemCommentLog.h" />
+    <ClInclude Include="dpl\CLifeVisuals.h" />
+    <ClInclude Include="dpl\CLoadingScreen.h" />
+    <ClInclude Include="dpl\CMenuManager.h" />
+    <ClInclude Include="dpl\CPCViewport.h" />
+    <ClInclude Include="dpl\CPlayerDriverBehaviour.h" />
+    <ClInclude Include="dpl\CPlaylist.h" />
+    <ClInclude Include="dpl\CVehicleManager.h" />
+    <ClInclude Include="dpl\CWeapon.h" />
+    <ClInclude Include="dpl\CWipeManager.h" />
+    <ClInclude Include="dpl\EAddWipe.h" />
+    <ClInclude Include="dpl\EAnimStates.h" />
+    <ClInclude Include="dpl\ECharacterRoles.h" />
+    <ClInclude Include="dpl\ECharacterType.h" />
+    <ClInclude Include="dpl\ECharAnimType.h" />
+    <ClInclude Include="dpl\ECheat.h" />
+    <ClInclude Include="dpl\EGadgetType.h" />
+    <ClInclude Include="dpl\EGenericTextID.h" />
+    <ClInclude Include="dpl\EInputAction.h" />
+    <ClInclude Include="dpl\ELodType.h" />
+    <ClInclude Include="dpl\EMenu.h" />
+    <ClInclude Include="dpl\EMenuState.h" />
+    <ClInclude Include="dpl\ePartSubType.h" />
+    <ClInclude Include="dpl\EVehicleDoor.h" />
+    <ClInclude Include="dpl\eWeaponAnimType.h" />
+    <ClInclude Include="dpl\Factory.h" />
+    <ClInclude Include="dpl\GameCamera.h" />
+    <ClInclude Include="dpl\GameOverlayManager.h" />
+    <ClInclude Include="dpl\HAnimInstance.h" />
+    <ClInclude Include="dpl\InGameMovie.h" />
+    <ClInclude Include="dpl\LifeEnvironment.h" />
+    <ClInclude Include="dpl\LocalisedString.h" />
+    <ClInclude Include="dpl\Matrix.h" />
+    <ClInclude Include="dpl\Model.h" />
+    <ClInclude Include="dpl\Physics.h" />
+    <ClInclude Include="dpl\ProfileSettings.h" />
+    <ClInclude Include="dpl\ResidentArea.h" />
+    <ClInclude Include="dpl\Speed.h" />
+    <ClInclude Include="dpl\SpoolableResourceManager.h" />
+    <ClInclude Include="dpl\Sprite.h" />
+    <ClInclude Include="dpl\SStaticInstance.h" />
+    <ClInclude Include="dpl\Vector.h" />
+    <ClInclude Include="dpl\Vector4.h" />
+    <ClInclude Include="dpl\Vehicle.h" />
+    <ClInclude Include="dpl\VehicleModel.h" />
+    <ClInclude Include="dpl\VehicleSpecification.h" />
+    <ClInclude Include="dpl\VehicleSpecificationManager.h" />
+    <ClInclude Include="dpl\WireCollection.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="Hooks.h" />
+    <ClInclude Include="Hooks_Redirect.h" />
+    <ClInclude Include="lua\includelua.h" />
+    <ClInclude Include="lua\quaternion_metatable.h" />
+    <ClInclude Include="lua\vector_metatable.h" />
+    <ClInclude Include="main.h" />
+    <ClInclude Include="moss\Lua_Character.h" />
+    <ClInclude Include="moss\Lua_Helicopter.h" />
+    <ClInclude Include="moss\Lua_Hooking.h" />
+    <ClInclude Include="moss\Lua_Main.h" />
+    <ClInclude Include="moss\Lua_MapItem.h" />
+    <ClInclude Include="moss\Lua_MissionFuncs.h" />
+    <ClInclude Include="moss\Lua_Vehicle.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="utils.h" />
+    <ClInclude Include="utils\MemoryMgr.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="dpl\AIFelonySystemFelonyManager.cpp" />
+    <ClCompile Include="dpl\AIHelicopterClass.cpp" />
+    <ClCompile Include="dpl\AIManager.cpp" />
+    <ClCompile Include="dpl\AmbientSoundManager.cpp" />
+    <ClCompile Include="dpl\CCharacter.cpp" />
+    <ClCompile Include="dpl\CCharacterCategoryManager.cpp" />
+    <ClCompile Include="dpl\CCharacterManager.cpp" />
+    <ClCompile Include="dpl\CGadgetHandler.cpp" />
+    <ClCompile Include="dpl\CHandling.cpp" />
+    <ClCompile Include="dpl\CharacterAIManager.cpp" />
+    <ClCompile Include="dpl\CLifeAcquirableVehicleManager.cpp" />
+    <ClCompile Include="dpl\CLifeEventDataManager.cpp" />
+    <ClCompile Include="dpl\CLifeInstance_Character.cpp" />
+    <ClCompile Include="dpl\CLifePlayer.cpp" />
+    <ClCompile Include="dpl\CLifeProgression.cpp" />
+    <ClCompile Include="dpl\CLifePropertyStream.cpp" />
+    <ClCompile Include="dpl\CLifeSystem.cpp" />
+    <ClCompile Include="dpl\CLifeSystemCommentLog.cpp" />
+    <ClCompile Include="dpl\CLoadingScreen.cpp" />
+    <ClCompile Include="dpl\CMenuManager.cpp" />
+    <ClCompile Include="dpl\CPCViewport.cpp" />
+    <ClCompile Include="dpl\CPlayerDriverBehaviour.cpp" />
+    <ClCompile Include="dpl\CPlaylist.cpp" />
+    <ClCompile Include="dpl\CVehicleManager.cpp" />
+    <ClCompile Include="dpl\CWeapon.cpp" />
+    <ClCompile Include="dpl\CWipeManager.cpp" />
+    <ClCompile Include="dpl\Factory.cpp" />
+    <ClCompile Include="dpl\GameCamera.cpp" />
+    <ClCompile Include="dpl\GameOverlayManager.cpp" />
+    <ClCompile Include="dpl\HAnimInstance.cpp" />
+    <ClCompile Include="dpl\InGameMovie.cpp" />
+    <ClCompile Include="dpl\LifeEnvironment.cpp" />
+    <ClCompile Include="dpl\LifeInstances.cpp" />
+    <ClCompile Include="dpl\Matrix.cpp" />
+    <ClCompile Include="dpl\Physics.cpp" />
+    <ClCompile Include="dpl\ProfileSettings.cpp" />
+    <ClCompile Include="dpl\ResidentArea.cpp" />
+    <ClCompile Include="dpl\Speed.cpp" />
+    <ClCompile Include="dpl\SpoolableResourceManager.cpp" />
+    <ClCompile Include="dpl\Vector.cpp" />
+    <ClCompile Include="dpl\Vector4.cpp" />
+    <ClCompile Include="dpl\Vehicle.cpp" />
+    <ClCompile Include="dpl\VehicleSpecification.cpp" />
+    <ClCompile Include="dpl\VehicleSpecificationManager.cpp" />
+    <ClCompile Include="Hooks.cpp" />
+    <ClCompile Include="Hooks_Redirect.cpp" />
+    <ClCompile Include="lua\quaternion_metatable.cpp" />
+    <ClCompile Include="lua\vector_metatable.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="moss\Lua_Character.cpp" />
+    <ClCompile Include="moss\Lua_Helicopter.cpp" />
+    <ClCompile Include="moss\Lua_Hooking.cpp" />
+    <ClCompile Include="moss\Lua_Main.cpp" />
+    <ClCompile Include="moss\Lua_MapItem.cpp" />
+    <ClCompile Include="moss\Lua_MissionFuncs.cpp" />
+    <ClCompile Include="moss\Lua_Vehicle.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="utils.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

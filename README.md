@@ -21,7 +21,7 @@ Of course you need basic skills with Lua and the documentation of all functions 
  or you can [download](https://github.com/BuilderDemo7/DPL.MOSS/blob/master/function_list.txt) the functions list from this repository.
 
 ## Samples
-*TO BE ADDED ...*
+In doubt of how to actually use the functions? check out the [samples](https://github.com/BuilderDemo7/DPL.MOSS/tree/master/samples) as a example of how MOSS works!
 
 # Building
 You will need Visual Studio 2017 (v141) or greater to build, no multi-platform project files were made so far (such as CMake or GCC).

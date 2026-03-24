@@ -175,17 +175,17 @@ int lua_SetVehicleNitro(lua_State* L)
 	{
 		sCustomCar* custom = new sCustomCar();
 
-		// prevent from the part colors to go black or something else
-		Vector col = vehicle->GetColor();
-		sRGBtint tint = sRGBtint();
-		tint.rgb[0] = (char)(col.X * 255.0f);
-		tint.rgb[1] = (char)(col.Y * 255.0f);
-		tint.rgb[2] = (char)(col.Z * 255.0f);
+		// sCustomCar::Reset()
+		((void(__thiscall*)(sCustomCar*))0x57cb7a)(custom);
 
-		custom->basetint = tint;
+		//custom->KitParts = 0; // since this is new, it should be 0
 
-		custom->KitParts = 0; // since this is new, it should be 0
-		custom->KitParts = custom->KitParts | 0x1000;
+		//// for some reason, the PS2 prototype used flag 0x1000?
+		//custom->KitParts = custom->KitParts | 0x10;
+
+		// add nitro part - sCustomCar::AddPart()
+		((void(__thiscall*)(sCustomCar*, int, int))0x57ccfe)(custom, 0x10F, 0x80);
+
 		custom->nitro = nitro;
 
 		vehicle->SetCustomCarData(custom);
@@ -193,7 +193,11 @@ int lua_SetVehicleNitro(lua_State* L)
 	else
 	{
 		sCustomCar* custom = vehicle->GetCustomCarData();
-		custom->KitParts = custom->KitParts | 0x1000;
+		//custom->KitParts = custom->KitParts | 0x10;
+		
+		// add nitro part - sCustomCar::AddPart()
+		((void(__thiscall*)(sCustomCar*, int, int))0x57ccfe)(custom, 0x10F, 0x80);
+		
 		custom->nitro = nitro;
 
 		vehicle->SetCustomCarData(custom);

@@ -212,6 +212,7 @@
     <ClInclude Include="dpl\HAnimInstance.h" />
     <ClInclude Include="dpl\InGameMovie.h" />
     <ClInclude Include="dpl\LifeEnvironment.h" />
+    <ClInclude Include="dpl\LifeInstances.h" />
     <ClInclude Include="dpl\LocalisedString.h" />
     <ClInclude Include="dpl\Matrix.h" />
     <ClInclude Include="dpl\Model.h" />

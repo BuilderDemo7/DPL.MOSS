@@ -5,7 +5,7 @@
 // Events
 
 # should be defined as 
-# function <event name>(<parameters if there are ny>)
+# function <event name>(<parameters if there are any>)
 # e.g. -> function step() end
 
 void start() # called everytime the loading screen is finished and that the player is ready to move

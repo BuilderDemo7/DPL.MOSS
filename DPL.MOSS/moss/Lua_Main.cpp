@@ -255,7 +255,8 @@ void Step_Lua()
 
 void Close_Lua()
 {
-	lua_close(L);
+	if (L != NULL)
+		lua_close(L);
 }
 
 void Reload_Lua()

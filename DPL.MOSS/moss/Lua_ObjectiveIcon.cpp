@@ -1,6 +1,8 @@
 #include "Lua_ObjectiveIcon.h"
 #include "..\dpl\CPCViewport.h"
 
+#include "..\Hooks_Redirect.h"
+
 const char* g_ObjectiveIconMetaName = "ObjectiveIcon";
 
 void Init_Lua_MetaTable_ObjectiveIcon()
@@ -49,7 +51,7 @@ int lua_ObjectiveIconNew(lua_State* L)
 	oicon->m_iDisplayType = 20;
 	SetupObjectiveIcon(&oicon->m_iconData, oicon->m_iDisplayType, 0);
 
-	luaL_getmetatable(L, g_LuaVectorMetaTable);
+	luaL_getmetatable(L, g_ObjectiveIconMetaName);
 	lua_setmetatable(L, -2);
 
 	return 1;
@@ -197,9 +199,10 @@ int lua_DrawObjectiveIcon(lua_State* L)
 {
 	Lua_ObjectiveIcon* oicon = *(Lua_ObjectiveIcon**)luaL_checkudata(L, 1, g_ObjectiveIconMetaName);
 
-	CPCViewport* vp = CPCViewport::GetSimulationViewport();
-	if (vp != NULL)
-		AutoRenderObjectiveIcon(&oicon->m_iconData, &oicon->m_matrix, vp);
+	//CPCViewport* vp = CPCViewport::GetSimulationViewport();
+
+	if (g_pMissionViewport != NULL)
+		AutoRenderObjectiveIcon(&oicon->m_iconData, &oicon->m_matrix, g_pMissionViewport);
 
 	return 0;
 }

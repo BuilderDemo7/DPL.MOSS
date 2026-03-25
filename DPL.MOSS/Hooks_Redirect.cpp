@@ -2,6 +2,8 @@
 
 #include "moss/Lua_Main.h"
 
+CPCViewport* g_pMissionViewport = NULL;
+
 void OnLoadMission()
 {
 	Init_LuaScripts();
@@ -17,7 +19,9 @@ void OnPostStep()
 	PostStep_Lua();
 }
 
-void OnDrawMission()
+void OnDrawMission(CPCViewport* vp)
 {
+	g_pMissionViewport = vp;
+
 	OnDrawMission_Lua();
 }

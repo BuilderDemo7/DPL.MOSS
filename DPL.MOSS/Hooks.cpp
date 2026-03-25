@@ -3,6 +3,8 @@
 
 #include "moss/Lua_Main.h"
 
+#include "dpl\CPCViewport.h"
+
 int g_iTickLoadingScreenDeactivation = 0;
 bool g_bSimulationInitalised = false;
 
@@ -175,15 +177,23 @@ void __declspec(naked) visuals_draw__DrawMission__Hook()
 	static int org_ebx = 0;
 	static int org_ecx = 0;
 	static int org_edx = 0;
+	static int org_esp = 0;
+	static CPCViewport* in_vp = 0;
 	_asm {
 		mov[org_eax], eax
 		mov[org_ebx], ebx
 		mov[org_ecx], ecx
 		mov[org_edx], edx
+		mov[org_esp], esp
+	}
+
+	_asm
+	{
+		mov [in_vp],esi // in_vp = piViewport
 	}
 
 	// Custom code
-	OnDrawMission();
+	OnDrawMission(in_vp);
 
 	// Register restoration
 	_asm {
@@ -191,6 +201,7 @@ void __declspec(naked) visuals_draw__DrawMission__Hook()
 		mov eax, [org_eax]
 		mov ebx, [org_ebx]
 		mov edx, [org_edx]
+		mov esp, [org_esp]
 	}
 
 	// Original code

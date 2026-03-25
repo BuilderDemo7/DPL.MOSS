@@ -7,5 +7,7 @@ CGadgetHandler* CGadgetHandler::GetInstance()
 
 unsigned short CGadgetHandler::GetGadgetModelHandle(EGadgetType gadget)
 {
-	return ((unsigned short(__thiscall*)(CGadgetHandler*, EGadgetType))0x455c16)(this, gadget);
+	unsigned int returnStorage = 0;
+
+	return *((unsigned short*(__thiscall*)(CGadgetHandler*, unsigned int*, EGadgetType))0x455c16)(this, &returnStorage, gadget);
 }

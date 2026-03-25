@@ -4,4 +4,6 @@ class CCharacterCategoryManager {
 public:
 	static CCharacterCategoryManager* GetInstance();
 	void SetPlayerAvatar(int id);
+
+	int GetEra();
 };

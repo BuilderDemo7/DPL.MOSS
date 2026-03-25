@@ -16,3 +16,8 @@ void CLifeProgression::RunEvent(int EventID)
 {
     ((void(__thiscall*)(CLifeProgression*, int))0x47125A)(this, EventID);
 }
+
+bool CLifeProgression::SetLifeEventStatus(int eID, int eStatus, bool fromStatusControl)
+{
+	return ((bool(__thiscall*)(CLifeProgression*, int, int, bool))0x47148c)(this, eID, eStatus, fromStatusControl);
+}

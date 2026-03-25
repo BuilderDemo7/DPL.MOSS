@@ -7,3 +7,7 @@ CCharacterCategoryManager* CCharacterCategoryManager::GetInstance() {
 void CCharacterCategoryManager::SetPlayerAvatar(int id) {
 	((void(__thiscall*)(CCharacterCategoryManager*, int))0x4F31F5)(this, id);
 }
+
+int CCharacterCategoryManager::GetEra() {
+	return ((int(__thiscall*)(CCharacterCategoryManager*))0x4f2e9a)(this);
+}

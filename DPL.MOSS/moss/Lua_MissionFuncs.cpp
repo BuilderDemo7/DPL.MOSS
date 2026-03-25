@@ -10,6 +10,7 @@
 #include "..\dpl\AmbientSoundManager.h"
 #include "..\dpl\ProfileSettings.h"
 #include "..\dpl\GameCamera.h"
+#include "..\dpl\Speed.h"
 
 int lua_EndAllLifeEvents(lua_State* L)
 {
@@ -418,6 +419,15 @@ int lua_GetMileometer(lua_State* L)
 	lua_pushnumber(L, odom);
 
 	return 1;
+}
+
+int lua_SetMasterSpeedMultiplier(lua_State* L)
+{
+	float mult = luaL_checknumber(L, 1);
+
+	speed::SetMasterSpeedMultiplier(mult);
+
+	return 0;
 }
 
 int lua_GetMoney(lua_State* L)

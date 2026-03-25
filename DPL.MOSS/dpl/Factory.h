@@ -8,7 +8,11 @@ enum EFactoryType
 	EFactoryType_OccluderModule,
 	EFactoryType_Font,
 
-	EFactoryType_Helicopter = 0x20
+	EFactoryType_Helicopter = 0x20, // actual helicopter
+
+	EFactoryType_LifeActor_Helicopter = 0x80,
+	EFactoryType_LifeActor_Train = 0x83,
+	EFactoryType_LifeActor_Prop = 0x7a,
 };
 
 namespace hamster

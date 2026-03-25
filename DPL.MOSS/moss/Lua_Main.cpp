@@ -55,6 +55,7 @@ void Init_LuaScripts()
 	}
 
 	int scriptsLoaded = 0;
+	int scriptsErrored = 0;
 	char fn[348];
 
 	g_SimulationFirstStepTicked = false;
@@ -74,91 +75,102 @@ void Init_LuaScripts()
 				sprintf(fn, "%s\\%s", folderPath.c_str(), name.c_str());
 
 				printf("Loading script %s ...\n", name.c_str());
-				luaL_dofile(L, fn);
+				int scriptstatus = luaL_dofile(L, fn);
 
-				// check if step() exists
-				lua_getglobal(L, "step");
-
-				if (lua_isfunction(L, -1))
+				if (scriptstatus == LUA_OK)
 				{
-					// store reference
-					int ref = luaL_ref(L, LUA_REGISTRYINDEX);
-					g_LuaSteps.push_back(ref);
+					// check if step() exists
+					lua_getglobal(L, "step");
+
+					if (lua_isfunction(L, -1))
+					{
+						// store reference
+						int ref = luaL_ref(L, LUA_REGISTRYINDEX);
+						g_LuaSteps.push_back(ref);
+					}
+					else
+					{
+						lua_pop(L, 1);
+					}
+
+					// check if post_step() exists
+					lua_getglobal(L, "post_step");
+
+					if (lua_isfunction(L, -1))
+					{
+						// store reference
+						int ref = luaL_ref(L, LUA_REGISTRYINDEX);
+						g_LuaPostSteps.push_back(ref);
+					}
+					else
+					{
+						lua_pop(L, 1);
+					}
+
+					// check if start() exists
+					lua_getglobal(L, "start");
+
+					if (lua_isfunction(L, -1))
+					{
+						// store reference
+						int ref = luaL_ref(L, LUA_REGISTRYINDEX);
+						g_LuaStarts.push_back(ref);
+					}
+					else
+					{
+						lua_pop(L, 1);
+					}
+
+					// check if shutdown() exists
+					lua_getglobal(L, "shutdown");
+
+					if (lua_isfunction(L, -1))
+					{
+						// store reference
+						int ref = luaL_ref(L, LUA_REGISTRYINDEX);
+						g_LuaShutdowns.push_back(ref);
+					}
+					else
+					{
+						lua_pop(L, 1);
+					}
+
+					// check if draw_mission() exists
+					lua_getglobal(L, "draw_mission");
+
+					if (lua_isfunction(L, -1))
+					{
+						// store reference
+						int ref = luaL_ref(L, LUA_REGISTRYINDEX);
+						g_LuaDrawMissionEvents.push_back(ref);
+					}
+					else
+					{
+						lua_pop(L, 1);
+					}
+
+					// clear global funcs so next script doesn't overwrite
+					lua_pushnil(L);
+					lua_setglobal(L, "step");
+					lua_pushnil(L);
+					lua_setglobal(L, "post_step");
+					lua_pushnil(L);
+					lua_setglobal(L, "start");
+					lua_pushnil(L);
+					lua_setglobal(L, "shutdown");
+					lua_pushnil(L);
+					lua_setglobal(L, "draw_mission");
+
+					scriptsLoaded++;
 				}
 				else
 				{
+					printf("Error in loading script %s:\n %s\n", name.c_str(), lua_tostring(L, -1));
+
 					lua_pop(L, 1);
+
+					scriptsErrored++;
 				}
-
-				// check if post_step() exists
-				lua_getglobal(L, "post_step");
-
-				if (lua_isfunction(L, -1))
-				{
-					// store reference
-					int ref = luaL_ref(L, LUA_REGISTRYINDEX);
-					g_LuaPostSteps.push_back(ref);
-				}
-				else
-				{
-					lua_pop(L, 1);
-				}
-
-				// check if start() exists
-				lua_getglobal(L, "start");
-
-				if (lua_isfunction(L, -1))
-				{
-					// store reference
-					int ref = luaL_ref(L, LUA_REGISTRYINDEX);
-					g_LuaStarts.push_back(ref);
-				}
-				else
-				{
-					lua_pop(L, 1);
-				}
-
-				// check if shutdown() exists
-				lua_getglobal(L, "shutdown");
-
-				if (lua_isfunction(L, -1))
-				{
-					// store reference
-					int ref = luaL_ref(L, LUA_REGISTRYINDEX);
-					g_LuaShutdowns.push_back(ref);
-				}
-				else
-				{
-					lua_pop(L, 1);
-				}
-
-				// check if draw_mission() exists
-				lua_getglobal(L, "draw_mission");
-
-				if (lua_isfunction(L, -1))
-				{
-					// store reference
-					int ref = luaL_ref(L, LUA_REGISTRYINDEX);
-					g_LuaDrawMissionEvents.push_back(ref);
-				}
-				else
-				{
-					lua_pop(L, 1);
-				}
-
-				// clear global funcs so next script doesn't overwrite
-				lua_pushnil(L);
-				lua_setglobal(L, "step");
-				lua_pushnil(L);
-				lua_setglobal(L, "post_step");
-				lua_pushnil(L);
-				lua_setglobal(L, "start");
-				lua_pushnil(L);
-				lua_setglobal(L, "shutdown");
-				lua_pushnil(L);
-				lua_setglobal(L, "draw_mission");
-
-				scriptsLoaded++;
 			}
 		}
 
@@ -168,7 +180,7 @@ void Init_LuaScripts()
 
 	g_bLuaScriptsLoaded = true;
 
-	printf("%d scripts were loaded in 'moss_scripts' folder.\n", scriptsLoaded);
+	printf("%d scripts were loaded with success in 'moss_scripts' folder, %d with errors.\n", scriptsLoaded, scriptsErrored);
 }
 
 void Lua_Start()

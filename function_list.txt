@@ -18,11 +18,12 @@ void draw_mission() # called every frame the mission is about to be drawn
 
 // Global
 
-# Mission
+# Mission Functions
 
 Character GetPlayerCharacter()
 void ShowMissionComment(float duration, string message)
 void EndAllLifeEvents() # exclude all missions!
+void LaunchVEdit() # launches the garage menu
 
 # HUD
 
@@ -78,6 +79,7 @@ void mempatch(uint address, string buffer)
 void meminject(uint address, string labelBuffer, int type)
 
 # Memory Cast
+* WARNING: Please check if the address is valid otherwise it will cause the game to crash with access violation.
 
 float castfloat(string buffer, [ int offset = 0)
 double castdouble(string buffer, [ int offset = 0)
@@ -86,9 +88,18 @@ uint castuint(string buffer, [ int offset = 0)
 short castshort(string buffer, [ int offset = 0)
 ushort castushort(string buffer, [ int offset = 0)
 
+# Class Memory Cast
+* WARNING: Please check if the address is valid otherwise it will cause the game to crash with access violation.
+
+Character castCharacter(intptr_t address)
+Vehicle castVehicle(intptr_t address)
+Helicopter castHelicopter(intptr_t address)
+MapItem castMapItem(intptr_t address)
+
 # Input
 
-int GetAsyncKeyState(int keycode)
+int GetAsyncKeyState(int keycode) # gets key state (Windows messaging)
+float: value, bool: debounce GetInputInfo(EInputAction action) # gets input directly from the game's input manager
 
 # Math
 

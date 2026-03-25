@@ -285,6 +285,18 @@
     <ClInclude Include="dpl\LifeInstances.h">
       <Filter>Header files\dpl</Filter>
     </ClInclude>
+    <ClInclude Include="dpl\VisualsInputManager.h">
+      <Filter>Header files\dpl</Filter>
+    </ClInclude>
+    <ClInclude Include="dpl\GenericStringManager.h">
+      <Filter>Header files\dpl</Filter>
+    </ClInclude>
+    <ClInclude Include="dpl\PlayerInVehicleInputs.h">
+      <Filter>Header files\dpl</Filter>
+    </ClInclude>
+    <ClInclude Include="dpl\Input.h">
+      <Filter>Header files\dpl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -459,6 +471,15 @@
       <Filter>Source files\MOSS</Filter>
     </ClCompile>
     <ClCompile Include="dpl\CGadgetHandler.cpp">
+      <Filter>Source files\dpl</Filter>
+    </ClCompile>
+    <ClCompile Include="dpl\VisualsInputManager.cpp">
+      <Filter>Source files\dpl</Filter>
+    </ClCompile>
+    <ClCompile Include="dpl\GenericStringManager.cpp">
+      <Filter>Source files\dpl</Filter>
+    </ClCompile>
+    <ClCompile Include="dpl\PlayerInVehicleInputs.cpp">
       <Filter>Source files\dpl</Filter>
     </ClCompile>
   </ItemGroup>

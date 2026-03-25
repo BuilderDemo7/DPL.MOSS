@@ -297,6 +297,12 @@
     <ClInclude Include="dpl\Input.h">
       <Filter>Header files\dpl</Filter>
     </ClInclude>
+    <ClInclude Include="dpl\InputManager.h">
+      <Filter>Header files\dpl</Filter>
+    </ClInclude>
+    <ClInclude Include="dpl\CLifeActor_Prop.h">
+      <Filter>Header files\dpl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -480,6 +486,9 @@
       <Filter>Source files\dpl</Filter>
     </ClCompile>
     <ClCompile Include="dpl\PlayerInVehicleInputs.cpp">
+      <Filter>Source files\dpl</Filter>
+    </ClCompile>
+    <ClCompile Include="dpl\InputManager.cpp">
       <Filter>Source files\dpl</Filter>
     </ClCompile>
   </ItemGroup>

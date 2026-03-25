@@ -535,6 +535,7 @@ void Init_Lua_Funcs()
 	lua_register(L, "CreateHelicopter", lua_CreateHelicopter); // Helicopter CreateHelicopter(float x, float y, float z, [ float velx = 0.0, float vely = 0.0, float velz = 0.0, float angle = 0.0, bool isGoonHeli = true, bool destroyable = false, bool isLanded = false, bool helicopterOnlySpline = false)
 
 	lua_register(L, "ActivatePager", lua_ActivatePager); // void ActivatePager()
+	lua_register(L, "LaunchVEdit", lua_LaunchVEdit); // void LaunchVEdit()
 
 	lua_register(L, "SetMusicTrack", lua_SetMusicTrack); // void SetMusicTrack(int trackId);
 	lua_register(L, "GetMileometer", lua_GetMileometer); // float GetMileometer();
@@ -562,6 +563,9 @@ void Init_Lua_Funcs()
 	lua_register(L, "GetCameraMapItem", lua_GetCameraMapItem); // MapItem GetCameraMapItem()
 	lua_register(L, "GetMapMarkerItem", lua_GetMapMarkerItem); // MapItem GetMapMarkerItem()
 
+	lua_register(L, "SetGameSpeed", lua_SetMasterSpeedMultiplier);
+	lua_register(L, "SetMasterSpeedMultiplier", lua_SetMasterSpeedMultiplier);
+
 	// hooking funcs
 	lua_register(L, "memwrite", lua_memwrite); // void memwrite(uint address, string buffer, uint size)
 	lua_register(L, "memread", lua_memread); // string memread(uint address, uint size)
@@ -576,12 +580,19 @@ void Init_Lua_Funcs()
 	lua_register(L, "castshort", lua_castshort); // short castshort(string buffer, [ int offset = 0)
 	lua_register(L, "castushort", lua_castushort); // ushort castushort(string buffer, [ int offset = 0)
 
+	// class cast funcs
+	lua_register(L, "castCharacter", lua_castCharacter); // Character castCharacter(intptr_t address) 
+	lua_register(L, "castVehicle", lua_castVehicle); // Vehicle castVehicle(intptr_t address) 
+	lua_register(L, "castHelicopter", lua_castHelicopter); // Helicopter castHelicopter(intptr_t address) 
+	lua_register(L, "castMapItem", lua_castMapItem); // MapItem castMapItem(intptr_t address) 
+
 	// math space stuff (outside of vector)
 	lua_register(L, "GetDistanceBetweenPoints2D", lua_GetDistanceBetweenPoints2D); // float GetDistanceBetweenPoints2D(float x1, float y1, float x2, float y2)
 	lua_register(L, "GetDistanceBetweenPoints3D", lua_GetDistanceBetweenPoints3D); // float GetDistanceBetweenPoints2D(float x1, float y1, float z1, float x2, float y2, z2)
 
-	// key / windows messaging
+	// input
 	lua_register(L, "GetAsyncKeyState", lua_GetAsyncKeyState); // int GetAsyncKeyState(int keycode); 
+	lua_register(L, "GetInputInfo", lua_GetInputInfo); // float: value, bool: debounce GetInputInfo(EInputAction action);
 
 	// camera
 	lua_register(L, "SetCameraPosition", lua_SetCameraPosition); // void SetCameraPosition(Vector pos)

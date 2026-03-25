@@ -1,5 +1,14 @@
 #include "Lua_Hooking.h"
+
 #include "Lua_Character.h"
+#include "Lua_Vehicle.h"
+#include "Lua_Helicopter.h"
+#include "Lua_MapItem.h"
+
+#include "..\dpl\CCharacter.h"
+#include "..\dpl\Vehicle.h"
+#include "..\dpl\AIHelicopterClass.h"
+#include "..\dpl\GameOverlayManager.h"
 
 #include "..\utils.h"
 
@@ -137,6 +146,74 @@ int lua_castushort(lua_State* L)
 	unsigned short castData = *(unsigned short*)(data + offset);
 
 	lua_pushinteger(L, castData);
+
+	return 1;
+}
+
+int lua_castCharacter(lua_State* L)
+{
+	int ptr = luaL_checkinteger(L, 1);
+
+	CCharacter* castData = (CCharacter*)(ptr);
+
+	// allocate userdata to hold the pointer
+	CCharacter** udata = (CCharacter**)lua_newuserdata(L, sizeof(CCharacter*));
+	*udata = castData;
+
+	// attach the vehicle metatable
+	luaL_getmetatable(L, g_CharacterMetaName);
+	lua_setmetatable(L, -2);
+
+	return 1;
+}
+
+int lua_castVehicle(lua_State* L)
+{
+	int ptr = luaL_checkinteger(L, 1);
+
+	CVehicle* castData = (CVehicle*)(ptr);
+
+	// allocate userdata to hold the pointer
+	CVehicle** udata = (CVehicle**)lua_newuserdata(L, sizeof(CVehicle*));
+	*udata = castData;
+
+	// attach the vehicle metatable
+	luaL_getmetatable(L, g_VehicleMetaName);
+	lua_setmetatable(L, -2);
+
+	return 1;
+}
+
+int lua_castHelicopter(lua_State* L)
+{
+	int ptr = luaL_checkinteger(L, 1);
+
+	AIHelicopterClass* castData = (AIHelicopterClass*)(ptr);
+
+	// allocate userdata to hold the pointer
+	AIHelicopterClass** udata = (AIHelicopterClass**)lua_newuserdata(L, sizeof(AIHelicopterClass*));
+	*udata = castData;
+
+	// attach the vehicle metatable
+	luaL_getmetatable(L, g_VehicleMetaName);
+	lua_setmetatable(L, -2);
+
+	return 1;
+}
+
+int lua_castMapItem(lua_State* L)
+{
+	int ptr = luaL_checkinteger(L, 1);
+
+	SMapItem* castData = (SMapItem*)(ptr);
+
+	// allocate userdata to hold the pointer
+	SMapItem** udata = (SMapItem**)lua_newuserdata(L, sizeof(SMapItem*));
+	*udata = castData;
+
+	// attach the vehicle metatable
+	luaL_getmetatable(L, g_MapItemMetaName);
+	lua_setmetatable(L, -2);
 
 	return 1;
 }

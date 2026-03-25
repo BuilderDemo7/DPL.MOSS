@@ -11,6 +11,7 @@
 #include "..\dpl\ProfileSettings.h"
 #include "..\dpl\GameCamera.h"
 #include "..\dpl\Speed.h"
+#include "..\dpl\InputManager.h"
 
 int lua_EndAllLifeEvents(lua_State* L)
 {
@@ -428,6 +429,42 @@ int lua_SetMasterSpeedMultiplier(lua_State* L)
 	speed::SetMasterSpeedMultiplier(mult);
 
 	return 0;
+}
+
+int lua_LaunchVEdit(lua_State* L)
+{
+	void* Singleton_SystemConfig = *(void**)0x70c558;
+
+	if (Singleton_SystemConfig != NULL)
+	{
+		int vtable_func = *(int*)Singleton_SystemConfig + 0x10;
+
+		// ProcessCommand__18CState_GameRunningPCcT1()?
+		((void(__thiscall*)(void*, const char*, int))vtable_func)(Singleton_SystemConfig, "vedit_enter", 0);
+	}
+
+	return 0;
+}
+
+int lua_GetInputInfo(lua_State* L)
+{
+	int inputId = luaL_checkinteger(L, 1);
+	float input = 0;
+	bool debounce = false;
+
+	CInputManager* manager = GetInputManagerByAction((EInputAction)inputId);
+
+	if (manager != NULL)
+	{
+		Input_impl* inpt = manager->GetModifiableInput((EInputAction)inputId);
+		input = inpt->value_;
+		debounce = inpt->debounce_;
+	}
+
+	lua_pushnumber(L, input);
+	lua_pushboolean(L, debounce);
+
+	return 2;
 }
 
 int lua_GetMoney(lua_State* L)

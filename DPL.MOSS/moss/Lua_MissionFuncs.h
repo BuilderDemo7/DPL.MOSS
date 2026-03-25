@@ -30,4 +30,9 @@ int lua_SetMoney(lua_State* L);
 int lua_GetDistanceBetweenPoints2D(lua_State* L);
 int lua_GetDistanceBetweenPoints3D(lua_State* L);
 
+int lua_SetMasterSpeedMultiplier(lua_State* L);
+int lua_GetInputInfo(lua_State* L);
+
+int lua_LaunchVEdit(lua_State* L);
+
 int lua_SetCameraPosition(lua_State* L);

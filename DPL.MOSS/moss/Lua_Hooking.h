@@ -13,4 +13,9 @@ int lua_castuint(lua_State* L);
 int lua_castshort(lua_State* L);
 int lua_castushort(lua_State* L);
 
+int lua_castCharacter(lua_State* L);
+int lua_castVehicle(lua_State* L);
+int lua_castHelicopter(lua_State* L);
+int lua_castMapItem(lua_State* L);
+
 int lua_GetAsyncKeyState(lua_State* L);

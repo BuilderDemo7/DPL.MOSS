@@ -437,7 +437,8 @@ int lua_LaunchVEdit(lua_State* L)
 
 	if (Singleton_SystemConfig != NULL)
 	{
-		int vtable_func = *(int*)Singleton_SystemConfig + 0x10;
+		unsigned int vtable = *(unsigned int*)Singleton_SystemConfig;
+		unsigned int vtable_func = *(unsigned int*)(vtable + 0x10);
 
 		// ProcessCommand__18CState_GameRunningPCcT1()?
 		((void(__thiscall*)(void*, const char*, int))vtable_func)(Singleton_SystemConfig, "vedit_enter", 0);

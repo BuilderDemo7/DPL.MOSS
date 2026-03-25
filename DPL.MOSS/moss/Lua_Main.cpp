@@ -177,6 +177,8 @@ void Lua_Start()
 	printf("Lua_Start()\n");
 #endif
 
+	g_bLuaScriptsStarted = true;
+
 	for (size_t i = 0; i < g_LuaStarts.size(); i++)
 	{
 		lua_rawgeti(L, LUA_REGISTRYINDEX, g_LuaStarts[i]);
@@ -187,8 +189,6 @@ void Lua_Start()
 			lua_pop(L, 1);
 		}
 	}
-
-	g_bLuaScriptsStarted = true;
 }
 
 void OnDrawMission_Lua()

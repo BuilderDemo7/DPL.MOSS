@@ -9,6 +9,7 @@
 #include "Lua_Vehicle.h"
 #include "Lua_Helicopter.h"
 #include "Lua_MapItem.h"
+#include "Lua_ObjectiveIcon.h"
 
 // funcs
 #include "Lua_MissionFuncs.h"
@@ -617,6 +618,7 @@ void Init_Lua_MetaTables()
 	Init_Lua_MetaTable_Vehicle();
 	Init_Lua_MetaTable_Helicopter();
 	Init_Lua_MetaTable_MapItem();
+	Init_Lua_MetaTable_ObjectiveIcon();
 	// TODO: vehicle (object), life system, vehicle manager, maybe do gadgets (props, etc.)
 
 	// extern

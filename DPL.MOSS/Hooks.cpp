@@ -168,7 +168,7 @@ void __declspec(naked) CLifeSystem__Step__Hook()
 
 void __declspec(naked) visuals_draw__DrawMission__Hook()
 {
-	static int jumpback_0x55d8e3 = 0x55d8e3;
+	static int jumpback_0x55d909 = 0x55d909;
 
 	// Register save
 	static int org_eax = 0;
@@ -194,14 +194,15 @@ void __declspec(naked) visuals_draw__DrawMission__Hook()
 	}
 
 	// Original code
-	static int DAT_0x70c534 = *(int*)0x70c534;
 	_asm {
-		mov ecx, [DAT_0x70c534]
+		push ecx
+		mov eax, esp
+		mov dword ptr [eax],esi
 	}
 
 	// Jump back
 	_asm {
-		jmp jumpback_0x55d8e3
+		jmp jumpback_0x55d909
 	}
 }
 

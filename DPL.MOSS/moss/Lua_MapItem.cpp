@@ -46,7 +46,7 @@ int lua_MapItemIndex(lua_State* L)
 		return 1;
 	}
 	else if (strcmp(key, "GetType") == 0 || strcmp(key, "GetMapItemType") == 0) {
-		lua_pushcfunction(L, lua_SetMapItemType);
+		lua_pushcfunction(L, lua_GetMapItemType);
 		return 1;
 	}
 	else if (strcmp(key, "SetShowArrow") == 0 || strcmp(key, "SetShowTargetArrow") == 0) {

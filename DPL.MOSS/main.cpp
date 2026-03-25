@@ -22,8 +22,8 @@ void OnInitializePlugin()
 	Nop(0x4722f1, 6);
 	InjectHook(0x4722f1, CLifeSystem__Step__Hook, PATCH_JUMP);
 
-	Nop(0x55d8dd, 6);
-	InjectHook(0x55d8dd, visuals_draw__DrawMission__Hook, PATCH_JUMP);
+	Nop(0x55d904, 5);
+	InjectHook(0x55d904, visuals_draw__DrawMission__Hook, PATCH_JUMP);
 	
 	InjectHook(0x4a945e, CState_Reload__OnEnterState_Hook, PATCH_JUMP);
 

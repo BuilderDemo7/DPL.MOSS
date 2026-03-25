@@ -5,11 +5,11 @@ class Matrix {
 public:
 	union {
 		struct {
-			Vector right;
+			Vector right; // extends to X-axis
 			float pad;
-			Vector up;
+			Vector up; // extends to Y-axis
 			float _pad;
-			Vector forward;
+			Vector forward; // extends to Z-axis
 			float __pad;
 			Vector pos;
 			float ___pad;

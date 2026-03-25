@@ -17,6 +17,9 @@ void Init_Lua_MetaTable_ObjectiveIcon();
 
 int lua_ObjectiveIconIndex(lua_State* L);
 
+int lua_ObjectiveIconNew(lua_State* L);
+int lua_GlobalObjectiveIconModuleIndex(lua_State* L);
+
 int lua_SetObjectiveIconPosition(lua_State* L);
 int lua_GetObjectiveIconPosition(lua_State* L);
 

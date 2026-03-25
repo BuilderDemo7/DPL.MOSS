@@ -175,6 +175,7 @@
     <ClInclude Include="dpl\CHandling.h" />
     <ClInclude Include="dpl\CharacterAIManager.h" />
     <ClInclude Include="dpl\CLifeAcquirableVehicleManager.h" />
+    <ClInclude Include="dpl\CLifeActor.h" />
     <ClInclude Include="dpl\CLifeActor_Prop.h" />
     <ClInclude Include="dpl\CLifeEventDataManager.h" />
     <ClInclude Include="dpl\CLifeInstance_Character.h" />
@@ -189,6 +190,7 @@
     <ClInclude Include="dpl\CPCViewport.h" />
     <ClInclude Include="dpl\CPlayerDriverBehaviour.h" />
     <ClInclude Include="dpl\CPlaylist.h" />
+    <ClInclude Include="dpl\CTargetManager.h" />
     <ClInclude Include="dpl\CVehicleManager.h" />
     <ClInclude Include="dpl\CWeapon.h" />
     <ClInclude Include="dpl\CWipeManager.h" />
@@ -224,6 +226,7 @@
     <ClInclude Include="dpl\PlayerInVehicleInputs.h" />
     <ClInclude Include="dpl\ProfileSettings.h" />
     <ClInclude Include="dpl\ResidentArea.h" />
+    <ClInclude Include="dpl\SObjectiveIcon.h" />
     <ClInclude Include="dpl\Speed.h" />
     <ClInclude Include="dpl\SpoolableResourceManager.h" />
     <ClInclude Include="dpl\Sprite.h" />
@@ -249,6 +252,7 @@
     <ClInclude Include="moss\Lua_Main.h" />
     <ClInclude Include="moss\Lua_MapItem.h" />
     <ClInclude Include="moss\Lua_MissionFuncs.h" />
+    <ClInclude Include="moss\Lua_ObjectiveIcon.h" />
     <ClInclude Include="moss\Lua_Vehicle.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="utils.h" />
@@ -278,6 +282,7 @@
     <ClCompile Include="dpl\CPCViewport.cpp" />
     <ClCompile Include="dpl\CPlayerDriverBehaviour.cpp" />
     <ClCompile Include="dpl\CPlaylist.cpp" />
+    <ClCompile Include="dpl\CTargetManager.cpp" />
     <ClCompile Include="dpl\CVehicleManager.cpp" />
     <ClCompile Include="dpl\CWeapon.cpp" />
     <ClCompile Include="dpl\CWipeManager.cpp" />
@@ -295,6 +300,7 @@
     <ClCompile Include="dpl\PlayerInVehicleInputs.cpp" />
     <ClCompile Include="dpl\ProfileSettings.cpp" />
     <ClCompile Include="dpl\ResidentArea.cpp" />
+    <ClCompile Include="dpl\SObjectiveIcon.cpp" />
     <ClCompile Include="dpl\Speed.cpp" />
     <ClCompile Include="dpl\SpoolableResourceManager.cpp" />
     <ClCompile Include="dpl\Vector.cpp" />
@@ -314,6 +320,7 @@
     <ClCompile Include="moss\Lua_Main.cpp" />
     <ClCompile Include="moss\Lua_MapItem.cpp" />
     <ClCompile Include="moss\Lua_MissionFuncs.cpp" />
+    <ClCompile Include="moss\Lua_ObjectiveIcon.cpp" />
     <ClCompile Include="moss\Lua_Vehicle.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

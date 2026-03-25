@@ -303,6 +303,18 @@
     <ClInclude Include="dpl\CLifeActor_Prop.h">
       <Filter>Header files\dpl</Filter>
     </ClInclude>
+    <ClInclude Include="dpl\CTargetManager.h">
+      <Filter>Header files\dpl</Filter>
+    </ClInclude>
+    <ClInclude Include="dpl\SObjectiveIcon.h">
+      <Filter>Header files\dpl</Filter>
+    </ClInclude>
+    <ClInclude Include="dpl\CLifeActor.h">
+      <Filter>Header files\dpl</Filter>
+    </ClInclude>
+    <ClInclude Include="moss\Lua_ObjectiveIcon.h">
+      <Filter>Header files\MOSS</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -490,6 +502,15 @@
     </ClCompile>
     <ClCompile Include="dpl\InputManager.cpp">
       <Filter>Source files\dpl</Filter>
+    </ClCompile>
+    <ClCompile Include="dpl\CTargetManager.cpp">
+      <Filter>Source files\dpl</Filter>
+    </ClCompile>
+    <ClCompile Include="dpl\SObjectiveIcon.cpp">
+      <Filter>Source files\dpl</Filter>
+    </ClCompile>
+    <ClCompile Include="moss\Lua_ObjectiveIcon.cpp">
+      <Filter>Source files\MOSS</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

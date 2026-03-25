@@ -220,3 +220,16 @@ void MapItem:SetType(EMapItem type)
 EMapItem MapItem:GetType()
 void MapItem:SetShowArrow(bool status)
 bool MapItem:GetShowArrow()
+
+# ObjectiveIcon
+
+ObjectiveIcon ObjectiveIcon.new() # local oicon = ObjectiveIcon.new()
+
+void ObjectiveIcon:SetPosition(Vector pos)
+Vector ObjectiveIcon:GetPosition()
+intptr_t ObjectiveIcon:GetPointer()
+void ObjectiveIcon:SetHeading(float heading) : void ObjectiveIcon:SetAngle(float angle) # will use radians
+float ObjectiveIcon:SetHeading() : float ObjectiveIcon:GetAngle() # returned in radians, use math.deg() to convert
+void ObjectiveIcon:SetType(int type) 
+int ObjectiveIcon:GetType()
+void ObjectiveIcon:Draw() # use this in draw_mission() event

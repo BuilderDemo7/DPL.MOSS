@@ -19,7 +19,10 @@ void Init_LuaScripts();
 void Lua_Start();
 void Step_Lua();
 void PostStep_Lua();
+
 void OnDrawMission_Lua();
+void OnDrawTargetManager_Lua();
+
 void Close_Lua();
 void Reload_Lua();
 

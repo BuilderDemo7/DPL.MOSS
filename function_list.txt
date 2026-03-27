@@ -15,6 +15,7 @@ void step() # called every frame the game updates when unpaused
 void post_step() # called after step(), usually in the same frame but in a different position
 
 void draw_mission() # called every frame the mission is about to be drawn
+void draw_targets() # called every frame the target manager is drawn (e.g. objective icons/markers, etc.)
 
 // Global
 

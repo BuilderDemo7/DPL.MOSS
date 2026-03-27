@@ -7,3 +7,4 @@ void OnLoadMission();
 void OnReloadGame();
 void OnPostStep();
 void OnDrawMission(CPCViewport* vp);
+void OnDrawTargetManager();

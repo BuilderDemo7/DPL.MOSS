@@ -20,11 +20,12 @@
 bool g_bLuaScriptsLoaded = false;
 bool g_bLuaScriptsStarted = false;
 
-std::vector<int> g_LuaSteps;	         // step()
-std::vector<int> g_LuaPostSteps;         // post_step()
-std::vector<int> g_LuaStarts;	         // start()
-std::vector<int> g_LuaShutdowns;	     // shutdown()
-std::vector<int> g_LuaDrawMissionEvents; // draw_mission()
+std::vector<int> g_LuaSteps;	          // step()
+std::vector<int> g_LuaPostSteps;          // post_step()
+std::vector<int> g_LuaStarts;	          // start()
+std::vector<int> g_LuaShutdowns;	      // shutdown()
+std::vector<int> g_LuaDrawMissionEvents;  // draw_mission()
+std::vector<int> g_LuaDrawTargetManEvents;// draw_targets()
 
 lua_State* L = NULL;
 
@@ -150,6 +151,20 @@ void Init_LuaScripts()
 						lua_pop(L, 1);
 					}
 
+					// check if draw_targets() exists
+					lua_getglobal(L, "draw_targets");
+
+					if (lua_isfunction(L, -1))
+					{
+						// store reference
+						int ref = luaL_ref(L, LUA_REGISTRYINDEX);
+						g_LuaDrawTargetManEvents.push_back(ref);
+					}
+					else
+					{
+						lua_pop(L, 1);
+					}
+
 					// clear global funcs so next script doesn't overwrite
 					lua_pushnil(L);
 					lua_setglobal(L, "step");
@@ -161,6 +176,8 @@ void Init_LuaScripts()
 					lua_setglobal(L, "shutdown");
 					lua_pushnil(L);
 					lua_setglobal(L, "draw_mission");
+					lua_pushnil(L);
+					lua_setglobal(L, "draw_targets");
 
 					scriptsLoaded++;
 				}
@@ -195,6 +212,20 @@ void Lua_Start()
 	for (size_t i = 0; i < g_LuaStarts.size(); i++)
 	{
 		lua_rawgeti(L, LUA_REGISTRYINDEX, g_LuaStarts[i]);
+
+		if (lua_pcall(L, 0, 0, 0) != LUA_OK)
+		{
+			printf("Lua error: %s\n", lua_tostring(L, -1));
+			lua_pop(L, 1);
+		}
+	}
+}
+
+void OnDrawTargetManager_Lua()
+{
+	for (size_t i = 0; i < g_LuaDrawTargetManEvents.size(); i++)
+	{
+		lua_rawgeti(L, LUA_REGISTRYINDEX, g_LuaDrawTargetManEvents[i]);
 
 		if (lua_pcall(L, 0, 0, 0) != LUA_OK)
 		{
@@ -299,6 +330,7 @@ void Reload_Lua()
 	g_LuaSteps.clear();
 	g_LuaPostSteps.clear();
 	g_LuaDrawMissionEvents.clear();
+	g_LuaDrawTargetManEvents.clear();
 
 	Close_Lua();
 }

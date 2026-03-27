@@ -217,6 +217,53 @@ void __declspec(naked) visuals_draw__DrawMission__Hook()
 	}
 }
 
+void __declspec(naked) CTargetManager__Draw__Hook()
+{
+	static int jumpback_0x473cfc = 0x473cfc;
+
+	// Register save
+	static int org_eax = 0;
+	static int org_ebx = 0;
+	static int org_ecx = 0;
+	static int org_edx = 0;
+	static int org_esp = 0;
+	static int org_esi = 0;
+	static int org_edi = 0;
+	_asm {
+		mov[org_eax], eax
+		mov[org_ebx], ebx
+		mov[org_ecx], ecx
+		mov[org_edx], edx
+		mov[org_esp], esp
+		mov[org_esi], esi
+		mov[org_edi], edi
+	}
+
+	// Custom code
+	OnDrawTargetManager();
+
+	// Register restoration
+	_asm {
+		mov ecx, [org_ecx]
+		mov eax, [org_eax]
+		mov ebx, [org_ebx]
+		mov edx, [org_edx]
+		mov esp, [org_esp]
+		mov esi, [org_esi]
+		mov edi, [org_edi]
+	}
+
+	// Original code
+	_asm {
+		lea esi,[ecx+0x194]
+	}
+
+	// Jump back
+	_asm {
+		jmp jumpback_0x473cfc
+	}
+}
+
 void __declspec(naked) CLoadingScreen__Deactivate__Hook()
 {
 	static int jumpback_0x4a7738 = 0x4a7738;

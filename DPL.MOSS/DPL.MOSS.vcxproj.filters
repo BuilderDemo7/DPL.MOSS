@@ -315,6 +315,9 @@
     <ClInclude Include="moss\Lua_ObjectiveIcon.h">
       <Filter>Header files\MOSS</Filter>
     </ClInclude>
+    <ClInclude Include="dpl\CFontManager.h">
+      <Filter>Header files\dpl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -511,6 +514,9 @@
     </ClCompile>
     <ClCompile Include="moss\Lua_ObjectiveIcon.cpp">
       <Filter>Source files\MOSS</Filter>
+    </ClCompile>
+    <ClCompile Include="dpl\CFontManager.cpp">
+      <Filter>Source files\dpl</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

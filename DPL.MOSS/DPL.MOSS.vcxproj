@@ -171,6 +171,7 @@
     <ClInclude Include="dpl\CCharacter.h" />
     <ClInclude Include="dpl\CCharacterCategoryManager.h" />
     <ClInclude Include="dpl\CCharacterManager.h" />
+    <ClInclude Include="dpl\CFontManager.h" />
     <ClInclude Include="dpl\CGadgetHandler.h" />
     <ClInclude Include="dpl\CHandling.h" />
     <ClInclude Include="dpl\CharacterAIManager.h" />
@@ -266,6 +267,7 @@
     <ClCompile Include="dpl\CCharacter.cpp" />
     <ClCompile Include="dpl\CCharacterCategoryManager.cpp" />
     <ClCompile Include="dpl\CCharacterManager.cpp" />
+    <ClCompile Include="dpl\CFontManager.cpp" />
     <ClCompile Include="dpl\CGadgetHandler.cpp" />
     <ClCompile Include="dpl\CHandling.cpp" />
     <ClCompile Include="dpl\CharacterAIManager.cpp" />

@@ -25,6 +25,9 @@ void OnInitializePlugin()
 	Nop(0x55d904, 5);
 	InjectHook(0x55d904, visuals_draw__DrawMission__Hook, PATCH_JUMP);
 	
+	Nop(0x473cf6, 6);
+	InjectHook(0x473cf6, CTargetManager__Draw__Hook, PATCH_JUMP);
+	
 	InjectHook(0x4a945e, CState_Reload__OnEnterState_Hook, PATCH_JUMP);
 
 	Nop(0x4a7732, 6);

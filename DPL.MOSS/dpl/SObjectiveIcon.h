@@ -13,7 +13,7 @@ struct SObjectiveIcon
 	int field8;
 	
 	int m_modelHandle;
-	int _m_activity;
+	int m_activity;
 	int m_displayType;
 	int m_visibility;
 	int m_material;

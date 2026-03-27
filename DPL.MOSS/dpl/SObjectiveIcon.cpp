@@ -22,6 +22,11 @@ void SetupObjectiveIcon(SObjectiveIcon* oicon, int displayType, int lifeEventTyp
 		oicon->m_material = 0;
 	}
 
+	// material 0 = missions (yellow marker)
+	// material 1 = minigames (red marker)
+	// material 2 = hidden minigames (purple marker)
+	// material 3 = free-roam (green marker)
+
 	EGadgetType assetID = EGadgetType::POSITIONMARKERCONE;
 
 	switch (displayType) {
@@ -111,6 +116,7 @@ void SetupObjectiveIcon(SObjectiveIcon* oicon, int displayType, int lifeEventTyp
 		oicon->m_material = 3;
 	}
 
+	oicon->m_visibility = 2;
 	oicon->m_modelHandle = CGadgetHandler::GetInstance()->GetGadgetModelHandle(assetID);
 }
 

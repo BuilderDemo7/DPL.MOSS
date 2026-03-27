@@ -25,3 +25,8 @@ void OnDrawMission(CPCViewport* vp)
 
 	OnDrawMission_Lua();
 }
+
+void OnDrawTargetManager()
+{
+	OnDrawTargetManager_Lua();
+}

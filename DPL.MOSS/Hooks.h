@@ -7,3 +7,4 @@ void CLoadingScreen__Deactivate__Hook();
 void CState_Reload__OnEnterState_Hook();
 void CLifeSystem__Step__Hook();
 void visuals_draw__DrawMission__Hook();
+void CTargetManager__Draw__Hook();

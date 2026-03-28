@@ -213,9 +213,34 @@ int lua_CreateProp(lua_State* L)
 	if (prop != NULL)
 	{
 		Matrix mtx = Matrix();
-		mtx.forward = Vector(0, 0, 1);
-		mtx.right = Vector(0, 1, 0);
-		mtx.up = Vector(1, 0, 0);
+		//mtx.forward = Vector(0, 0, 1);
+		//mtx.right = Vector(0, 1, 0);
+		//mtx.up = Vector(1, 0, 0);
+
+		float xx = rotation.X * rotation.X;
+		float yy = rotation.Y * rotation.Y;
+		float zz = rotation.Z * rotation.Z;
+		float xy = rotation.X * rotation.Y;
+		float xz = rotation.X * rotation.Z;
+		float yz = rotation.Y * rotation.Z;
+		float wx = rotation.W * rotation.X;
+		float wy = rotation.W * rotation.Y;
+		float wz = rotation.W * rotation.Z;
+
+		Matrix mat = ((CLifeActor*)prop)->GetMatrix();
+
+		mtx.right.X = 1.0f - 2.0f * (yy + zz);
+		mtx.right.Y = 2.0f * (xy + wz);
+		mtx.right.Z = 2.0f * (xz - wy);
+
+		mtx.up.X = 2.0f * (xy - wz);
+		mtx.up.Y = 1.0f - 2.0f * (xx + zz);
+		mtx.up.Z = 2.0f * (yz + wx);
+
+		mtx.forward.X = 2.0f * (xz + wy);
+		mtx.forward.Y = 2.0f * (yz - wx);
+		mtx.forward.Z = 1.0f - 2.0f * (xx + yy);
+
 		mtx.pos = Vector(x, y, z);
 
 		prop->CustomInitalise(mtx, gadget, canBeTargeted);

@@ -97,7 +97,7 @@ int lua_InstantiateProp(lua_State* L)
 {
 	CLifeActor_Prop* prop = *(CLifeActor_Prop**)luaL_checkudata(L, 1, g_PropMetaName);
 
-	if (!prop->m_bCreated)
+	//if (!prop->m_bCreated)
 		((CLifeActor*)prop)->Create();
 
 	return 0;
@@ -107,7 +107,7 @@ int lua_DeleteProp(lua_State* L)
 {
 	CLifeActor_Prop* prop = *(CLifeActor_Prop**)luaL_checkudata(L, 1, g_PropMetaName);
 
-	if (prop->m_bCreated)
+	//if (prop->m_bCreated)
 		((CLifeActor*)prop)->Delete();
 
 	return 0;

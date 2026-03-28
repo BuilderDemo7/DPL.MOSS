@@ -157,7 +157,6 @@ int lua_SetPropRotation(lua_State* L)
 	float wy = q->W * q->Y;
 	float wz = q->W * q->Z;
 
-	Matrix m;
 	Matrix mat = ((CLifeActor*)prop)->GetMatrix();
 
 	m.right.X = 1.0f - 2.0f * (yy + zz);

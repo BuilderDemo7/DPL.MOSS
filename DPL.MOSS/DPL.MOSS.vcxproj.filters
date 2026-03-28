@@ -318,6 +318,9 @@
     <ClInclude Include="dpl\CFontManager.h">
       <Filter>Header files\dpl</Filter>
     </ClInclude>
+    <ClInclude Include="moss\Lua_Prop.h">
+      <Filter>Header files\MOSS</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -517,6 +520,15 @@
     </ClCompile>
     <ClCompile Include="dpl\CFontManager.cpp">
       <Filter>Source files\dpl</Filter>
+    </ClCompile>
+    <ClCompile Include="dpl\CLifeActor_Prop.cpp">
+      <Filter>Source files\dpl</Filter>
+    </ClCompile>
+    <ClCompile Include="dpl\CLifeActor.cpp">
+      <Filter>Source files\dpl</Filter>
+    </ClCompile>
+    <ClCompile Include="moss\Lua_Prop.cpp">
+      <Filter>Source files\MOSS</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

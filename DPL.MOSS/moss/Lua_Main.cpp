@@ -10,6 +10,7 @@
 #include "Lua_Helicopter.h"
 #include "Lua_MapItem.h"
 #include "Lua_ObjectiveIcon.h"
+#include "Lua_Prop.h"
 
 // funcs
 #include "Lua_MissionFuncs.h"
@@ -641,6 +642,9 @@ void Init_Lua_Funcs()
 
 	// camera
 	lua_register(L, "SetCameraPosition", lua_SetCameraPosition); // void SetCameraPosition(Vector pos)
+
+	// prop
+	lua_register(L, "CreateProp", lua_CreateProp); // Prop CreateProp(Vector position, EGadgetType gadgetType, [ bool canbeTargeted = false)
 }
 
 void Init_Lua_MetaTables()
@@ -651,6 +655,7 @@ void Init_Lua_MetaTables()
 	Init_Lua_MetaTable_Helicopter();
 	Init_Lua_MetaTable_MapItem();
 	Init_Lua_MetaTable_ObjectiveIcon();
+	Init_Lua_MetaTable_Prop();
 	// TODO: vehicle (object), life system, vehicle manager, maybe do gadgets (props, etc.)
 
 	// extern

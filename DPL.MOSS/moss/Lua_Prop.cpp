@@ -213,6 +213,7 @@ int lua_CreateProp(lua_State* L)
 	if (prop != NULL)
 	{
 		Matrix mtx = Matrix();
+
 		//mtx.forward = Vector(0, 0, 1);
 		//mtx.right = Vector(0, 1, 0);
 		//mtx.up = Vector(1, 0, 0);
@@ -226,8 +227,6 @@ int lua_CreateProp(lua_State* L)
 		float wx = rotation.W * rotation.X;
 		float wy = rotation.W * rotation.Y;
 		float wz = rotation.W * rotation.Z;
-
-		Matrix mat = ((CLifeActor*)prop)->GetMatrix();
 
 		mtx.right.X = 1.0f - 2.0f * (yy + zz);
 		mtx.right.Y = 2.0f * (xy + wz);

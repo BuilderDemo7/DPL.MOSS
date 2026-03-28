@@ -173,7 +173,7 @@ int lua_SetPropRotation(lua_State* L)
 	m.pos = mat.pos;
 
 	prop->m_matrix = m;
-	if (prop->m_bCreated)
+	//if (prop->m_bCreated)
 		prop->Move(prop->m_matrix);
 
 	return 0;
@@ -294,7 +294,7 @@ int lua_SetPropPosition(lua_State* L)
 	mat.pos = Vector(pos.X, pos.Y, pos.Z);
 	prop->m_matrix = mat;
 
-	if (prop->m_bCreated)
+	//if (prop->m_bCreated)
 		prop->Move(prop->m_matrix);
 
 	return 0;
@@ -349,7 +349,7 @@ int lua_SetPropHeading(lua_State* L)
 
 	prop->m_matrix = mat;
 
-	if (prop->m_bCreated)
+	//if (prop->m_bCreated)
 		prop->Move(prop->m_matrix);
 
 	return 0;

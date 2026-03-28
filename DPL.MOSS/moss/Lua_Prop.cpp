@@ -145,7 +145,7 @@ int lua_SetPropRotation(lua_State* L)
 	CLifeActor_Prop* prop = *(CLifeActor_Prop**)luaL_checkudata(L, 1, g_PropMetaName);
 
 	Matrix m;
-	Lua_Quaternion* q = *(Lua_Quaternion**)luaL_checkudata(L, 1, g_LuaQuaternionMetaTable);
+	Lua_Quaternion* q = *(Lua_Quaternion**)luaL_checkudata(L, 2, g_LuaQuaternionMetaTable);
 
 	float xx = q->X * q->X;
 	float yy = q->Y * q->Y;

@@ -35,6 +35,7 @@ void ActivatePager()
 Vehicle CreateVehicle(int model, float x, float y, float z, [ float angle = 0.0)
 void DestroyVehicle(Vehicle vehicle)
 Helicopter CreateHelicopter(float x, float y, float z, [ float velx = 0.0, float vely = 0.0, float velz = 0.0, float angle = 0.0, bool isGoonHeli = true, bool destroyable = false, bool isLanded = false, bool helicopterOnlySpline = false)
+Prop CreateProp(Vector position, EGadgetType gadgetType, [ Quaternion rotation = Quaternion.new(0,0,0,0), bool canbeTargeted = false, bool startCreated = true)
 
 # Music / Sounds
 
@@ -143,8 +144,8 @@ Vector Quaternion:ToEuler() # returned in degrees, use math.rad() to convert
 void Character:SetPosition(float x, float y, float z) : Character:SetPosition(Vector pos)
 Vector Character:GetPosition()
 float Character:GetAngle() : float Character:GetHeading() # returned in radians, use math.deg() to convert
-void Character:SetAngle(float radAngle) : float Character:SetHeading() # will use radians
-intptr_t Character:GetPointer()
+void Character:SetAngle(float radAngle) : float Character:SetHeading(float radHeading) # will use radians
+intptr_t Character:GetPointer() # CCharacter*
 Vehicle Character:GetVehicle()
 void Character:TeleportIntoVehicle(Vehicle target, int seat)
 bool Character:GetCanExitVehicle() 
@@ -168,8 +169,8 @@ float Character:GetHealth()
 void Vehicle:SetPosition(float x, float y, float z) : Vehicle:SetPosition(Vector pos)
 Vector Vehicle:GetPosition()
 float Vehicle:GetAngle() : float Vehicle:GetHeading() # returned in radians, use math.deg() to convert
-void Vehicle:SetAngle(float radAngle) : float Vehicle:SetHeading() # will use radians
-intptr_t Vehicle:GetPointer()
+void Vehicle:SetAngle(float radAngle) : float Vehicle:SetHeading(float radHeading) # will use radians
+intptr_t Vehicle:GetPointer() # CVehicle*
 Vector Vehicle:GetForward() : Vector Vehicle:GetForwardVector()
 Vector Vehicle:GetRight() : Vector Vehicle:GetRightVector()
 void Vehicle:SetVelocity(float x, float y, float z) : Vehicle:SetVelocity(Vector velocity)
@@ -199,9 +200,9 @@ void Helicopter:SetDesiredPosition(Vector pos) : void Helicopter:SetPosition(Vec
 bool Helicopter:StepTo(Vector pos, [ float angle = 0, float speed = 25) # angle is in radians, returns true if reached destination otherwise false
 Vector Helicopter:GetPostion()
 float Helicopter:GetAngle() : float Helicopter:GetHeading() # returned in radians, use math.deg() to convert
-void Helicopter:SetAngle(float radAngle) : float Helicopter:SetHeading() # will use radians
+void Helicopter:SetAngle(float radAngle) : float Helicopter:SetHeading(float radHeading) # will use radians
 Vector Helicopter:GetDesiredPosition()
-intptr_t Helicopter:GetPointer()
+intptr_t Helicopter:GetPointer() # AIHelicopterClass*
 Vector Helicopter:GetForward() : Vector Helicopter:GetForwardVector()
 Vector Helicopter:GetRight() : Vector Helicopter:GetRightVector()
 void Helicopter:SetVelocity(float x, float y, float z) : Helicopter:SetVelocity(Vector velocity)
@@ -214,9 +215,9 @@ void Helicopter:UpdateMotion() # call this on function step()
 
 void MapItem:SetPosition(Vector pos)
 Vector MapItem:GetPosition()
-intptr_t MapItem:GetPointer()
+intptr_t MapItem:GetPointer() # SMapItem*
 void MapItem:SetHeading(float heading) : void MapItem:SetAngle(float angle) # will use radians
-float MapItem:SetHeading() : float MapItem:GetAngle() # returned in radians, use math.deg() to convert
+float MapItem:GetHeading() : float MapItem:GetAngle() # returned in radians, use math.deg() to convert
 void MapItem:SetType(EMapItem type) 
 EMapItem MapItem:GetType()
 void MapItem:SetShowArrow(bool status)
@@ -228,9 +229,27 @@ ObjectiveIcon ObjectiveIcon.new() # local oicon = ObjectiveIcon.new()
 
 void ObjectiveIcon:SetPosition(Vector pos)
 Vector ObjectiveIcon:GetPosition()
-intptr_t ObjectiveIcon:GetPointer()
+intptr_t ObjectiveIcon:GetPointer() # Lua_ObjectiveIcon*
 void ObjectiveIcon:SetHeading(float heading) : void ObjectiveIcon:SetAngle(float angle) # will use radians
-float ObjectiveIcon:SetHeading() : float ObjectiveIcon:GetAngle() # returned in radians, use math.deg() to convert
+float ObjectiveIcon:GetHeading() : float ObjectiveIcon:GetAngle() # returned in radians, use math.deg() to convert
 void ObjectiveIcon:SetType(int type) 
 int ObjectiveIcon:GetType()
 void ObjectiveIcon:Draw() # use this in draw_mission() event
+
+# Prop
+
+void Prop:SetPosition(Vector pos)
+Vector Prop:GetPosition()
+void Prop:SetRotation(Quaternion rotation)
+??? Prop:GetRotation(???) # W.I.P DO NOT USE
+intptr_t Prop:GetPointer()
+void Prop:Create() : void Prop:Instantiate()
+void Prop:Destroy() : void Prop:Delete()
+int Prop:GetModelHandle()
+int Prop:SetModelHandle(int handle)
+void Prop:SetHeading(float heading) : void Prop:SetAngle(float angle) # will use radians
+??? Prop:SetHeading(???) : ??? Prop:GetAngle(???) # W.I.P DO NOT USE, will be returned in radians, use math.deg() to convert
+??? Prop:SetVelocity(???) # W.I.P DO NOT USE
+??? Prop:GetVelocity(???) # W.I.P DO NOT USE
+??? Prop:GetForwardVector(???) # W.I.P DO NOT USE
+??? Prop:GetRightVector(???) # W.I.P DO NOT USE

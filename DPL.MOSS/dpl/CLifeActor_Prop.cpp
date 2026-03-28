@@ -20,3 +20,13 @@ void CLifeActor_Prop::CustomInitalise(Matrix matrix, EGadgetType eGadget, bool c
 	m_bCreated = false;
 	m_bCanBeTargeted = canBeTargeted;
 }
+
+void CLifeActor_Prop::Move(Matrix matrix)
+{
+	((void(__thiscall*)(CLifeActor_Prop*, Matrix*))0x47978f)(this, &matrix);
+}
+
+void CLifeActor_Prop::AnimateProp(float speed, bool forwards)
+{
+	((void(__thiscall*)(CLifeActor_Prop*, float, bool))0x479665)(this, speed, forwards);
+}

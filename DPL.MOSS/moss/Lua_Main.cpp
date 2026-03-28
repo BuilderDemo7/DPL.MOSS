@@ -406,7 +406,7 @@ void Init_Lua_Constants()
 	lua_setglobal(L, "EMapItem_Positional_Marker");
 	lua_pushinteger(L, EMapItem_COUNT);
 	lua_setglobal(L, "EMapItem_COUNT");
-	
+
 	// enum - key code
 	lua_pushinteger(L, VK_UP);
 	lua_setglobal(L, "VK_UP");
@@ -429,6 +429,77 @@ void Init_Lua_Constants()
 
 	lua_pushinteger(L, VK_INSERT);
 	lua_setglobal(L, "VK_INSERT");
+
+	// EGadgetType
+	lua_pushinteger(L, EGadgetType::_11DRUGBOX); lua_setglobal(L, "_11DRUGBOX");
+	lua_pushinteger(L, EGadgetType::_2BOX); lua_setglobal(L, "_2BOX");
+	lua_pushinteger(L, EGadgetType::_1BOMB); lua_setglobal(L, "_1BOMB");
+	lua_pushinteger(L, EGadgetType::_1BOMBNOW); lua_setglobal(L, "_1BOMBNOW");
+	lua_pushinteger(L, EGadgetType::_2BRIEFCASE); lua_setglobal(L, "_2BRIEFCASE");
+	lua_pushinteger(L, EGadgetType::AR10); lua_setglobal(L, "AR10");
+	lua_pushinteger(L, EGadgetType::ARMOUREDCAR); lua_setglobal(L, "ARMOUREDCAR");
+	lua_pushinteger(L, EGadgetType::BERETTA); lua_setglobal(L, "BERETTA");
+	lua_pushinteger(L, EGadgetType::BINBIGBLUE); lua_setglobal(L, "BINBIGBLUE");
+	lua_pushinteger(L, EGadgetType::BULLPUP); lua_setglobal(L, "BULLPUP");
+	lua_pushinteger(L, EGadgetType::CHEVRON36MSTRAIGHT); lua_setglobal(L, "CHEVRON36MSTRAIGHT");
+	lua_pushinteger(L, EGadgetType::CIRCUITRACE); lua_setglobal(L, "CIRCUITRACE");
+	lua_pushinteger(L, EGadgetType::CONECONED); lua_setglobal(L, "CONECONED");
+	lua_pushinteger(L, EGadgetType::DESERTEAGLE); lua_setglobal(L, "DESERTEAGLE");
+	lua_pushinteger(L, EGadgetType::DESTRUCTIONDERBY); lua_setglobal(L, "DESTRUCTIONDERBY");
+	lua_pushinteger(L, EGadgetType::DRIVERGP); lua_setglobal(L, "DRIVERGP");
+	lua_pushinteger(L, EGadgetType::FENCELARGEPLYWOOD4M); lua_setglobal(L, "FENCELARGEPLYWOOD4M");
+	lua_pushinteger(L, EGadgetType::GLOCK18); lua_setglobal(L, "GLOCK18");
+	lua_pushinteger(L, EGadgetType::GRENADE); lua_setglobal(L, "GRENADE");
+	lua_pushinteger(L, EGadgetType::GRENADELAUNCHER); lua_setglobal(L, "GRENADELAUNCHER");
+	lua_pushinteger(L, EGadgetType::HealthPack_Now); lua_setglobal(L, "HealthPack_Now");
+	lua_pushinteger(L, EGadgetType::HEALTHPACK_Then); lua_setglobal(L, "HEALTHPACK_Then");
+	lua_pushinteger(L, EGadgetType::HELICOPTER_NOW); lua_setglobal(L, "HELICOPTER_NOW");
+	lua_pushinteger(L, EGadgetType::HELICOPTER_THEN); lua_setglobal(L, "HELICOPTER_THEN");
+	lua_pushinteger(L, EGadgetType::HELICOPTERBLACK); lua_setglobal(L, "HELICOPTERBLACK");
+	lua_pushinteger(L, EGadgetType::HELICOPTERCIV); lua_setglobal(L, "HELICOPTERCIV");
+	lua_pushinteger(L, EGadgetType::HITMAN); lua_setglobal(L, "HITMAN");
+	lua_pushinteger(L, EGadgetType::LOANSHARK); lua_setglobal(L, "LOANSHARK");
+	lua_pushinteger(L, EGadgetType::MACHINEGUNMUZZLEFLASH); lua_setglobal(L, "MACHINEGUNMUZZLEFLASH");
+	lua_pushinteger(L, EGadgetType::MAGNUM); lua_setglobal(L, "MAGNUM");
+	lua_pushinteger(L, EGadgetType::MainRotor); lua_setglobal(L, "MainRotor");
+	lua_pushinteger(L, EGadgetType::MINIGUN); lua_setglobal(L, "MINIGUN");
+	lua_pushinteger(L, EGadgetType::MOTOCROSS); lua_setglobal(L, "MOTOCROSS");
+	lua_pushinteger(L, EGadgetType::MP7); lua_setglobal(L, "MP7");
+	lua_pushinteger(L, EGadgetType::NITROFLASH); lua_setglobal(L, "NITROFLASH");
+	lua_pushinteger(L, EGadgetType::P90); lua_setglobal(L, "P90");
+	lua_pushinteger(L, EGadgetType::PERFECTDELIVERY); lua_setglobal(L, "PERFECTDELIVERY");
+	lua_pushinteger(L, EGadgetType::PISTOLMUZZLEFLASH); lua_setglobal(L, "PISTOLMUZZLEFLASH");
+	lua_pushinteger(L, EGadgetType::POSITIONMARKERCONE); lua_setglobal(L, "POSITIONMARKERCONE");
+	lua_pushinteger(L, EGadgetType::POSITIONMARKERFLARE); lua_setglobal(L, "POSITIONMARKERFLARE");
+	lua_pushinteger(L, EGadgetType::POSITIONMARKERSHORTFAT); lua_setglobal(L, "POSITIONMARKERSHORTFAT");
+	lua_pushinteger(L, EGadgetType::POSITIONMARKERSHORTSKINNY); lua_setglobal(L, "POSITIONMARKERSHORTSKINNY");
+	lua_pushinteger(L, EGadgetType::POSITIONMARKERTALLFAT); lua_setglobal(L, "POSITIONMARKERTALLFAT");
+	lua_pushinteger(L, EGadgetType::POSITIONMARKERTALLSKINNY); lua_setglobal(L, "POSITIONMARKERTALLSKINNY");
+	lua_pushinteger(L, EGadgetType::PRISONTRANSPORT); lua_setglobal(L, "PRISONTRANSPORT");
+	lua_pushinteger(L, EGadgetType::RAMP); lua_setglobal(L, "RAMP");
+	lua_pushinteger(L, EGadgetType::REPOMAN); lua_setglobal(L, "REPOMAN");
+	lua_pushinteger(L, EGadgetType::REVOLVER); lua_setglobal(L, "REVOLVER");
+	lua_pushinteger(L, EGadgetType::ROADWORKBARRIER4M); lua_setglobal(L, "ROADWORKBARRIER4M");
+	lua_pushinteger(L, EGadgetType::ROADWORKSMALLBARRIER); lua_setglobal(L, "ROADWORKSMALLBARRIER");
+	lua_pushinteger(L, EGadgetType::ROCKET); lua_setglobal(L, "ROCKET");
+	lua_pushinteger(L, EGadgetType::ROCKETLAUNCHER); lua_setglobal(L, "ROCKETLAUNCHER");
+	lua_pushinteger(L, EGadgetType::SAFEHOUSE); lua_setglobal(L, "SAFEHOUSE");
+	lua_pushinteger(L, EGadgetType::SHOTGUN); lua_setglobal(L, "SHOTGUN");
+	lua_pushinteger(L, EGadgetType::SLINKSPACKAGE2); lua_setglobal(L, "SLINKSPACKAGE2");
+	lua_pushinteger(L, EGadgetType::SPEEDGUN); lua_setglobal(L, "SPEEDGUN");
+	lua_pushinteger(L, EGadgetType::STICKUP); lua_setglobal(L, "STICKUP");
+	lua_pushinteger(L, EGadgetType::STREETRACE); lua_setglobal(L, "STREETRACE");
+	lua_pushinteger(L, EGadgetType::STYER); lua_setglobal(L, "STYER");
+	lua_pushinteger(L, EGadgetType::SURVIVAL); lua_setglobal(L, "SURVIVAL");
+	lua_pushinteger(L, EGadgetType::TailRotor); lua_setglobal(L, "TailRotor");
+	lua_pushinteger(L, EGadgetType::TAXI); lua_setglobal(L, "TAXI");
+	lua_pushinteger(L, EGadgetType::Token); lua_setglobal(L, "Token");
+	lua_pushinteger(L, EGadgetType::TRAIN); lua_setglobal(L, "TRAIN");
+	lua_pushinteger(L, EGadgetType::UZI); lua_setglobal(L, "UZI");
+	lua_pushinteger(L, EGadgetType::UZIMUZZLEFLASH); lua_setglobal(L, "UZIMUZZLEFLASH");
+	lua_pushinteger(L, EGadgetType::VEDIT); lua_setglobal(L, "VEDIT");
+	lua_pushinteger(L, EGadgetType::VENDERDONUTS); lua_setglobal(L, "VENDERDONUTS");
+	lua_pushinteger(L, EGadgetType::VENDERFOOD); lua_setglobal(L, "VENDERFOOD");
 
 	// alphanumerics
 	lua_pushinteger(L, '0');
@@ -644,7 +715,7 @@ void Init_Lua_Funcs()
 	lua_register(L, "SetCameraPosition", lua_SetCameraPosition); // void SetCameraPosition(Vector pos)
 
 	// prop
-	lua_register(L, "CreateProp", lua_CreateProp); // Prop CreateProp(Vector position, EGadgetType gadgetType, [ bool canbeTargeted = false)
+	lua_register(L, "CreateProp", lua_CreateProp); // Prop CreateProp(Vector position, EGadgetType gadgetType, [ Quaternion rotation, bool canbeTargeted = false, bool startCreated = true)
 }
 
 void Init_Lua_MetaTables()

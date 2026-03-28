@@ -9,6 +9,9 @@ class CLifeActor_Prop : CLifeActor
 public:
 	void CustomInitalise(Matrix matrix, EGadgetType eGadget, bool canBeTargeted = false, CLifeEventData* pEventData = NULL);
 
+	void Move(Matrix matrix);
+	void AnimateProp(float speed, bool forwards);
+
 	char __padding0[0x10];
 
 	Matrix m_matrix;

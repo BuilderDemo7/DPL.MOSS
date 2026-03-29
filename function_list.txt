@@ -253,3 +253,4 @@ void Prop:SetHeading(float heading) : void Prop:SetAngle(float angle) # will use
 ??? Prop:GetVelocity(???) # W.I.P DO NOT USE
 ??? Prop:GetForwardVector(???) # W.I.P DO NOT USE
 ??? Prop:GetRightVector(???) # W.I.P DO NOT USE
+void Prop:SetGadgetType(EGadgetType gadget)

@@ -32,3 +32,5 @@ int lua_DeleteProp(lua_State* L);
 
 int lua_SetPropModelHandle(lua_State* L);
 int lua_GetPropModelHandle(lua_State* L);
+
+int lua_SetPropGadgetType(lua_State* L);

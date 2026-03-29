@@ -1,6 +1,7 @@
 #include "Lua_Prop.h"
 #include "..\dpl\Vector4.h"
 #include "..\dpl\Factory.h"
+#include "..\dpl\CGadgetHandler.h"
 
 const char* g_PropMetaName = "Prop";
 
@@ -40,6 +41,10 @@ int lua_PropIndex(lua_State* L)
 	}
 	else if (strcmp(key, "SetModelHandle") == 0) {
 		lua_pushcfunction(L, lua_SetPropModelHandle);
+		return 1;
+	}
+	else if (strcmp(key, "SetGadgetType") == 0) {
+		lua_pushcfunction(L, lua_SetPropGadgetType);
 		return 1;
 	}
 	else if (strcmp(key, "Create") == 0 || strcmp(key, "Instantiate") == 0) {
@@ -120,6 +125,17 @@ int lua_SetPropModelHandle(lua_State* L)
 	int handle = luaL_checkinteger(L, 2);
 
 	prop->m_propModelHandle = handle;
+
+	return 0;
+}
+
+int lua_SetPropGadgetType(lua_State* L)
+{
+	CLifeActor_Prop* prop = *(CLifeActor_Prop**)luaL_checkudata(L, 1, g_PropMetaName);
+
+	int gadgetType = luaL_checkinteger(L, 2);
+
+	prop->m_propModelHandle = CGadgetHandler::GetInstance()->GetGadgetModelHandle((EGadgetType)gadgetType);
 
 	return 0;
 }

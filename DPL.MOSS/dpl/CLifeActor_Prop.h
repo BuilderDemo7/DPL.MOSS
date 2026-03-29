@@ -15,7 +15,7 @@ public:
 	char __padding0[0x10];
 
 	Matrix m_matrix;
-	int m_propModelHandle;
+	int m_propModelHandle; // 16 bits model handle
 
 	char __padding1[0x10];
 

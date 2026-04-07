@@ -663,6 +663,7 @@ void Init_Lua_Funcs()
 	lua_register(L, "EndAllLifeEvents", lua_EndAllLifeEvents); // void EndAllLifeEvents()
 
 	lua_register(L, "GetEra", lua_GetEra); // Era GetEra()
+	lua_register(L, "EnableCops", lua_EnableCops); // void EnableCops(bool onOff)
 	lua_register(L, "DeleteAllChaseEntities", lua_DeleteAllChaseEntities); // void DeleteAllChaseEntities(AIFelonySystemPatrolCarTypeEnum patrolType = E_PATROLCARTYPE_COP)
 	lua_register(L, "AddChaseCarWeaponType", lua_AddChaseCarWeaponType); // void AddChaseCarWeaponType(EWeapons weapon, [ AIFelonySystemPatrolCarTypeEnum patrolType = E_PATROLCARTYPE_COP)
 	lua_register(L, "AddChaseCarVehicleType", lua_AddChaseCarVehicleType); // void AddChaseCarVehicleType(int vehicleType, bool isSecondaryVehicle, [ AIFelonySystemPatrolCarTypeEnum patrolType = E_PATROLCARTYPE_COP)

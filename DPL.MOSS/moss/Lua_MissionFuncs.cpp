@@ -39,6 +39,33 @@ int lua_GetEra(lua_State* L)
 	return 1;
 }
 
+int lua_SetGameDifficulty(lua_State* L)
+{
+	int diff = luaL_checkinteger(L, 1);
+
+	CProfileSettings* ps = GetProfileSettings();
+	if (ps != NULL)
+	{
+		ps->SetGameDifficulty(diff);
+	}
+
+	return 0;
+}
+
+int lua_GetGameDifficulty(lua_State* L)
+{
+	int diff = 0;
+
+	CProfileSettings* ps = GetProfileSettings();
+	if (ps != NULL)
+	{
+		diff = ps->GetGameDifficulty();
+	}
+
+	lua_pushinteger(L, diff);
+	return 1;
+}
+
 int lua_EnableCops(lua_State* L)
 {
 	bool cops = lua_toboolean(L, 1);

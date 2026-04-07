@@ -49,6 +49,9 @@ float GetMileometer() # probably needs to be converted in kilometer or miles
 int GetMoney()
 void SetMoney(int amount)
 
+void SetGameDifficulty(int difficultyLevel) # 0-3 (easiest to hardest)
+int GetGameDifficulty()
+
 Era GetEra()
 
 # Felony Manager

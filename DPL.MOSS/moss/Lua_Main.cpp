@@ -662,6 +662,9 @@ void Init_Lua_Funcs()
 	lua_register(L, "ShowMissionComment", lua_ShowMissionComment); // void ShowMissionComment(float duration, string message)
 	lua_register(L, "EndAllLifeEvents", lua_EndAllLifeEvents); // void EndAllLifeEvents()
 
+	lua_register(L, "SetGameDifficulty", lua_SetGameDifficulty); // void SetGameDifficulty(int difficultyLevel)
+	lua_register(L, "GetGameDifficulty", lua_GetGameDifficulty); // int GetGameDifficulty()
+
 	lua_register(L, "GetEra", lua_GetEra); // Era GetEra()
 	lua_register(L, "EnableCops", lua_EnableCops); // void EnableCops(bool onOff)
 	lua_register(L, "DeleteAllChaseEntities", lua_DeleteAllChaseEntities); // void DeleteAllChaseEntities(AIFelonySystemPatrolCarTypeEnum patrolType = E_PATROLCARTYPE_COP)

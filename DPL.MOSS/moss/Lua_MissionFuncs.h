@@ -10,6 +10,9 @@ int lua_EndAllLifeEvents(lua_State* L);
 
 int lua_GetEra(lua_State* L);
 
+int lua_SetGameDifficulty(lua_State* L);
+int lua_GetGameDifficulty(lua_State* L);
+
 int lua_EnableCops(lua_State* L);
 int lua_DeleteAllChaseEntities(lua_State* L);
 int lua_AddChaseCarWeaponType(lua_State* L);

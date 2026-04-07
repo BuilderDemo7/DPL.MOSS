@@ -47,12 +47,12 @@ void CProfileSettings::SetOdometer(float odometer)
 
 int CProfileSettings::GetGameDifficulty()
 {
-	return *(int*)((int)this + 0x88D);
+	return *(int*)((int)this + 0x890);
 }
 
 void CProfileSettings::SetGameDifficulty(int diff)
 {
-	*(int*)((int)this + 0x88D) = diff;
+	*(int*)((int)this + 0x890) = diff;
 }
 
 bool* CProfileSettings::GetGameIsCompleted()

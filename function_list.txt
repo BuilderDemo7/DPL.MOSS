@@ -57,6 +57,14 @@ void CreatePatrolHelicopterUnit(float x, float y, float z, [ float angle, AIFelo
 void CreatePatrolCharacterOnFoot(float x, float y, float z, [ float angle, AIFelonySystemPatrolCarTypeEnum patrolType = E_PATROLCARTYPE_COP) : void CreatePatrolCharacterOnFoot(Vector position, [ float angle, AIFelonySystemPatrolCarTypeEnum patrolType = E_PATROLCARTYPE_COP)
 void CreatePatrolVehicleUnit(float x, float y, float z, float angle, [ AIFelonySystemPatrolCarTypeEnum patrolType = E_PATROLCARTYPE_COP, bool snapToTerrain = false, bool useSecondaryVehicleType = false) : void CreatePatrolVehicleUnit(Vector position, [ float angle,  AIFelonySystemPatrolCarTypeEnum patrolType = E_PATROLCARTYPE_COP,  bool snapToTerrain = false, bool useSecondaryVehicleType = false)
 
+void DeleteAllChaseEntities(AIFelonySystemPatrolCarTypeEnum patrolType = E_PATROLCARTYPE_COP)
+void AddChaseCarWeaponType(EWeapons weapon, [ AIFelonySystemPatrolCarTypeEnum patrolType = E_PATROLCARTYPE_COP)
+void AddChaseCarVehicleType(int vehicleType, bool isSecondaryVehicle, [ AIFelonySystemPatrolCarTypeEnum patrolType = E_PATROLCARTYPE_COP)
+void RemoveChaseCarVehicleType(int vehicleType, bool isSecondaryVehicle, [ AIFelonySystemPatrolCarTypeEnum patrolType = E_PATROLCARTYPE_COP)
+void AddChaseCarCharacterType(int skinID, [ AIFelonySystemPatrolCarTypeEnum patrolType = E_PATROLCARTYPE_COP)
+void RemoveChaseCarCharacterType(int skinID, [ AIFelonySystemPatrolCarTypeEnum patrolType = E_PATROLCARTYPE_COP)
+void SetChaseCarPatrolDensity(float density, [ AIFelonySystemPatrolCarTypeEnum patrolType = E_PATROLCARTYPE_COP)
+
 # Player Functions
 
 bool IsPlayerFreeAiming()

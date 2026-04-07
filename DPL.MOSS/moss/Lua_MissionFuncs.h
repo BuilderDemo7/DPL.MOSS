@@ -8,6 +8,17 @@ int lua_EndAllLifeEvents(lua_State* L);
 // TODO: do the set life event status function
 //int lua_SetLifeEventStatus(lua_State* L);
 
+int lua_GetEra(lua_State* L);
+
+int lua_EnableCops(lua_State* L);
+int lua_DeleteAllChaseEntities(lua_State* L);
+int lua_AddChaseCarWeaponType(lua_State* L);
+int lua_AddChaseCarVehicleType(lua_State* L);
+int lua_RemoveChaseCarVehicleType(lua_State* L);
+int lua_AddChaseCarCharacterType(lua_State* L);
+int lua_RemoveChaseCarCharacterType(lua_State* L);
+int lua_SetChaseCarPatrolDensity(lua_State* L);
+
 int lua_ActivatePager(lua_State* L);
 int lua_SetVehicleFelonyLevel(lua_State* L);
 int lua_SetFelonyLevel(lua_State* L);

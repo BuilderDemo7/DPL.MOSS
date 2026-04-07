@@ -5,6 +5,7 @@
 #include "..\dpl\AIFelonySystemFelonyManager.h"
 #include "..\dpl\CLifeSystemCommentLog.h"
 #include "..\dpl\CLifeSystem.h"
+#include "..\dpl\CCharacterCategoryManager.h"
 #include "..\dpl\CLifeEventDataManager.h"
 #include "..\dpl\GameOverlayManager.h"
 #include "..\dpl\AmbientSoundManager.h"
@@ -19,6 +20,154 @@ int lua_EndAllLifeEvents(lua_State* L)
 	
 	if (evman != NULL)
 		evman->EndAllLifeEvents();
+
+	return 0;
+}
+
+int lua_GetEra(lua_State* L)
+{
+	CCharacterCategoryManager* ccm = CCharacterCategoryManager::GetInstance();
+
+	int era = 0;
+	if (ccm != NULL)
+	{
+		era = ccm->GetEra();
+	}
+
+	lua_pushinteger(L, era);
+
+	return 1;
+}
+
+int lua_EnableCops(lua_State* L)
+{
+	bool cops = lua_toboolean(L, 1);
+
+	auto fman = GetFelonyManager();
+	if (fman != NULL)
+	{
+		fman->EnableCops(cops);
+	}
+
+	return 0;
+}
+
+int lua_DeleteAllChaseEntities(lua_State* L)
+{
+	AIFelonySystemPatrolCarTypeEnum patrol = (AIFelonySystemPatrolCarTypeEnum)luaL_optinteger(L, 1, E_PATROLCARTYPE_COP);
+
+	auto fman = GetFelonyManager();
+	if (fman != NULL)
+	{
+		fman->DeleteAllChaseEntities(patrol);
+	}
+
+	return 0;
+}
+
+int lua_AddChaseCarWeaponType(lua_State* L)
+{
+	EWeapons wep = (EWeapons)luaL_checkinteger(L, 1);
+	AIFelonySystemPatrolCarTypeEnum patrol = (AIFelonySystemPatrolCarTypeEnum)luaL_optinteger(L, 2, E_PATROLCARTYPE_COP);
+
+	auto fman = GetFelonyManager();
+	if (fman != NULL)
+	{
+		fman->AddChaseCarWeaponType(wep, patrol);
+	}
+
+	return 0;
+}
+
+int lua_AddChaseCarVehicleType(lua_State* L)
+{
+	int nargs = lua_gettop(L); // number of arguments
+
+	int veh = luaL_checkinteger(L, 1);
+	bool secondaryVehicle = false;
+
+	if (nargs > 1)
+		secondaryVehicle = lua_toboolean(L, 2);
+
+	AIFelonySystemPatrolCarTypeEnum patrol = (AIFelonySystemPatrolCarTypeEnum)luaL_optinteger(L, 3, E_PATROLCARTYPE_COP);
+
+	auto fman = GetFelonyManager();
+	if (fman != NULL)
+	{
+		fman->AddChaseCarVehicleType(veh, secondaryVehicle, patrol);
+	}
+
+	return 0;
+}
+
+int lua_RemoveChaseCarVehicleType(lua_State* L)
+{
+	int nargs = lua_gettop(L); // number of arguments
+
+	int veh = luaL_checkinteger(L, 1);
+	bool secondaryVehicle = false;
+
+	if (nargs > 1)
+		secondaryVehicle = lua_toboolean(L, 2);
+
+	AIFelonySystemPatrolCarTypeEnum patrol = (AIFelonySystemPatrolCarTypeEnum)luaL_optinteger(L, 3, E_PATROLCARTYPE_COP);
+
+	auto fman = GetFelonyManager();
+	if (fman != NULL)
+	{
+		fman->RemoveChaseCarVehicleType(veh, secondaryVehicle, patrol);
+	}
+
+	return 0;
+}
+
+int lua_AddChaseCarCharacterType(lua_State* L)
+{
+	int nargs = lua_gettop(L); // number of arguments
+
+	int chara = luaL_checkinteger(L, 1);
+
+	AIFelonySystemPatrolCarTypeEnum patrol = (AIFelonySystemPatrolCarTypeEnum)luaL_optinteger(L, 2, E_PATROLCARTYPE_COP);
+
+	auto fman = GetFelonyManager();
+	if (fman != NULL)
+	{
+		fman->AddChaseCarCharacterType(chara, patrol);
+	}
+
+	return 0;
+}
+
+int lua_RemoveChaseCarCharacterType(lua_State* L)
+{
+	int nargs = lua_gettop(L); // number of arguments
+
+	int chara = luaL_checkinteger(L, 1);
+
+	AIFelonySystemPatrolCarTypeEnum patrol = (AIFelonySystemPatrolCarTypeEnum)luaL_optinteger(L, 2, E_PATROLCARTYPE_COP);
+
+	auto fman = GetFelonyManager();
+	if (fman != NULL)
+	{
+		fman->RemoveChaseCarCharacterType(chara, patrol);
+	}
+
+	return 0;
+}
+
+int lua_SetChaseCarPatrolDensity(lua_State* L)
+{
+	int nargs = lua_gettop(L); // number of arguments
+
+	float density = luaL_checknumber(L, 1);
+
+	AIFelonySystemPatrolCarTypeEnum patrol = (AIFelonySystemPatrolCarTypeEnum)luaL_optinteger(L, 2, E_PATROLCARTYPE_COP);
+
+	auto fman = GetFelonyManager();
+	if (fman != NULL)
+	{
+		fman->SetChaseCarPatrolDensity(density, patrol);
+	}
 
 	return 0;
 }

@@ -27,7 +27,7 @@ public:
 
 class AIFelonySystemFelonyManagerClass {
 public:
-	uint8_t __padding0[0xe63];
+	uint8_t __padding0[0xe64];
 	AIFelonySystemPatrolDataClass m_PatrolDataArray[2];
 	
 	void AddChaseCarVehicleType(int inVehicleType, bool inIsSecondaryVehicleType, AIFelonySystemPatrolCarTypeEnum inPatrolCarType);

@@ -321,6 +321,12 @@
     <ClInclude Include="moss\Lua_Prop.h">
       <Filter>Header files\MOSS</Filter>
     </ClInclude>
+    <ClInclude Include="dpl\EWeapons.h">
+      <Filter>Header files\dpl</Filter>
+    </ClInclude>
+    <ClInclude Include="moss\Lua_ResourceManager.h">
+      <Filter>Header files\MOSS</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -528,6 +534,9 @@
       <Filter>Source files\dpl</Filter>
     </ClCompile>
     <ClCompile Include="moss\Lua_Prop.cpp">
+      <Filter>Source files\MOSS</Filter>
+    </ClCompile>
+    <ClCompile Include="moss\Lua_ResourceManager.cpp">
       <Filter>Source files\MOSS</Filter>
     </ClCompile>
   </ItemGroup>

@@ -2,6 +2,8 @@
 |Game:	Driver: Parallel Lines
 |By: BuilderDemo7
 
+# please check "enum_list.txt" file for checking the constants/enumerations
+
 // Events
 
 # should be defined as 
@@ -81,12 +83,23 @@ MapItem GetPlayerMapItem()
 MapItem GetCameraMapItem()
 MapItem GetMapMarkerItem()
 
+# Resource Manager
+
+void SetEntityPriority(SpooledPackageType package, int entityID, ESpoolPriority priority)
+void RequestEntity(SpooledPackageType package, int entityID, ESpoolPriority priority) # WARNING: may take a longer time to load, try SetEntityPriority(...) instead
+
+bool IsEntityLoaded(SpooledPackageType package, int entityID)
+bool IsEntityPresent(SpooledPackageType package, int entityID)
+
 # Memory Editing
+* WARNING: Please check if the address is valid otherwise it will cause the game to crash with access violation.
 
 void memwrite(uint address, string buffer, uint size)
 string memread(uint address, uint size)
-void mempatch(uint address, string buffer)
-void meminject(uint address, string labelBuffer, int type)
+void mempatch(uint address, intptr_t labelPtr)
+void meminject(uint address, intptr_t labelPtr, int type)
+intptr_t memalloc(uint size)
+void memfree(intptr_t blockPtr)
 
 # Memory Cast
 * WARNING: Please check if the address is valid otherwise it will cause the game to crash with access violation.

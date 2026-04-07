@@ -12,6 +12,8 @@
 
 #include "..\utils.h"
 
+#include <iostream>
+
 int lua_memwrite(lua_State* L)
 {
 	int nargs = lua_gettop(L); // number of arguments
@@ -48,7 +50,7 @@ int lua_memread(lua_State* L)
 int lua_mempatch(lua_State* L)
 {
 	int address = (int)luaL_checkinteger(L, 1);  // param 1
-	const char* buffer = luaL_checkstring(L, 2);  // param 2
+	int buffer = luaL_checkinteger(L, 2);  // param 2
 
 	Patch(address, buffer);
 
@@ -59,12 +61,33 @@ int lua_mempatch(lua_State* L)
 int lua_meminject(lua_State* L)
 {
 	int address = (int)luaL_checkinteger(L, 1);  // param 1
-	const char* funcLabel = luaL_checkstring(L, 2);  // param 2
+	int funcLabel = luaL_checkinteger(L, 2);  // param 2
 	int type = (int)luaL_checkinteger(L, 3);  // param 3
 
 	InjectHook(address, funcLabel, type);
 
 	return 0;  // number of return(s)
+}
+
+int lua_memalloc(lua_State* L)
+{
+	void* buffer = NULL;
+
+	int size = luaL_checkinteger(L, 1);
+
+	buffer = malloc(size);
+
+	lua_pushinteger(L, (int)buffer);
+	return 1;
+}
+
+int lua_memfree(lua_State* L)
+{
+	void* buffer = (void*)luaL_checkinteger(L, 1);
+
+	free(buffer);
+
+	return 0;
 }
 
 // WARNING: the label must be constant and not stored in the stack to prevent data loss

@@ -1,11 +1,11 @@
 #include "SpoolableResourceManager.h"
 
-void SpoolableResourceManager::SetEntityPriority(SpooledPackageType packageType, int ID, SpoolPriority priority)
+void SpoolableResourceManager::SetEntityPriority(SpooledPackageType packageType, int ID, ESpoolPriority priority)
 {
 	((void(__thiscall*)(SpoolableResourceManager*, int, int, int))0x5492B8)(this, packageType, ID, priority);
 }
 
-void SpoolableResourceManager::RequestEntity(SpooledPackageType packageType, int ID, int unk1, SpoolPriority priority)
+void SpoolableResourceManager::RequestEntity(SpooledPackageType packageType, int ID, int unk1, ESpoolPriority priority)
 {
 	((void(__thiscall*)(SpoolableResourceManager*, int, int, int, int))0x549284)(this, packageType, ID, unk1, priority);
 }

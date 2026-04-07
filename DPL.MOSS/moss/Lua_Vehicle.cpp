@@ -624,7 +624,7 @@ int lua_CreateVehicle(lua_State* L)
 	angle = (float)luaL_optnumber(L, 5, 0.0);
 
 	SpoolableResourceManager* spr = SpoolableResourceManager::GetInstance();
-	spr->SetEntityPriority(SpooledPackageType::Vehicles, model, Request);
+	spr->SetEntityPriority(SpooledPackageType_Vehicles, model, ESpoolPriority_Required);
 
 	CVehicleManager* manager = CVehicleManager::GetInstance();
 	AutoPtr<CVehicle, int> pCar;

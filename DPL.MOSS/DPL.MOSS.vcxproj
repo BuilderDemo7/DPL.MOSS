@@ -210,6 +210,7 @@
     <ClInclude Include="dpl\ePartSubType.h" />
     <ClInclude Include="dpl\EVehicleDoor.h" />
     <ClInclude Include="dpl\eWeaponAnimType.h" />
+    <ClInclude Include="dpl\EWeapons.h" />
     <ClInclude Include="dpl\Factory.h" />
     <ClInclude Include="dpl\GameCamera.h" />
     <ClInclude Include="dpl\GameOverlayManager.h" />
@@ -255,6 +256,7 @@
     <ClInclude Include="moss\Lua_MissionFuncs.h" />
     <ClInclude Include="moss\Lua_ObjectiveIcon.h" />
     <ClInclude Include="moss\Lua_Prop.h" />
+    <ClInclude Include="moss\Lua_ResourceManager.h" />
     <ClInclude Include="moss\Lua_Vehicle.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="utils.h" />
@@ -327,6 +329,7 @@
     <ClCompile Include="moss\Lua_MissionFuncs.cpp" />
     <ClCompile Include="moss\Lua_ObjectiveIcon.cpp" />
     <ClCompile Include="moss\Lua_Prop.cpp" />
+    <ClCompile Include="moss\Lua_ResourceManager.cpp" />
     <ClCompile Include="moss\Lua_Vehicle.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

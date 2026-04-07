@@ -7,11 +7,15 @@
 # usage example: 
 # 	EGadgetType::BINBIGBLUE to Lua -> BINBIGBLUE
 # 	Era::Era_Then to Lua -> Era_Then
+#
+# using the constant/enum as a variable:
+#	local gadget = BINBIGBLUE
+#	local targetEra = Era_Then
 
 enum Era
 {
 	Era_Then = 0,
-	Era_Now = 0
+	Era_Now = 1
 };
 
 enum EGadgetType
@@ -123,4 +127,24 @@ enum AIFelonySystemPatrolCarTypeEnum {
 	E_PATROLCARTYPE_GOON = 1,
 	E_PATROLCARTYPE_NUM_OF = 2,
 	E_PATROLCARTYPE_NONE = 3
+};
+
+enum SpooledPackageType
+{
+	SpooledPackageType_Vehicles = 0,
+	SpooledPackageType_Missions = 1,
+	SpooledPackageType_CharacterSkins = 2,
+	SpooledPackageType_CharacterAnimations = 3,
+	SpooledPackageType_Audio = 4,
+	SpooledPackageType_Localisation = 5,
+	SpooledPackageType_Subtitles = 6,
+	SpooledPackageType_numSpooledPackageTypes = 7,
+	SpooledPackageType_Uninitialised = 8
+};
+
+enum ESpoolPriority
+{
+	ESpoolPriority_Uninitialised = 0,
+	ESpoolPriority_Required = 1,
+	ESpoolPriority_Preferred = 2,
 };

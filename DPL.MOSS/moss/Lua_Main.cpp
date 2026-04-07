@@ -14,6 +14,7 @@
 
 // funcs
 #include "Lua_MissionFuncs.h"
+#include "Lua_ResourceManager.h"
 #include "Lua_Hooking.h"
 
 #include "..\Hooks.h"
@@ -501,6 +502,20 @@ void Init_Lua_Constants()
 	lua_pushinteger(L, EGadgetType::VENDERDONUTS); lua_setglobal(L, "VENDERDONUTS");
 	lua_pushinteger(L, EGadgetType::VENDERFOOD); lua_setglobal(L, "VENDERFOOD");
 
+	lua_pushinteger(L, SpooledPackageType::SpooledPackageType_Vehicles); lua_setglobal(L, "SpooledPackageType_Vehicles");
+	lua_pushinteger(L, SpooledPackageType::SpooledPackageType_Missions); lua_setglobal(L, "SpooledPackageType_Missions");
+	lua_pushinteger(L, SpooledPackageType::SpooledPackageType_CharacterSkins); lua_setglobal(L, "SpooledPackageType_CharacterSkins");
+	lua_pushinteger(L, SpooledPackageType::SpooledPackageType_CharacterAnimations); lua_setglobal(L, "SpooledPackageType_CharacterAnimations");
+	lua_pushinteger(L, SpooledPackageType::SpooledPackageType_Audio); lua_setglobal(L, "SpooledPackageType_Audio");
+	lua_pushinteger(L, SpooledPackageType::SpooledPackageType_Localisation); lua_setglobal(L, "SpooledPackageType_Localisation");
+	lua_pushinteger(L, SpooledPackageType::SpooledPackageType_Subtitles); lua_setglobal(L, "SpooledPackageType_Subtitles");
+	lua_pushinteger(L, SpooledPackageType::SpooledPackageType_numSpooledPackageTypes); lua_setglobal(L, "SpooledPackageType_numSpooledPackageTypes");
+	lua_pushinteger(L, SpooledPackageType::SpooledPackageType_Uninitialised); lua_setglobal(L, "SpooledPackageType_Uninitialised");
+	
+	lua_pushinteger(L, ESpoolPriority::ESpoolPriority_Uninitialised); lua_setglobal(L, "ESpoolPriority_Uninitialised");
+	lua_pushinteger(L, ESpoolPriority::ESpoolPriority_Required); lua_setglobal(L, "ESpoolPriority_Required");
+	lua_pushinteger(L, ESpoolPriority::ESpoolPriority_Preferred); lua_setglobal(L, "ESpoolPriority_Preferred");
+
 	// alphanumerics
 	lua_pushinteger(L, '0');
 	lua_setglobal(L, "VK_0");
@@ -677,6 +692,11 @@ void Init_Lua_Funcs()
 	lua_register(L, "CreatePatrolCharacterOnFoot", lua_CreatePatrolCharacterOnFoot); // void CreatePatrolCharacterOnFoot(float x, float y, float z, [ float angle, AIFelonySystemPatrolCarTypeEnum patrolType = E_PATROLCARTYPE_COP) : void CreatePatrolCharacterOnFoot(Vector position, [ float angle, AIFelonySystemPatrolCarTypeEnum patrolType = E_PATROLCARTYPE_COP)
 	lua_register(L, "CreatePatrolVehicleUnit", lua_CreatePatrolVehicleUnit); // void CreatePatrolVehicleUnit(float x, float y, float z, float angle, [ AIFelonySystemPatrolCarTypeEnum patrolType = E_PATROLCARTYPE_COP, bool snapToTerrain = false, bool useSecondaryVehicleType = false) : void CreatePatrolVehicleUnit(Vector position, [ float angle,  AIFelonySystemPatrolCarTypeEnum patrolType = E_PATROLCARTYPE_COP,  bool snapToTerrain = false, bool useSecondaryVehicleType = false)
 
+	lua_register(L, "SetEntityPriority", lua_SetEntityPriority); // void SetEntityPriority(SpooledPackageType package, int entityID, ESpoolPriority priority)
+	lua_register(L, "RequestEntity", lua_RequestEntity); // void RequestEntity(SpooledPackageType package, int entityID, ESpoolPriority priority)
+	lua_register(L, "IsEntityLoaded", lua_IsEntityLoaded); // bool IsEntityLoaded(SpooledPackageType package, int entityID)
+	lua_register(L, "IsEntityPresent", lua_IsEntityPresent); // bool IsEntityPresent(SpooledPackageType package, int entityID)
+
 	lua_register(L, "IsPlayerFreeAiming", lua_IsPlayerFreeAiming); // bool IsPlayerFreeAiming()
 	lua_register(L, "HasPlayerShotRecently", lua_HasPlayerShotRecently); // bool HasPlayerShotRecently()
 	lua_register(L, "AddAllWeaponsForPlayer", lua_AddAllWeaponsForPlayer); // void AddAllWeaponsForPlayer()
@@ -695,8 +715,10 @@ void Init_Lua_Funcs()
 	// hooking funcs
 	lua_register(L, "memwrite", lua_memwrite); // void memwrite(uint address, string buffer, uint size)
 	lua_register(L, "memread", lua_memread); // string memread(uint address, uint size)
-	lua_register(L, "mempatch", lua_mempatch); // void mempatch(uint address, string buffer)
-	lua_register(L, "meminject", lua_meminject); // void meminject(uint address, string labelBuffer, int type); 
+	lua_register(L, "mempatch", lua_mempatch); // void mempatch(uint address, intptr_t labelPtr)
+	lua_register(L, "meminject", lua_meminject); // void meminject(uint address, intptr_t labelPtr, int type); 
+	lua_register(L, "memalloc", lua_memalloc); // intptr_t memalloc(uint size)
+	lua_register(L, "memfree", lua_memfree); // void memfree(intptr_t blockPtr)
 
 	// cast funcs
 	lua_register(L, "castfloat", lua_castfloat); // float castfloat(string buffer, [ int offset = 0) 

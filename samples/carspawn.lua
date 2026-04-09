@@ -39,12 +39,12 @@ function spawnCar()
 
     -- 2. Cleanup old vehicle (Optional: prevents cluttering the world)
     if LastVehicle then
-        DestroyVehicle(LastVehicle) -- Uncomment if you only want 1 car at a time
+        DestroyVehicleInstance(LastVehicle) -- Uncomment if you only want 1 car at a time
     end
 
     -- 3. Create the Vehicle
-    -- CreateVehicle(model, x, y, z, angle)
-    local veh = CreateVehicle(SPAWN_CONFIG.MODEL_ID, spawnPos.X, spawnPos.Y, spawnPos.Z, angle)
+    -- CreateVehicleInstance(model, x, y, z, angle)
+    local veh = CreateVehicleInstance(SPAWN_CONFIG.MODEL_ID, spawnPos.X, spawnPos.Y, spawnPos.Z, angle)
     
     if veh then
         LastVehicle = veh

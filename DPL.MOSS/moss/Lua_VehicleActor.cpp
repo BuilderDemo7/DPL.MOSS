@@ -16,7 +16,7 @@ void Init_Lua_MetaTable_VehicleActor()
 
 int lua_VehicleActorIndex(lua_State* L)
 {
-	CLifeActor_Vehicle* avehicle = *(CLifeActor_Vehicle**)luaL_checkudata(L, 1, g_VehicleMetaName);
+	CLifeActor_Vehicle* avehicle = *(CLifeActor_Vehicle**)luaL_checkudata(L, 1, g_VehicleActorMetaName);
 	const char* key = lua_tostring(L, 2);
 
 	// NOTE: methods are like a _thiscall [MyFunc(void* this, ...)]
@@ -50,7 +50,7 @@ int lua_VehicleActorIndex(lua_State* L)
 
 int lua_GetVehicleActorInstance(lua_State* L)
 {
-	CLifeActor_Vehicle* avehicle = *(CLifeActor_Vehicle**)luaL_checkudata(L, 1, g_VehicleMetaName);
+	CLifeActor_Vehicle* avehicle = *(CLifeActor_Vehicle**)luaL_checkudata(L, 1, g_VehicleActorMetaName);
 
 	CVehicle* retVeh = avehicle->m_piVehicleInstance->m_piVehicle; // m_piVehicle
 
@@ -67,7 +67,7 @@ int lua_GetVehicleActorInstance(lua_State* L)
 
 int lua_GetVehicleActorPointer(lua_State* L)
 {
-	CLifeActor_Vehicle* avehicle = *(CLifeActor_Vehicle**)luaL_checkudata(L, 1, g_VehicleMetaName);
+	CLifeActor_Vehicle* avehicle = *(CLifeActor_Vehicle**)luaL_checkudata(L, 1, g_VehicleActorMetaName);
 
 	lua_pushinteger(L, (int)avehicle);
 
@@ -143,14 +143,14 @@ int lua_CreateVehicleActor(lua_State* L)
 
 int lua_DestroyVehicleActor(lua_State* L)
 {
-	CLifeActor_Vehicle* avehicle = *(CLifeActor_Vehicle**)luaL_checkudata(L, 1, g_VehicleMetaName);
+	CLifeActor_Vehicle* avehicle = *(CLifeActor_Vehicle**)luaL_checkudata(L, 1, g_VehicleActorMetaName);
 	((CLifeActor*)avehicle)->Delete();
 	return 0;
 }
 
 int lua_InstantiateVehicleActor(lua_State* L)
 {
-	CLifeActor_Vehicle* avehicle = *(CLifeActor_Vehicle**)luaL_checkudata(L, 1, g_VehicleMetaName);
+	CLifeActor_Vehicle* avehicle = *(CLifeActor_Vehicle**)luaL_checkudata(L, 1, g_VehicleActorMetaName);
 	((CLifeActor*)avehicle)->Create();
 	return 0;
 }

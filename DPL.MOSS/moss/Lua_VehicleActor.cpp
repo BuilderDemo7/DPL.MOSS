@@ -52,7 +52,19 @@ int lua_GetVehicleActorInstance(lua_State* L)
 {
 	CLifeActor_Vehicle* avehicle = *(CLifeActor_Vehicle**)luaL_checkudata(L, 1, g_VehicleActorMetaName);
 
+	if (avehicle->m_piVehicleInstance == NULL)
+	{
+		lua_pushnil(L);
+		return 1;
+	}
+
 	CVehicle* retVeh = avehicle->m_piVehicleInstance->m_piVehicle; // m_piVehicle
+
+	if (retVeh == NULL)
+	{
+		lua_pushnil(L);
+		return 1;
+	}
 
 	// allocate userdata to hold the pointer
 	CVehicle** udata = (CVehicle**)lua_newuserdata(L, sizeof(CCharacter*));

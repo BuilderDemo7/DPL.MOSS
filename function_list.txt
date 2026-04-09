@@ -34,9 +34,18 @@ void ActivatePager()
 
 # Object Creation & Destruction
 
-Vehicle CreateVehicle(int model, float x, float y, float z, [ float angle = 0.0)
-void DestroyVehicle(Vehicle vehicle)
+* (Legacy) Vehicle Instance used in first alpha versions
+Vehicle CreateVehicleInstance(int model, float x, float y, float z, [ float angle = 0.0)
+void DestroyVehicleInstance(Vehicle vehicle)
+
+* Vehicle Actor: Supports actions with characters and more features
+Vehicle_Actor CreateVehicle(int model, float x, float y, float z, [ float angle = 0.0, bool startCreated = true, int tintValue = 1, float initialSpeed = 0.0, float initialFelony = 0.0, impactSoftness = 1.0, explosionSoftness = 1.0, bulletSoftness = 1.0, impactFragility = 1.0, bool useRandomTint)
+void DestroyVehicle(Vehicle_Actor vehicle)
+
+* Helicopter
 Helicopter CreateHelicopter(float x, float y, float z, [ float velx = 0.0, float vely = 0.0, float velz = 0.0, float angle = 0.0, bool isGoonHeli = true, bool destroyable = false, bool isLanded = false, bool helicopterOnlySpline = false)
+
+* Prop
 Prop CreateProp(Vector position, EGadgetType gadgetType, [ Quaternion rotation = Quaternion.new(0,0,0,0), bool canbeTargeted = false, bool startCreated = true)
 
 # Music / Sounds
@@ -221,6 +230,19 @@ void Vehicle:Fix() : void Vehicle:Repair()
 void Vehicle:ActivateLamp(ePartSubType lightPart, bool onoff, [ bool forceOverride = false) : void Vehicle:SetLamp(ePartSubType lightPart, bool onoff, [ bool forceOverride = false)
 void Vehicle:ActivateSiren(bool onoff)
 void Vehicle:SetFelony(float felony, [ AIFelonySystemPatrolCarTypeEnum patrolType = E_PATROLCARTYPE_COP)
+
+# Vehicle_Actor
+
+Vehicle Vehicle_Actor:GetInstance()
+Vehicle_LifeInstance Vehicle_Actor:GetLifeInstance()
+intptr_t Vehicle_Actor:GetPointer()
+void Vehicle_Actor:Create() : void Vehicle_Actor:Instantiate()
+void Vehicle_Actor:Destroy() : void Vehicle_Actor:Delete()
+
+# Vehicle_LifeInstance
+
+Vehicle Vehicle_LifeInstance:GetInstance()
+intptr_t Vehicle_LifeInstance:GetPointer()
 
 # Helicopter
 

@@ -327,6 +327,21 @@
     <ClInclude Include="moss\Lua_ResourceManager.h">
       <Filter>Header files\MOSS</Filter>
     </ClInclude>
+    <ClInclude Include="dpl\CLifeActor_Vehicle.h">
+      <Filter>Header files\dpl</Filter>
+    </ClInclude>
+    <ClInclude Include="dpl\CLifeInstance_Vehicle.h">
+      <Filter>Header files\dpl</Filter>
+    </ClInclude>
+    <ClInclude Include="moss\Lua_VehicleInstance.h">
+      <Filter>Header files\MOSS</Filter>
+    </ClInclude>
+    <ClInclude Include="moss\Lua_VehicleActor.h">
+      <Filter>Header files\MOSS</Filter>
+    </ClInclude>
+    <ClInclude Include="dpl\MathFuncs.h">
+      <Filter>Header files\dpl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -538,6 +553,21 @@
     </ClCompile>
     <ClCompile Include="moss\Lua_ResourceManager.cpp">
       <Filter>Source files\MOSS</Filter>
+    </ClCompile>
+    <ClCompile Include="moss\Lua_VehicleInstance.cpp">
+      <Filter>Source files\MOSS</Filter>
+    </ClCompile>
+    <ClCompile Include="moss\Lua_VehicleActor.cpp">
+      <Filter>Source files\MOSS</Filter>
+    </ClCompile>
+    <ClCompile Include="dpl\CLifeInstance_Vehicle.cpp">
+      <Filter>Source files\dpl</Filter>
+    </ClCompile>
+    <ClCompile Include="dpl\CLifeActor_Vehicle.cpp">
+      <Filter>Source files\dpl</Filter>
+    </ClCompile>
+    <ClCompile Include="dpl\MathFuncs.cpp">
+      <Filter>Source files\dpl</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -7,6 +7,8 @@
 // metatables
 #include "Lua_Character.h"
 #include "Lua_Vehicle.h"
+#include "Lua_VehicleInstance.h"
+#include "Lua_VehicleActor.h"
 #include "Lua_Helicopter.h"
 #include "Lua_MapItem.h"
 #include "Lua_ObjectiveIcon.h"
@@ -675,8 +677,10 @@ void Init_Lua_Funcs()
 	lua_register(L, "RemoveChaseCarCharacterType", lua_RemoveChaseCarCharacterType); // void RemoveChaseCarCharacterType(int skinID, [ AIFelonySystemPatrolCarTypeEnum patrolType = E_PATROLCARTYPE_COP)
 	lua_register(L, "SetChaseCarPatrolDensity", lua_SetChaseCarPatrolDensity); // void SetChaseCarPatrolDensity(float density, [ AIFelonySystemPatrolCarTypeEnum patrolType = E_PATROLCARTYPE_COP)
 
-	lua_register(L, "CreateVehicle", lua_CreateVehicle); // Vehicle CreateVehicle(int model, float x, float y, float z, [ float angle = 0.0)
-	lua_register(L, "DestroyVehicle", lua_DestroyVehicle); // void DestroyVehicle(Vehicle vehicle)
+	lua_register(L, "CreateVehicleInstance", lua_CreateVehicle); // Vehicle CreateVehicleInstance(int model, float x, float y, float z, [ float angle = 0.0)
+	lua_register(L, "CreateVehicle", lua_CreateVehicleActor); // Vehicle_Actor CreateVehicle(int model, float x, float y, float z, [ float angle = 0.0, bool startCreated = true, int tintValue = 1, float initialSpeed = 0.0, float initialFelony = 0.0, impactSoftness = 1.0, explosionSoftness = 1.0, bulletSoftness = 1.0, impactFragility = 1.0, bool useRandomTint)
+	lua_register(L, "DestroyVehicleInstance", lua_DestroyVehicle); // void DestroyVehicleInstance(Vehicle vehicle)
+	lua_register(L, "DestroyVehicle", lua_DestroyVehicleActor); // void DestroyVehicle(Vehicle_Actor vehicle)
 	lua_register(L, "CreateHelicopter", lua_CreateHelicopter); // Helicopter CreateHelicopter(float x, float y, float z, [ float velx = 0.0, float vely = 0.0, float velz = 0.0, float angle = 0.0, bool isGoonHeli = true, bool destroyable = false, bool isLanded = false, bool helicopterOnlySpline = false)
 
 	lua_register(L, "ActivatePager", lua_ActivatePager); // void ActivatePager()
@@ -758,6 +762,8 @@ void Init_Lua_MetaTables()
 	// from MOSS
 	Init_Lua_MetaTable_Character();
 	Init_Lua_MetaTable_Vehicle();
+	Init_Lua_MetaTable_VehicleActor();
+	Init_Lua_MetaTable_VehicleInstance();
 	Init_Lua_MetaTable_Helicopter();
 	Init_Lua_MetaTable_MapItem();
 	Init_Lua_MetaTable_ObjectiveIcon();

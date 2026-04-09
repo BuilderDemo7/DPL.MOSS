@@ -178,8 +178,10 @@
     <ClInclude Include="dpl\CLifeAcquirableVehicleManager.h" />
     <ClInclude Include="dpl\CLifeActor.h" />
     <ClInclude Include="dpl\CLifeActor_Prop.h" />
+    <ClInclude Include="dpl\CLifeActor_Vehicle.h" />
     <ClInclude Include="dpl\CLifeEventDataManager.h" />
     <ClInclude Include="dpl\CLifeInstance_Character.h" />
+    <ClInclude Include="dpl\CLifeInstance_Vehicle.h" />
     <ClInclude Include="dpl\CLifePlayer.h" />
     <ClInclude Include="dpl\CLifeProgression.h" />
     <ClInclude Include="dpl\CLifePropertyStream.h" />
@@ -222,6 +224,7 @@
     <ClInclude Include="dpl\LifeEnvironment.h" />
     <ClInclude Include="dpl\LifeInstances.h" />
     <ClInclude Include="dpl\LocalisedString.h" />
+    <ClInclude Include="dpl\MathFuncs.h" />
     <ClInclude Include="dpl\Matrix.h" />
     <ClInclude Include="dpl\Model.h" />
     <ClInclude Include="dpl\Physics.h" />
@@ -258,6 +261,8 @@
     <ClInclude Include="moss\Lua_Prop.h" />
     <ClInclude Include="moss\Lua_ResourceManager.h" />
     <ClInclude Include="moss\Lua_Vehicle.h" />
+    <ClInclude Include="moss\Lua_VehicleActor.h" />
+    <ClInclude Include="moss\Lua_VehicleInstance.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="utils\MemoryMgr.h" />
@@ -277,8 +282,10 @@
     <ClCompile Include="dpl\CLifeAcquirableVehicleManager.cpp" />
     <ClCompile Include="dpl\CLifeActor.cpp" />
     <ClCompile Include="dpl\CLifeActor_Prop.cpp" />
+    <ClCompile Include="dpl\CLifeActor_Vehicle.cpp" />
     <ClCompile Include="dpl\CLifeEventDataManager.cpp" />
     <ClCompile Include="dpl\CLifeInstance_Character.cpp" />
+    <ClCompile Include="dpl\CLifeInstance_Vehicle.cpp" />
     <ClCompile Include="dpl\CLifePlayer.cpp" />
     <ClCompile Include="dpl\CLifeProgression.cpp" />
     <ClCompile Include="dpl\CLifePropertyStream.cpp" />
@@ -302,6 +309,7 @@
     <ClCompile Include="dpl\InputManager.cpp" />
     <ClCompile Include="dpl\LifeEnvironment.cpp" />
     <ClCompile Include="dpl\LifeInstances.cpp" />
+    <ClCompile Include="dpl\MathFuncs.cpp" />
     <ClCompile Include="dpl\Matrix.cpp" />
     <ClCompile Include="dpl\Physics.cpp" />
     <ClCompile Include="dpl\PlayerInVehicleInputs.cpp" />
@@ -331,6 +339,8 @@
     <ClCompile Include="moss\Lua_Prop.cpp" />
     <ClCompile Include="moss\Lua_ResourceManager.cpp" />
     <ClCompile Include="moss\Lua_Vehicle.cpp" />
+    <ClCompile Include="moss\Lua_VehicleActor.cpp" />
+    <ClCompile Include="moss\Lua_VehicleInstance.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

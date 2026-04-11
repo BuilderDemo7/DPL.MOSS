@@ -14,3 +14,6 @@ int lua_EnableCameraSelect(lua_State* L);
 int lua_DisableCameraSelect(lua_State* L);
 
 int lua_CreateCameraSelect(lua_State* L);
+
+int lua_GetCameraSelectTarget(lua_State* L);
+int lua_GetCameraSelectTargetPointer(lua_State* L);

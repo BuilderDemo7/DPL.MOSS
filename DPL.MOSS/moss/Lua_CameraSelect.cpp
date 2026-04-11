@@ -36,9 +36,54 @@ int lua_CameraSelectIndex(lua_State* L)
 		lua_pushcfunction(L, lua_DisableCameraSelect);
 		return 1;
 	}
+	else if (strcmp(key, "GetTarget") == 0) {
+		lua_pushcfunction(L, lua_GetCameraSelectTarget);
+		return 1;
+	}
+	else if (strcmp(key, "GetTargetPointer") == 0) {
+		lua_pushcfunction(L, lua_GetCameraSelectTargetPointer);
+		return 1;
+	}
 	else {
 		lua_pushnil(L);
 	}
+}
+
+int lua_GetCameraSelectTarget(lua_State* L)
+{
+	CLifeNode_CameraSelect* camSel = *(CLifeNode_CameraSelect**)luaL_checkudata(L, 1, g_CameraSelectMetaName);
+	CLifeActor* actor = camSel->m_targetActor;
+	if (actor != NULL)
+	{
+		EFactoryType fct = actor->hamsterFactoryType();
+
+		CLifeActor** udata = (CLifeActor**)lua_newuserdata(L, sizeof(void*));
+		*udata = actor;
+
+		switch (fct)
+		{
+			case EFactoryType_LifeActor_Vehicle:
+			{
+				luaL_getmetatable(L, g_VehicleActorMetaName); // return metatable type
+				lua_setmetatable(L, -2); // return/set the return
+
+				return 1;
+			}
+		}
+	}
+
+	lua_pushnil(L);
+	return 1;
+}
+
+int lua_GetCameraSelectTargetPointer(lua_State* L)
+{
+	CLifeNode_CameraSelect* camSel = *(CLifeNode_CameraSelect**)luaL_checkudata(L, 1, g_CameraSelectMetaName);
+	CLifeActor* actor = camSel->m_targetActor;
+
+	lua_pushinteger(L, (int)actor);
+
+	return 1;
 }
 
 int lua_GetCameraSelectPointer(lua_State* L)
@@ -74,7 +119,7 @@ int lua_DisableCameraSelect(lua_State* L)
 int lua_CreateCameraSelect(lua_State* L)
 {
 	ECameraSelectType cameraType = (ECameraSelectType)luaL_checkinteger(L, 1);
-	CLifeActor* actor = (CLifeActor*)luaL_testudata(L, 2, g_VehicleActorMetaName);
+	CLifeActor** actor = (CLifeActor**)luaL_testudata(L, 2, g_VehicleActorMetaName);
 	
 	ECameraSelect_VehicleCamType vehiclePosition = (ECameraSelect_VehicleCamType)luaL_optinteger(L, 3, ECameraSelect_VehicleCamType_Bonnet);
 
@@ -92,7 +137,7 @@ int lua_CreateCameraSelect(lua_State* L)
 
 	if (camSel != NULL)
 	{
-		camSel->CustomInitalise(cameraType, actor, vehiclePosition, speed, zoom, motionBlur, duration, blendTime);
+		camSel->CustomInitalise(cameraType, *actor, vehiclePosition, speed, zoom, motionBlur, duration, blendTime);
 
 		CLifeNode_CameraSelect** udata = (CLifeNode_CameraSelect**)lua_newuserdata(L, sizeof(void*));
 		*udata = camSel;

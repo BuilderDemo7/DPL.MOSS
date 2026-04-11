@@ -332,3 +332,5 @@ void Prop:SetGadgetType(EGadgetType gadget)
 intptr_t CameraSelect:GetPointer()
 void CameraSelect:Activate() : void CameraSelect:Enable()
 void CameraSelect:Deactivate() : void CameraSelect:Disable()
+LifeActor? CameraSelect:GetTarget() # returns nil if no target is defined
+intptr_t CameraSelect:GetTargetPointer()

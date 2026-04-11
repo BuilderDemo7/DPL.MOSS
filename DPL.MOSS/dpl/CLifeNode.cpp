@@ -7,7 +7,10 @@ int CLifeNode::GetVTableAddress()
 
 void CLifeNode::OnEnable(bool* enabled, eNodeFireWire* wireToFire)
 {
-	((void(__thiscall*)(CLifeNode*, bool*, eNodeFireWire*))*(int*)(GetVTableAddress() + 0x34))(this, enabled, wireToFire);
+	// DEBUG
+	int addr1 = GetVTableAddress();
+	int fptr = *(int*)(addr1 + 0x34);
+	((void(__thiscall*)(CLifeNode*, bool*, eNodeFireWire*))fptr)(this, enabled, wireToFire);
 }
 
 void CLifeNode::OnDisable()

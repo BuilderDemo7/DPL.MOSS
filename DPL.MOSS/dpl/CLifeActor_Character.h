@@ -8,5 +8,5 @@
 class CLifeActor_Character : CLifeActor
 {
 public:
-}
+};
 #pragma pack(pop)

@@ -13,6 +13,7 @@
 #include "Lua_MapItem.h"
 #include "Lua_ObjectiveIcon.h"
 #include "Lua_Prop.h"
+#include "Lua_CameraSelect.h"
 
 // funcs
 #include "Lua_MissionFuncs.h"
@@ -504,6 +505,7 @@ void Init_Lua_Constants()
 	lua_pushinteger(L, EGadgetType::VENDERDONUTS); lua_setglobal(L, "VENDERDONUTS");
 	lua_pushinteger(L, EGadgetType::VENDERFOOD); lua_setglobal(L, "VENDERFOOD");
 
+	// SpooledPackageType
 	lua_pushinteger(L, SpooledPackageType::SpooledPackageType_Vehicles); lua_setglobal(L, "SpooledPackageType_Vehicles");
 	lua_pushinteger(L, SpooledPackageType::SpooledPackageType_Missions); lua_setglobal(L, "SpooledPackageType_Missions");
 	lua_pushinteger(L, SpooledPackageType::SpooledPackageType_CharacterSkins); lua_setglobal(L, "SpooledPackageType_CharacterSkins");
@@ -517,6 +519,24 @@ void Init_Lua_Constants()
 	lua_pushinteger(L, ESpoolPriority::ESpoolPriority_Uninitialised); lua_setglobal(L, "ESpoolPriority_Uninitialised");
 	lua_pushinteger(L, ESpoolPriority::ESpoolPriority_Required); lua_setglobal(L, "ESpoolPriority_Required");
 	lua_pushinteger(L, ESpoolPriority::ESpoolPriority_Preferred); lua_setglobal(L, "ESpoolPriority_Preferred");
+
+	// ECameraSelectType
+	lua_pushinteger(L, ECameraSelectType::ECameraSelectType_UNDEFINED); lua_setglobal(L, "ECameraSelectType_UNDEFINED");
+	lua_pushinteger(L, ECameraSelectType::ECameraSelectType_CameraActor); lua_setglobal(L, "ECameraSelectType_CameraActor");
+	lua_pushinteger(L, ECameraSelectType::ECameraSelectType_VehicleCam); lua_setglobal(L, "ECameraSelectType_VehicleCam");
+	lua_pushinteger(L, ECameraSelectType::ECameraSelectType_ThrillCam); lua_setglobal(L, "ECameraSelectType_ThrillCam");
+	lua_pushinteger(L, ECameraSelectType::ECameraSelectType_IGCSOff); lua_setglobal(L, "ECameraSelectType_IGCSOff");
+	lua_pushinteger(L, ECameraSelectType::ECameraSelectType_FPSCamera); lua_setglobal(L, "ECameraSelectType_FPSCamera");
+
+	// ECameraSelect_VehicleCamType
+	lua_pushinteger(L, ECameraSelect_VehicleCamType::ECameraSelect_VehicleCamType_Bonnet); lua_setglobal(L, "ECameraSelect_VehicleCamType_Bonnet");
+	lua_pushinteger(L, ECameraSelect_VehicleCamType::ECameraSelect_VehicleCamType_Boot); lua_setglobal(L, "ECameraSelect_VehicleCamType_Boot");
+	lua_pushinteger(L, ECameraSelect_VehicleCamType::ECameraSelect_VehicleCamType_Chase); lua_setglobal(L, "ECameraSelect_VehicleCamType_Chase");
+	lua_pushinteger(L, ECameraSelect_VehicleCamType::ECameraSelect_VehicleCamType_Driver); lua_setglobal(L, "ECameraSelect_VehicleCamType_Driver");
+	lua_pushinteger(L, ECameraSelect_VehicleCamType::ECameraSelect_VehicleCamType_Bumper); lua_setglobal(L, "ECameraSelect_VehicleCamType_Bumper");
+	lua_pushinteger(L, ECameraSelect_VehicleCamType::ECameraSelect_VehicleCamType_First); lua_setglobal(L, "ECameraSelect_VehicleCamType_First");
+	lua_pushinteger(L, ECameraSelect_VehicleCamType::ECameraSelect_VehicleCamType_LWheel); lua_setglobal(L, "ECameraSelect_VehicleCamType_LWheel");
+	lua_pushinteger(L, ECameraSelect_VehicleCamType::ECameraSelect_VehicleCamType_RWheel); lua_setglobal(L, "ECameraSelect_VehicleCamType_RWheel");
 
 	// alphanumerics
 	lua_pushinteger(L, '0');
@@ -752,6 +772,7 @@ void Init_Lua_Funcs()
 
 	// camera
 	lua_register(L, "SetCameraPosition", lua_SetCameraPosition); // void SetCameraPosition(Vector pos)
+	lua_register(L, "CreateCameraSelect", lua_CreateCameraSelect); // CameraSelect CreateCameraSelect(ECameraSelectType cameraType, LifeActor target, ECameraSelect_VehicleCamType vehiclePosition, [ float duration = 60.0, float zoom = 1.0, float motionBlur = 0.0, float speed = 1.0, float blendTime = 0.0)
 
 	// prop
 	lua_register(L, "CreateProp", lua_CreateProp); // Prop CreateProp(Vector position, EGadgetType gadgetType, [ Quaternion rotation, bool canbeTargeted = false, bool startCreated = true)
@@ -768,6 +789,7 @@ void Init_Lua_MetaTables()
 	Init_Lua_MetaTable_MapItem();
 	Init_Lua_MetaTable_ObjectiveIcon();
 	Init_Lua_MetaTable_Prop();
+	Init_Lua_MetaTable_CameraSelect();
 	// TODO: vehicle (object), life system, vehicle manager, maybe do gadgets (props, etc.)
 
 	// extern

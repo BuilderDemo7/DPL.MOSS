@@ -182,6 +182,8 @@
     <ClInclude Include="dpl\CLifeEventDataManager.h" />
     <ClInclude Include="dpl\CLifeInstance_Character.h" />
     <ClInclude Include="dpl\CLifeInstance_Vehicle.h" />
+    <ClInclude Include="dpl\CLifeNode.h" />
+    <ClInclude Include="dpl\CLifeNode_CameraSelect.h" />
     <ClInclude Include="dpl\CLifePlayer.h" />
     <ClInclude Include="dpl\CLifeProgression.h" />
     <ClInclude Include="dpl\CLifePropertyStream.h" />
@@ -204,12 +206,14 @@
     <ClInclude Include="dpl\ECharacterType.h" />
     <ClInclude Include="dpl\ECharAnimType.h" />
     <ClInclude Include="dpl\ECheat.h" />
+    <ClInclude Include="dpl\EFXType.h" />
     <ClInclude Include="dpl\EGadgetType.h" />
     <ClInclude Include="dpl\EGenericTextID.h" />
     <ClInclude Include="dpl\EInputAction.h" />
     <ClInclude Include="dpl\ELodType.h" />
     <ClInclude Include="dpl\EMenu.h" />
     <ClInclude Include="dpl\EMenuState.h" />
+    <ClInclude Include="dpl\eNodeFireWire.h" />
     <ClInclude Include="dpl\ePartSubType.h" />
     <ClInclude Include="dpl\EVehicleDoor.h" />
     <ClInclude Include="dpl\eWeaponAnimType.h" />
@@ -219,6 +223,7 @@
     <ClInclude Include="dpl\GameOverlayManager.h" />
     <ClInclude Include="dpl\GenericStringManager.h" />
     <ClInclude Include="dpl\HAnimInstance.h" />
+    <ClInclude Include="dpl\ICamera.h" />
     <ClInclude Include="dpl\InGameMovie.h" />
     <ClInclude Include="dpl\Input.h" />
     <ClInclude Include="dpl\InputManager.h" />
@@ -252,6 +257,7 @@
     <ClInclude Include="lua\quaternion_metatable.h" />
     <ClInclude Include="lua\vector_metatable.h" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="moss\Lua_CameraSelect.h" />
     <ClInclude Include="moss\Lua_Character.h" />
     <ClInclude Include="moss\Lua_Helicopter.h" />
     <ClInclude Include="moss\Lua_Hooking.h" />
@@ -287,6 +293,8 @@
     <ClCompile Include="dpl\CLifeEventDataManager.cpp" />
     <ClCompile Include="dpl\CLifeInstance_Character.cpp" />
     <ClCompile Include="dpl\CLifeInstance_Vehicle.cpp" />
+    <ClCompile Include="dpl\CLifeNode.cpp" />
+    <ClCompile Include="dpl\CLifeNode_CameraSelect.cpp" />
     <ClCompile Include="dpl\CLifePlayer.cpp" />
     <ClCompile Include="dpl\CLifeProgression.cpp" />
     <ClCompile Include="dpl\CLifePropertyStream.cpp" />
@@ -330,6 +338,7 @@
     <ClCompile Include="lua\quaternion_metatable.cpp" />
     <ClCompile Include="lua\vector_metatable.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="moss\Lua_CameraSelect.cpp" />
     <ClCompile Include="moss\Lua_Character.cpp" />
     <ClCompile Include="moss\Lua_Helicopter.cpp" />
     <ClCompile Include="moss\Lua_Hooking.cpp" />

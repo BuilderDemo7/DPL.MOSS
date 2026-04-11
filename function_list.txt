@@ -57,6 +57,9 @@ Helicopter CreateHelicopter(float x, float y, float z, [ float velx = 0.0, float
 * Prop
 Prop CreateProp(Vector position, EGadgetType gadgetType, [ Quaternion rotation = Quaternion.new(0,0,0,0), bool canbeTargeted = false, bool startCreated = true)
 
+* Camera
+CameraSelect CreateCameraSelect(ECameraSelectType cameraType, LifeActor target, ECameraSelect_VehicleCamType vehiclePosition, [ float duration = 60.0, float zoom = 1.0, float motionBlur = 0.0, float speed = 1.0, float blendTime = 0.0)
+
 # Music / Sounds
 
 void SetMusicTrack(int trackId)
@@ -323,3 +326,9 @@ void Prop:SetHeading(float heading) : void Prop:SetAngle(float angle) # will use
 ??? Prop:GetForwardVector(???) # W.I.P DO NOT USE
 ??? Prop:GetRightVector(???) # W.I.P DO NOT USE
 void Prop:SetGadgetType(EGadgetType gadget)
+
+# CameraSelect
+
+intptr_t CameraSelect:GetPointer()
+void CameraSelect:Activate() : void CameraSelect:Enable()
+void CameraSelect:Deactivate() : void CameraSelect:Disable()

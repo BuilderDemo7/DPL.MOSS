@@ -345,6 +345,24 @@
     <ClInclude Include="dpl\CSpoolableMissionObject.h">
       <Filter>Header files\dpl</Filter>
     </ClInclude>
+    <ClInclude Include="dpl\CLifeNode_CameraSelect.h">
+      <Filter>Header files\dpl</Filter>
+    </ClInclude>
+    <ClInclude Include="dpl\CLifeNode.h">
+      <Filter>Header files\dpl</Filter>
+    </ClInclude>
+    <ClInclude Include="dpl\eNodeFireWire.h">
+      <Filter>Header files\dpl</Filter>
+    </ClInclude>
+    <ClInclude Include="dpl\ICamera.h">
+      <Filter>Header files\dpl</Filter>
+    </ClInclude>
+    <ClInclude Include="dpl\EFXType.h">
+      <Filter>Header files\dpl</Filter>
+    </ClInclude>
+    <ClInclude Include="moss\Lua_CameraSelect.h">
+      <Filter>Header files\MOSS</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -571,6 +589,15 @@
     </ClCompile>
     <ClCompile Include="dpl\MathFuncs.cpp">
       <Filter>Source files\dpl</Filter>
+    </ClCompile>
+    <ClCompile Include="dpl\CLifeNode.cpp">
+      <Filter>Source files\dpl</Filter>
+    </ClCompile>
+    <ClCompile Include="dpl\CLifeNode_CameraSelect.cpp">
+      <Filter>Source files\dpl</Filter>
+    </ClCompile>
+    <ClCompile Include="moss\Lua_CameraSelect.cpp">
+      <Filter>Source files\MOSS</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

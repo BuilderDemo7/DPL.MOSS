@@ -148,3 +148,25 @@ enum ESpoolPriority
 	ESpoolPriority_Required = 1,
 	ESpoolPriority_Preferred = 2,
 };
+
+enum ECameraSelectType
+{
+	ECameraSelectType_UNDEFINED = -1,
+	ECameraSelectType_CameraActor = 1,
+	ECameraSelectType_VehicleCam = 2,
+	ECameraSelectType_ThrillCam = 3,
+	ECameraSelectType_IGCSOff = 4,
+	ECameraSelectType_FPSCamera = 5,
+};
+
+enum ECameraSelect_VehicleCamType
+{
+	ECameraSelect_VehicleCamType_Bonnet = 1,
+	ECameraSelect_VehicleCamType_Boot = 2,
+	ECameraSelect_VehicleCamType_Chase = 3,
+	ECameraSelect_VehicleCamType_Driver = 4,
+	ECameraSelect_VehicleCamType_Bumper = 5,
+	ECameraSelect_VehicleCamType_First = 6,
+	ECameraSelect_VehicleCamType_LWheel = 7,
+	ECameraSelect_VehicleCamType_RWheel = 8,
+};

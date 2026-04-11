@@ -24,6 +24,14 @@ int lua_GetVehicleType(lua_State* L);
 int lua_ActivateVehicleLamp(lua_State* L);
 int lua_ActivateVehicleSiren(lua_State* L);
 
+int lua_SetVehiclePhysicsPriority(lua_State* L);
+int lua_GetVehiclePhysicsPriority(lua_State* L);
+int lua_SetVehicleRenderingPriority(lua_State* L);
+int lua_GetVehicleRenderingPriority(lua_State* L);
+
+int lua_SetVehicleColor(lua_State* L);
+int lua_GetVehicleColor(lua_State* L);
+
 int lua_SetVehiclePosition(lua_State* L);
 int lua_GetVehiclePosition(lua_State* L);
 int lua_SetVehicleRotation(lua_State* L);

@@ -12,19 +12,28 @@
 class CLifeActor_Vehicle : CLifeActor
 {
 public:
-	void CustomInitalise(Matrix matrix, int vehicleType, int tintValue = 1, float initialSpeed = 0.0f, float initialFelony = 0.0f, float impactSoftness = 0.0f, float explosionSoftness = 1.0f, float bulletSoftness = 1.0f, float impactFragility = 1.0f, CLifeActor* attachedVehicle = NULL, bool randomTint = false, bool startCreated = true, bool spoolWithMission = false, CLifeEventData* pEventData = NULL);
+	void CustomInitalise(Matrix matrix, int vehicleType, int tintValue = 0, float initialSpeed = 0.0f, float initialFelony = 0.0f, float impactSoftness = 0.0f, float explosionSoftness = 1.0f, float bulletSoftness = 1.0f, float impactFragility = 1.0f, CLifeActor* attachedVehicle = NULL, bool randomTint = false, bool startCreated = true, bool spoolWithMission = false, bool smashStuff = false, CLifeEventData* pEventData = NULL);
+
+	Vector4 GetPosition();
+
+	// void* Singleton_Time = *(void**)(0x70c5b0); // CGameTime *
+	// gameStepIndex = *(int*)Singleton_Time + 0x4; // Singleton_Time->m_nGameFrame
+	Matrix matrix(unsigned int gameStepIndex); // please read above the header to get 'gameStepIndex'
+
+	Matrix GetMatrix(); // automatic matrix() method
 
 	char __padding0[0x8];
 
-	CLifeEventData* m_pOwner;
+	CLifeEventData* m_pOwner; // not the actual life event data??
 	void* m_pDataObjects;
 	Vector4 m_orientation; // quaternion (MAq)
 	Matrix m_initialMatrix; 
 	Vector4 m_initialPosition;
 	Vector4 m_positionChangePerGameStep;
 
-	char __padding1[0xC];
+	char __padding1[0x8];
 
+	CLifeEventData* m_pLifeEventData;
 	CLifeInstance_Vehicle* m_piVehicleInstance;
 	float m_fInitialSpeed;
 	float m_fInitialFelony;

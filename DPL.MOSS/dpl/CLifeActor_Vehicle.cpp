@@ -3,7 +3,7 @@
 #include "MathFuncs.h"
 #include "SpoolableResourceManager.h"
 
-void CLifeActor_Vehicle::CustomInitalise(Matrix matrix, int vehicleType, int tintValue, float initialSpeed, float initialFelony, float impactSoftness, float explosionSoftness, float bulletSoftness, float impactFragility, CLifeActor* attachedVehicle, bool randomTint, bool startCreated, bool spoolWithMission, CLifeEventData* pEventData)
+void CLifeActor_Vehicle::CustomInitalise(Matrix matrix, int vehicleType, int tintValue, float initialSpeed, float initialFelony, float impactSoftness, float explosionSoftness, float bulletSoftness, float impactFragility, CLifeActor* attachedVehicle, bool randomTint, bool startCreated, bool spoolWithMission, bool smashStuff, CLifeEventData* pEventData)
 {
 	CLifeEventData* pActualEventData = pEventData;
 
@@ -15,6 +15,13 @@ void CLifeActor_Vehicle::CustomInitalise(Matrix matrix, int vehicleType, int tin
 		pActualEventData = data.m_pPointer;
 	}
 	
+	m_iTintValue = -1;
+	m_fISoftness = 1.0f;
+	m_fESoftness = 1.0f;
+	m_fIFragility = 1.0;
+	m_bCanSmashStuff = smashStuff;
+	m_piVehicleInstance = NULL;
+
 	// generate flags for the other functions in the v-table
 	m_iFlags = (randomTint ? VEH_ACTOR_FLAG__RANDOM_TINT : 0) | (startCreated ? VEH_ACTOR_FLAG__START_CREATED : 0) | (spoolWithMission ? VEH_ACTOR_FLAG__SPOOL_WITH_MISSION : 0);
 
@@ -28,7 +35,9 @@ void CLifeActor_Vehicle::CustomInitalise(Matrix matrix, int vehicleType, int tin
 		m_iTintValue = r % 15;
 	}
 
-	m_pOwner = pActualEventData;
+	m_pOwner = pActualEventData; // set life event data (fake??)
+	m_pLifeEventData = pActualEventData; // set life event data (real?)
+
 	m_initialMatrix = matrix;
 
 	m_piVehicleInstance = NULL;
@@ -59,4 +68,28 @@ void CLifeActor_Vehicle::CustomInitalise(Matrix matrix, int vehicleType, int tin
 	else {
 		this->m_bSpoolRequested = false;
 	}
+}
+
+Vector4 CLifeActor_Vehicle::GetPosition()
+{
+	Vector4 returnStorage = Vector4();
+
+	((Vector4*(__thiscall*)(CLifeActor_Vehicle*, Vector4*))0x4776f4)(this, &returnStorage);
+	return returnStorage;
+}
+
+Matrix CLifeActor_Vehicle::matrix(unsigned int gameStepIndex)
+{
+	Matrix returnStorage = Matrix();
+
+	((Matrix*(__thiscall*)(CLifeActor_Vehicle*, Matrix*, unsigned int))0x47770c)(this, &returnStorage, gameStepIndex);
+	return returnStorage;
+}
+
+Matrix CLifeActor_Vehicle::GetMatrix()
+{
+	void* Singleton_Time = *(void**)(0x70c5b0); // CGameTime *
+	unsigned int gameStepIndex = *(int*)Singleton_Time + 0x4; // Singleton_Time->m_nGameFrame
+
+	return matrix(gameStepIndex);
 }

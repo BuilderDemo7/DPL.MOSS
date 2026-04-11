@@ -20,3 +20,12 @@ int lua_GetVehicleActorPointer(lua_State* L);
 int lua_CreateVehicleActor(lua_State* L);
 int lua_DestroyVehicleActor(lua_State* L);
 int lua_InstantiateVehicleActor(lua_State* L);
+
+int lua_SetVehicleActorPosition(lua_State* L);
+int lua_GetVehicleActorPosition(lua_State* L);
+
+int lua_SetVehicleActorRotation(lua_State* L);
+int lua_GetVehicleActorRotation(lua_State* L);
+
+int lua_GetVehicleActorForwardVector(lua_State* L);
+int lua_GetVehicleActorRightVector(lua_State* L);

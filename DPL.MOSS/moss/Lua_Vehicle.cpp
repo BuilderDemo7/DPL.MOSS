@@ -64,6 +64,30 @@ int lua_VehicleIndex(lua_State* L)
 		lua_pushcfunction(L, lua_GetVehicleRotation);
 		return 1;
 	}
+	else if (strcmp(key, "SetPhysicsPriority") == 0) {
+		lua_pushcfunction(L, lua_SetVehiclePhysicsPriority);
+		return 1;
+	}
+	else if (strcmp(key, "GetPhysicsPriority") == 0) {
+		lua_pushcfunction(L, lua_GetVehiclePhysicsPriority);
+		return 1;
+	}
+	else if (strcmp(key, "SetRenderingPriority") == 0) {
+		lua_pushcfunction(L, lua_SetVehicleRenderingPriority);
+		return 1;
+	}
+	else if (strcmp(key, "GetRenderingPriority") == 0) {
+		lua_pushcfunction(L, lua_GetVehicleRenderingPriority);
+		return 1;
+	}
+	else if (strcmp(key, "SetColor") == 0) {
+		lua_pushcfunction(L, lua_SetVehicleColor);
+		return 1;
+	}
+	else if (strcmp(key, "GetColor") == 0) {
+		lua_pushcfunction(L, lua_GetVehicleColor);
+		return 1;
+	}
 	else if (strcmp(key, "GetForwardVector") == 0 || strcmp(key, "GetForward") == 0) {
 		lua_pushcfunction(L, lua_GetVehicleForwardVector);
 		return 1;
@@ -139,6 +163,51 @@ int lua_VehicleIndex(lua_State* L)
 	else {
 		lua_pushnil(L);
 	}
+
+	return 1;
+}
+
+int lua_SetVehiclePhysicsPriority(lua_State* L)
+{
+	CVehicle* vehicle = *(CVehicle**)luaL_checkudata(L, 1, g_VehicleMetaName); // param 1
+	int priority = luaL_checkinteger(L, 1);
+
+	// lol, driving type, I had not idea what to name that back then
+	// light type(true) = rendering priority
+	// light type(false) = physics priority
+	vehicle->SetDrivingType(priority, false);
+
+	return 0;
+}
+
+int lua_GetVehiclePhysicsPriority(lua_State* L)
+{
+	CVehicle* vehicle = *(CVehicle**)luaL_checkudata(L, 1, g_VehicleMetaName); // param 1
+
+	int priority = 0;
+	priority = vehicle->GetDrivingType();
+
+	return 1; 
+}
+
+int lua_SetVehicleRenderingPriority(lua_State* L)
+{
+	CVehicle* vehicle = *(CVehicle**)luaL_checkudata(L, 1, g_VehicleMetaName); // param 1
+	int priority = luaL_checkinteger(L, 1);
+
+	// lol, driving type, I had not idea what to name that back then
+	// light type(true) = rendering priority
+	// light type(false) = physics priority
+	vehicle->SetDrivingType(priority, true);
+
+	return 0;
+}
+
+int lua_GetVehicleRenderingPriority(lua_State* L)
+{
+	CVehicle* vehicle = *(CVehicle**)luaL_checkudata(L, 1, g_VehicleMetaName); // param 1
+
+	int priority = *(int*)(vehicle->GetPointer() + 0x9C);
 
 	return 1;
 }
@@ -459,6 +528,40 @@ int lua_GetVehiclePosition(lua_State* L)
 	lua_setmetatable(L, -2);
 
 	return 1; // number of return(s)
+}
+
+int lua_SetVehicleColor(lua_State* L)
+{
+	CVehicle* vehicle = *(CVehicle**)luaL_checkudata(L, 1, g_VehicleMetaName); // param 1
+
+	float r = luaL_checknumber(L, 1);
+	float g = luaL_checknumber(L, 2);
+	float b = luaL_checknumber(L, 3);
+
+	vehicle->SetColor(r, g, b);
+
+	return 0;
+}
+
+int lua_GetVehicleColor(lua_State* L)
+{
+	CVehicle* vehicle = *(CVehicle**)luaL_checkudata(L, 1, g_VehicleMetaName); // param 1
+
+	float r = luaL_checknumber(L, 1);
+	float g = luaL_checknumber(L, 2);
+	float b = luaL_checknumber(L, 3);
+
+	Vector col = vehicle->GetColor();
+
+	r = col.X;
+	g = col.Y;
+	b = col.Z;
+
+	lua_pushnumber(L, r);
+	lua_pushnumber(L, g);
+	lua_pushnumber(L, b);
+
+	return 0;
 }
 
 int lua_SetVehicleAngle(lua_State* L)

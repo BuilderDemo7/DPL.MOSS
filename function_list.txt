@@ -2,6 +2,15 @@
 |Game:	Driver: Parallel Lines
 |By: BuilderDemo7
 
+# FUNCTION TEXT FORMAT
+# most of them are similiar with C++ header format, so if you're familiar with that you already understand them.
+# 	multiple return values:
+#		<return_type1>: <return_name1>, <return_type2>: <return_name2>, <return_type3>: <return_name3>, ... MyFunc(<parameter1>)
+#		Example -- int: value1, bool: value2, float: value3 MyFunction(bool ok, int aInteger, float aBoolean)
+# 	single return values:
+#		<return_type1>: <return_name1>, <return_type2>: <return_name2>, <return_type3>: <return_name3>, ... MyFunc(<parameter1>)
+#		Example -- int MyFunction(bool ok, int aInteger, float aBoolean)
+
 # please check "enum_list.txt" file for checking the constants/enumerations
 
 // Events
@@ -221,7 +230,7 @@ void Vehicle:Destroy()
 void Vehicle:MakeInfiniteMass() : void Vehicle:GiveInfiniteMass()
 void Vehicle:MakeStatic()
 void Vehicle:MakeDynamic()
-float Vehicle:GetNitro() # from 0.0 to 1.0, e.g. 0.1, 0.5, etc.
+float Vehicle:GetNitro() # from 0.0 to 1.0, e.g. 0.1 (10% nitro), 0.5 (50% nitro), etc.
 void Vehicle:SetNitro(float amount)
 float Vehicle:GetDamage()
 void Vehicle:SetDamage(float amount)
@@ -230,19 +239,29 @@ void Vehicle:Fix() : void Vehicle:Repair()
 void Vehicle:ActivateLamp(ePartSubType lightPart, bool onoff, [ bool forceOverride = false) : void Vehicle:SetLamp(ePartSubType lightPart, bool onoff, [ bool forceOverride = false)
 void Vehicle:ActivateSiren(bool onoff)
 void Vehicle:SetFelony(float felony, [ AIFelonySystemPatrolCarTypeEnum patrolType = E_PATROLCARTYPE_COP)
+void Vehicle:SetPhysicsPriority(int priority)
+int Vehicle:GetPhysicsPriority()
+void Vehicle:SetRenderingPriority(int priority)
+int Vehicle:GetRenderingPriority()
+void Vehicle:SetColor(float r, float g, float b) # color values are a scale from 0.0 to 1.0, e.g. (1.0, 0.0, 0.0 - red)
+float: r, float: g, float: b Vehicle:GetColor()
 
 # Vehicle_Actor
 
+void Vehicle_Actor:SetPosition(float x, float y, float z) : Vehicle_Actor:SetPosition(Vector pos)
+Vector Vehicle_Actor:GetPosition()
 Vehicle Vehicle_Actor:GetInstance()
 Vehicle_LifeInstance Vehicle_Actor:GetLifeInstance()
-intptr_t Vehicle_Actor:GetPointer()
+intptr_t Vehicle_Actor:GetPointer() # CLifeActor_Vehicle*
 void Vehicle_Actor:Create() : void Vehicle_Actor:Instantiate()
 void Vehicle_Actor:Destroy() : void Vehicle_Actor:Delete()
+Vector Vehicle_Actor:GetForward() : Vector Vehicle_Actor:GetForwardVector()
+Vector Vehicle_Actor:GetRight() : Vector Vehicle_Actor:GetRightVector()
 
 # Vehicle_LifeInstance
 
 Vehicle Vehicle_LifeInstance:GetInstance()
-intptr_t Vehicle_LifeInstance:GetPointer()
+intptr_t Vehicle_LifeInstance:GetPointer() # CLifeInstance_Vehicle*
 
 # Helicopter
 
@@ -291,7 +310,7 @@ void ObjectiveIcon:Draw() # use this in draw_mission() event
 void Prop:SetPosition(Vector pos)
 Vector Prop:GetPosition()
 void Prop:SetRotation(Quaternion rotation)
-??? Prop:GetRotation(???) # W.I.P DO NOT USE
+Quaternion Prop:GetRotation()
 intptr_t Prop:GetPointer()
 void Prop:Create() : void Prop:Instantiate()
 void Prop:Destroy() : void Prop:Delete()

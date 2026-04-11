@@ -2,6 +2,7 @@
 #include "..\dpl\Vector4.h"
 #include "..\dpl\Factory.h"
 #include "..\dpl\CGadgetHandler.h"
+#include "..\dpl\MathFuncs.h"
 
 const char* g_PropMetaName = "Prop";
 
@@ -153,7 +154,27 @@ int lua_GetPropModelHandle(lua_State* L)
 
 int lua_GetPropRotation(lua_State* L)
 {
-	return 0;
+	CLifeActor_Prop* prop = *(CLifeActor_Prop**)luaL_checkudata(L, 1, g_PropMetaName);
+
+	Matrix mat = ((CLifeActor*)prop)->GetMatrix();
+
+	Vector4 maQ = math_construct_quaternion(&mat);
+
+	// Allocate Lua-managed memory for the struct directly
+	void** udata = (void**)lua_newuserdata(L, sizeof(void*));
+	*udata = new Lua_Quaternion();
+
+	Lua_Quaternion* vecRes = *(Lua_Quaternion**)udata;
+
+	vecRes->X = maQ.X;
+	vecRes->Y = maQ.Y;
+	vecRes->Z = maQ.Z;
+	vecRes->W = maQ.W;
+
+	luaL_getmetatable(L, g_LuaQuaternionMetaTable);
+	lua_setmetatable(L, -2);
+
+	return 1;
 }
 
 int lua_SetPropRotation(lua_State* L)

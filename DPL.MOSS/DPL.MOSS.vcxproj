@@ -193,6 +193,7 @@
     <ClInclude Include="dpl\CPCViewport.h" />
     <ClInclude Include="dpl\CPlayerDriverBehaviour.h" />
     <ClInclude Include="dpl\CPlaylist.h" />
+    <ClInclude Include="dpl\CSpoolableMissionObject.h" />
     <ClInclude Include="dpl\CTargetManager.h" />
     <ClInclude Include="dpl\CVehicleManager.h" />
     <ClInclude Include="dpl\CWeapon.h" />

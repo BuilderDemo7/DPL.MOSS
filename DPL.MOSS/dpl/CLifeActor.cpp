@@ -5,6 +5,13 @@ int CLifeActor::GetVTableAddress()
 	return *(int*)(this);
 }
 
+CSpoolableMissionObject* CLifeActor::CreateInstance()
+{
+	CSpoolableMissionObject* return_storage_ptr = NULL;
+
+	return ((CSpoolableMissionObject*(__thiscall*)(CLifeActor*, CSpoolableMissionObject**))*(int*)(GetVTableAddress() + 0xC))(this, &return_storage_ptr);
+}
+
 void CLifeActor::Create()
 {
 	((void(__thiscall*)(CLifeActor*))*(int*)(GetVTableAddress() + 0x10))(this);

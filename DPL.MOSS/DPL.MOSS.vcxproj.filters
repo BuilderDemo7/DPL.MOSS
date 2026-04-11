@@ -342,6 +342,9 @@
     <ClInclude Include="dpl\MathFuncs.h">
       <Filter>Header files\dpl</Filter>
     </ClInclude>
+    <ClInclude Include="dpl\CSpoolableMissionObject.h">
+      <Filter>Header files\dpl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">

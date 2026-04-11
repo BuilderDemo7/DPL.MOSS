@@ -1,5 +1,6 @@
 #include "Lua_VehicleActor.h"
 #include "..\dpl\Factory.h"
+#include "..\dpl\MathFuncs.h"
 
 const char* g_VehicleActorMetaName = "Vehicle_Actor";
 
@@ -33,6 +34,30 @@ int lua_VehicleActorIndex(lua_State* L)
 		lua_pushcfunction(L, lua_GetVehicleActorPointer);
 		return 1;
 	}
+	else if (strcmp(key, "SetPosition") == 0) {
+		lua_pushcfunction(L, lua_SetVehicleActorPosition);
+		return 1;
+	}
+	else if (strcmp(key, "GetPosition") == 0) {
+		lua_pushcfunction(L, lua_GetVehicleActorPosition);
+		return 1;
+	}
+	else if (strcmp(key, "SetRotation") == 0) {
+		lua_pushcfunction(L, lua_SetVehicleActorRotation);
+		return 1;
+	}
+	else if (strcmp(key, "GetRotation") == 0) {
+		lua_pushcfunction(L, lua_GetVehicleActorRotation);
+		return 1;
+	}
+	else if (strcmp(key, "GetForwardVector") == 0 || strcmp(key, "GetForward") == 0) {
+		lua_pushcfunction(L, lua_GetVehicleActorForwardVector);
+		return 1;
+	}
+	else if (strcmp(key, "GetRightVector") == 0 || strcmp(key, "GetRight") == 0) {
+		lua_pushcfunction(L, lua_GetVehicleActorRightVector);
+		return 1;
+	}
 	else if (strcmp(key, "Create") == 0 || strcmp(key, "Instantiate") == 0) {
 		lua_pushcfunction(L, lua_InstantiateVehicleActor);
 		return 1;
@@ -46,6 +71,195 @@ int lua_VehicleActorIndex(lua_State* L)
 	}
 
 	return 1;
+}
+
+int lua_GetVehicleActorForwardVector(lua_State* L)
+{
+	CLifeActor_Vehicle* avehicle = *(CLifeActor_Vehicle**)luaL_checkudata(L, 1, g_VehicleActorMetaName);
+
+	// Allocate Lua-managed memory for the struct directly
+	void** udata = (void**)lua_newuserdata(L, sizeof(void*));
+	*udata = new Lua_Vector();
+
+	Lua_Vector* vecRes = *(Lua_Vector**)udata;
+
+	Vector4 fwd = Vector4();
+	Matrix mt = avehicle->GetMatrix();
+
+	fwd.X = mt.forward.X;
+	fwd.Y = mt.forward.Y;
+	fwd.Z = mt.forward.Z;
+
+	vecRes->X = fwd.X;
+	vecRes->Y = fwd.Y;
+	vecRes->Z = fwd.Z;
+
+	luaL_getmetatable(L, g_LuaVectorMetaTable);
+	lua_setmetatable(L, -2);
+
+	return 1; // number of return(s)
+}
+
+int lua_GetVehicleActorRightVector(lua_State* L)
+{
+	CLifeActor_Vehicle* avehicle = *(CLifeActor_Vehicle**)luaL_checkudata(L, 1, g_VehicleActorMetaName);
+
+	// Allocate Lua-managed memory for the struct directly
+	void** udata = (void**)lua_newuserdata(L, sizeof(void*));
+	*udata = new Lua_Vector();
+
+	Lua_Vector* vecRes = *(Lua_Vector**)udata;
+
+	Vector4 fwd = Vector4();
+	Matrix mt = avehicle->GetMatrix();
+
+	fwd.X = mt.right.X;
+	fwd.Y = mt.right.Y;
+	fwd.Z = mt.right.Z;
+
+	vecRes->X = fwd.X;
+	vecRes->Y = fwd.Y;
+	vecRes->Z = fwd.Z;
+
+	luaL_getmetatable(L, g_LuaVectorMetaTable);
+	lua_setmetatable(L, -2);
+
+	return 1; // number of return(s)
+}
+
+int lua_GetVehicleActorPosition(lua_State* L)
+{
+	CLifeActor_Vehicle* avehicle = *(CLifeActor_Vehicle**)luaL_checkudata(L, 1, g_VehicleActorMetaName);
+
+	// Allocate Lua-managed memory for the struct directly
+	void** udata = (void**)lua_newuserdata(L, sizeof(void*));
+	*udata = new Lua_Vector();
+
+	Lua_Vector* vecRes = *(Lua_Vector**)udata;
+
+	Vector4 pos = avehicle->GetPosition();
+
+	vecRes->X = pos.X;
+	vecRes->Y = pos.Y;
+	vecRes->Z = pos.Z;
+
+	luaL_getmetatable(L, g_LuaVectorMetaTable);
+	lua_setmetatable(L, -2);
+
+	return 1; // number of return(s)
+}
+
+int lua_SetVehicleActorRotation(lua_State* L)
+{
+	CLifeActor_Vehicle* avehicle = *(CLifeActor_Vehicle**)luaL_checkudata(L, 1, g_VehicleActorMetaName);
+
+	Matrix m;
+	Lua_Quaternion* q = *(Lua_Quaternion**)luaL_checkudata(L, 2, g_LuaQuaternionMetaTable);
+
+	float xx = q->X * q->X;
+	float yy = q->Y * q->Y;
+	float zz = q->Z * q->Z;
+	float xy = q->X * q->Y;
+	float xz = q->X * q->Z;
+	float yz = q->Y * q->Z;
+	float wx = q->W * q->X;
+	float wy = q->W * q->Y;
+	float wz = q->W * q->Z;
+
+	Matrix mat = avehicle->GetMatrix();
+
+	m.right.X = 1.0f - 2.0f * (yy + zz);
+	m.right.Y = 2.0f * (xy + wz);
+	m.right.Z = 2.0f * (xz - wy);
+
+	m.up.X = 2.0f * (xy - wz);
+	m.up.Y = 1.0f - 2.0f * (xx + zz);
+	m.up.Z = 2.0f * (yz + wx);
+
+	m.forward.X = 2.0f * (xz + wy);
+	m.forward.Y = 2.0f * (yz - wx);
+	m.forward.Z = 1.0f - 2.0f * (xx + yy);
+	m.pos = mat.pos;
+
+	Vector4 vq = Vector4(q->X, q->Y, q->Z, q->W);
+
+	avehicle->m_initialMatrix = m;
+	avehicle->m_orientation = vq;
+
+	if (avehicle->m_piVehicleInstance != NULL)
+	{
+		if (avehicle->m_piVehicleInstance->m_piVehicle != NULL)
+		{
+			avehicle->m_piVehicleInstance->m_piVehicle->SetDirection(vq);
+		}
+	}
+
+	return 0;
+}
+
+int lua_GetVehicleActorRotation(lua_State* L)
+{
+	CLifeActor_Vehicle* avehicle = *(CLifeActor_Vehicle**)luaL_checkudata(L, 1, g_VehicleActorMetaName);
+
+	// Allocate Lua-managed memory for the struct directly
+	void** udata = (void**)lua_newuserdata(L, sizeof(void*));
+	*udata = new Lua_Quaternion();
+
+	Lua_Quaternion* vecRes = *(Lua_Quaternion**)udata;
+
+	Matrix m = avehicle->GetMatrix();
+	Vector4 q = math_construct_quaternion(&m);
+
+	vecRes->X = q.X;
+	vecRes->Y = q.Y;
+	vecRes->Z = q.Z;
+	vecRes->W = q.W;
+
+	luaL_getmetatable(L, g_LuaQuaternionMetaTable);
+	lua_setmetatable(L, -2);
+
+	return 1; // number of return(s)
+}
+
+int lua_SetVehicleActorPosition(lua_State* L)
+{
+	CLifeActor_Vehicle* avehicle = *(CLifeActor_Vehicle**)luaL_checkudata(L, 1, g_VehicleActorMetaName);
+
+	int nargs = lua_gettop(L) - 1; // number of arguments after 'self'
+
+	float x, y, z;
+
+	if (nargs == 1) {
+		// Single argument: expect a Vector
+		Lua_Vector* vec = *(Lua_Vector**)luaL_checkudata(L, 2, g_LuaVectorMetaTable);
+		x = vec->X;
+		y = vec->Y;
+		z = vec->Z;
+	}
+	else if (nargs == 3) {
+		// Three numbers
+		x = (float)luaL_checknumber(L, 2);
+		y = (float)luaL_checknumber(L, 3);
+		z = (float)luaL_checknumber(L, 4);
+	}
+	else {
+		return luaL_error(L, "Expected 1 Vector or 3 numbers");
+	}
+
+	Vector4 pos = Vector4(x, y, z, 1);
+	avehicle->m_initialMatrix.pos = Vector(x, y, z);
+	avehicle->m_initialPosition = pos;
+	avehicle->m_pPositionAtStart = pos;
+
+	if (avehicle->m_piVehicleInstance != NULL)
+	{
+		if (avehicle->m_piVehicleInstance->m_piVehicle != NULL)
+		{
+			avehicle->m_piVehicleInstance->m_piVehicle->SetPosition(pos);
+		}
+	}
+
+	return 0;  // number of return(s)
 }
 
 int lua_GetVehicleActorInstance(lua_State* L)
@@ -119,7 +333,12 @@ int lua_CreateVehicleActor(lua_State* L)
 
 	bool randomTint = false;
 	if (nargs > 13)
-		startCreated = lua_toboolean(L, 14);
+		randomTint = lua_toboolean(L, 14);
+
+	bool spoolWithMission = false; // unknown
+	bool smashStuff = false;
+	if (nargs > 14)
+		smashStuff = lua_toboolean(L, 15);
 
 	CLifeActor_Vehicle* avehicle = (CLifeActor_Vehicle*)hamster::CreateObject(EFactoryType::EFactoryType_LifeActor_Vehicle);
 
@@ -135,7 +354,7 @@ int lua_CreateVehicleActor(lua_State* L)
 		mat.right = CrossProduct(Vector(0, 1, 0), mat.forward);
 		mat.up = CrossProduct(mat.forward, mat.right);
 
-		avehicle->CustomInitalise(mat, model, tintValue, initialSpeed, initialFelony, impactSoftness, explosionSoftness, bulletSoftness, impactFragility, attachedVehicle, randomTint, startCreated);
+		avehicle->CustomInitalise(mat, model, tintValue, initialSpeed, initialFelony, impactSoftness, explosionSoftness, bulletSoftness, impactFragility, attachedVehicle, randomTint, startCreated, spoolWithMission, smashStuff);
 
 		CLifeActor_Vehicle** udata = (CLifeActor_Vehicle**)lua_newuserdata(L, sizeof(void*));
 		*udata = avehicle;
@@ -143,8 +362,14 @@ int lua_CreateVehicleActor(lua_State* L)
 		luaL_getmetatable(L, g_VehicleActorMetaName); // return metatable type
 		lua_setmetatable(L, -2); // return/set the return
 
+
 		if (startCreated)
+		{
+			// create instance first which is very important because Create() checks that
+			((CLifeActor*)avehicle)->CreateInstance();
+
 			((CLifeActor*)avehicle)->Create();
+		}
 
 		return 1;
 	}

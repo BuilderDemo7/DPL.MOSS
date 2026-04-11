@@ -177,6 +177,7 @@
     <ClInclude Include="dpl\CharacterAIManager.h" />
     <ClInclude Include="dpl\CLifeAcquirableVehicleManager.h" />
     <ClInclude Include="dpl\CLifeActor.h" />
+    <ClInclude Include="dpl\CLifeActor_Character.h" />
     <ClInclude Include="dpl\CLifeActor_Prop.h" />
     <ClInclude Include="dpl\CLifeActor_Vehicle.h" />
     <ClInclude Include="dpl\CLifeEventDataManager.h" />

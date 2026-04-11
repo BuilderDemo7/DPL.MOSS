@@ -9,6 +9,7 @@ enum EFactoryType
 	EFactoryType_Font,
 
 	EFactoryType_Helicopter = 0x20, // actual helicopter
+	EFactoryType_LifeInstance_Character = 0x88,
 	EFactoryType_LifeInstance_Vehicle = 0x89,
 
 	EFactoryType_LifeActor_Vehicle = 0x70,

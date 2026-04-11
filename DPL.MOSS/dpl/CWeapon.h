@@ -1,8 +1,10 @@
 #pragma once
+#include "EWeapons.h"
+#include "EGadgetType.h"
 
 struct CWeaponData {
-	int WeaponType;
-	int ModelID;
+	EWeapons WeaponType;
+	EGadgetType ModelID;
 	int AmmoSize[2];
 	int field16;
 	int field20;
@@ -26,6 +28,7 @@ public:
 	int   CooldownTimer;
 	int   CooldownTimerTwo;
 
+	void Initialise(CWeaponData* weaponDataPtr, int totalAmmo, bool infiniteClips, int fireCounter);
 
 	void Shoot();
 	void Reload();

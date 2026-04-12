@@ -7,6 +7,7 @@
 // metatables
 #include "Lua_Character.h"
 #include "Lua_CharacterInstance.h"
+#include "Lua_CharacterActor.h"
 #include "Lua_Vehicle.h"
 #include "Lua_VehicleInstance.h"
 #include "Lua_VehicleActor.h"
@@ -707,6 +708,8 @@ void Init_Lua_Funcs()
 	lua_register(L, "ActivatePager", lua_ActivatePager); // void ActivatePager()
 	lua_register(L, "LaunchVEdit", lua_LaunchVEdit); // void LaunchVEdit()
 
+	lua_register(L, "CreateCharacter", lua_CreateCharacterActor); // Character_Actor CreateCharacter(int skin, float x, float y, float z, [ float angle = 0.0, bool startCreated = true, EWeapons weapon, float initialHealth = 1.0, float initialFelony = 0.0, Vehicle_Actor initialVehicle = nil, int initialVehicleSeat = 0, bool addToFelonyManager = false, bool doNotUseIdleAnims, bool isPlayer = false)
+
 	lua_register(L, "SetMusicTrack", lua_SetMusicTrack); // void SetMusicTrack(int trackId);
 	lua_register(L, "GetMileometer", lua_GetMileometer); // float GetMileometer();
 	lua_register(L, "lua_GetMoney", lua_GetMoney); // int GetMoney()
@@ -792,6 +795,7 @@ void Init_Lua_MetaTables()
 	Init_Lua_MetaTable_Prop();
 	Init_Lua_MetaTable_CameraSelect();
 	Init_Lua_MetaTable_CharacterInstance();
+	Init_Lua_MetaTable_CharacterActor();
 	// TODO: vehicle (object), life system, vehicle manager, maybe do gadgets (props, etc.)
 
 	// extern

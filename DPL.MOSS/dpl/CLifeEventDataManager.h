@@ -1,9 +1,11 @@
 #pragma once
 #include "AutoPtr.h"
 
-struct CLifeEventData
+class CLifeEventData
 {
-
+public:
+	char __padding0[0x4c];
+	unsigned short m_missionID;
 };
 
 class CLifeEventDataManager {

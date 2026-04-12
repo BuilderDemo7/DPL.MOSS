@@ -15,12 +15,17 @@ class CLifeActor_Character : CLifeActor
 {
 public:
 	void CustomInitialise(ECharacterType skin, Matrix matrix, EWeapons weapon = eWeapon70_Revolver, float initialHealth = 1.0f, float felony = 0.0f, CLifeActor_Vehicle* initialVehicle = NULL, int initialVehicleSeat = 0, bool createFromStart = true, bool addToFelonyManager = false, bool doNotUseIdleAnims = false, bool isPlayer = false, CLifeEventData* pEventData = NULL);
+	
+	Vector4 position(unsigned int gameStepIndex);
+	Vector4 GetPosition();
+
+	void* vtable;
 
 	void* m_pEntity; // ILifeEntity
 
-	char __padding0[0x8];
+	int field8;
 
-	CWeaponData m_weaponData;
+	CWeapon m_weapon;
 
 	char __padding1[0x8];
 
@@ -31,7 +36,7 @@ public:
 	Vector4 m_positionChangePerGameStep;
 	Vector4 m_targetPosition;
 
-	char __padding2[0x14];
+	char __padding2[0x8];
 
 	CLifeEventData* m_pOwner;
 

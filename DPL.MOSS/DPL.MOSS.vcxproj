@@ -190,6 +190,7 @@
     <ClInclude Include="dpl\CLifePropertyStream.h" />
     <ClInclude Include="dpl\CLifeSystem.h" />
     <ClInclude Include="dpl\CLifeSystemCommentLog.h" />
+    <ClInclude Include="dpl\CLifeSystem_AIChaseCoordinator.h" />
     <ClInclude Include="dpl\CLifeVisuals.h" />
     <ClInclude Include="dpl\CLoadingScreen.h" />
     <ClInclude Include="dpl\CMenuManager.h" />
@@ -261,6 +262,7 @@
     <ClInclude Include="main.h" />
     <ClInclude Include="moss\Lua_CameraSelect.h" />
     <ClInclude Include="moss\Lua_Character.h" />
+    <ClInclude Include="moss\Lua_CharacterActor.h" />
     <ClInclude Include="moss\Lua_CharacterInstance.h" />
     <ClInclude Include="moss\Lua_Helicopter.h" />
     <ClInclude Include="moss\Lua_Hooking.h" />
@@ -304,6 +306,7 @@
     <ClCompile Include="dpl\CLifePropertyStream.cpp" />
     <ClCompile Include="dpl\CLifeSystem.cpp" />
     <ClCompile Include="dpl\CLifeSystemCommentLog.cpp" />
+    <ClCompile Include="dpl\CLifeSystem_AIChaseCoordinator.cpp" />
     <ClCompile Include="dpl\CLoadingScreen.cpp" />
     <ClCompile Include="dpl\CMenuManager.cpp" />
     <ClCompile Include="dpl\CPCViewport.cpp" />
@@ -345,6 +348,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="moss\Lua_CameraSelect.cpp" />
     <ClCompile Include="moss\Lua_Character.cpp" />
+    <ClCompile Include="moss\Lua_CharacterActor.cpp" />
     <ClCompile Include="moss\Lua_CharacterInstance.cpp" />
     <ClCompile Include="moss\Lua_Helicopter.cpp" />
     <ClCompile Include="moss\Lua_Hooking.cpp" />

@@ -60,6 +60,9 @@ Prop CreateProp(Vector position, EGadgetType gadgetType, [ Quaternion rotation =
 * Camera
 CameraSelect CreateCameraSelect(ECameraSelectType cameraType, LifeActor target, ECameraSelect_VehicleCamType vehiclePosition, [ float duration = 60.0, float zoom = 1.0, float motionBlur = 0.0, float speed = 1.0, float blendTime = 0.0)
 
+* Character Actor
+Character_Actor CreateCharacter(int skin, float x, float y, float z, [ float angle = 0.0, bool startCreated = true, EWeapons weapon, float initialHealth = 1.0, float initialFelony = 0.0, Vehicle_Actor initialVehicle = nil, int initialVehicleSeat = 0, bool addToFelonyManager = false, bool doNotUseIdleAnims, bool isPlayer = false)
+
 # Music / Sounds
 
 void SetMusicTrack(int trackId)
@@ -260,6 +263,18 @@ void Vehicle_Actor:Create() : void Vehicle_Actor:Instantiate()
 void Vehicle_Actor:Destroy() : void Vehicle_Actor:Delete()
 Vector Vehicle_Actor:GetForward() : Vector Vehicle_Actor:GetForwardVector()
 Vector Vehicle_Actor:GetRight() : Vector Vehicle_Actor:GetRightVector()
+
+# Character_Actor
+
+void Character_Actor:SetPosition(float x, float y, float z) : Character_Actor:SetPosition(Vector pos)
+Vector Character_Actor:GetPosition()
+Character Character_Actor:GetInstance()
+Character_LifeInstance Character_Actor:GetLifeInstance()
+intptr_t Character_Actor:GetPointer() # CLifeActor_Character*
+void Character_Actor:Create() : void Character_Actor:Instantiate()
+void Character_Actor:Destroy() : void Character_Actor:Delete()
+Vector Character_Actor:GetForward() : Vector Character_Actor:GetForwardVector()
+Vector Character_Actor:GetRight() : Vector Character_Actor:GetRightVector()
 
 # Vehicle_LifeInstance
 

@@ -363,13 +363,13 @@ int lua_CreateVehicleActor(lua_State* L)
 		lua_setmetatable(L, -2); // return/set the return
 
 
-		if (startCreated)
-		{
+		//if (startCreated)
+		//{
 			// create instance first which is very important because Create() checks that
-			((CLifeActor*)avehicle)->CreateInstance();
+			//((CLifeActor*)avehicle)->CreateInstance();
 
-			((CLifeActor*)avehicle)->Create();
-		}
+			//((CLifeActor*)avehicle)->Create();
+		//}
 
 		return 1;
 	}
@@ -388,6 +388,9 @@ int lua_DestroyVehicleActor(lua_State* L)
 int lua_InstantiateVehicleActor(lua_State* L)
 {
 	CLifeActor_Vehicle* avehicle = *(CLifeActor_Vehicle**)luaL_checkudata(L, 1, g_VehicleActorMetaName);
+	if (avehicle->m_piVehicleInstance == NULL)
+		((CLifeActor*)avehicle)->CreateInstance();
+
 	((CLifeActor*)avehicle)->Create();
 	return 0;
 }

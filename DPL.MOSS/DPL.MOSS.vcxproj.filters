@@ -372,6 +372,12 @@
     <ClInclude Include="dpl\CWeaponsStore.h">
       <Filter>Header files\dpl</Filter>
     </ClInclude>
+    <ClInclude Include="moss\Lua_CharacterActor.h">
+      <Filter>Header files\MOSS</Filter>
+    </ClInclude>
+    <ClInclude Include="dpl\CLifeSystem_AIChaseCoordinator.h">
+      <Filter>Header files\dpl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -615,6 +621,12 @@
       <Filter>Source files\MOSS</Filter>
     </ClCompile>
     <ClCompile Include="dpl\CWeaponsStore.cpp">
+      <Filter>Source files\dpl</Filter>
+    </ClCompile>
+    <ClCompile Include="moss\Lua_CharacterActor.cpp">
+      <Filter>Source files\MOSS</Filter>
+    </ClCompile>
+    <ClCompile Include="dpl\CLifeSystem_AIChaseCoordinator.cpp">
       <Filter>Source files\dpl</Filter>
     </ClCompile>
   </ItemGroup>

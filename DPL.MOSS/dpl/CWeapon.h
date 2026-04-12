@@ -2,6 +2,7 @@
 #include "EWeapons.h"
 #include "EGadgetType.h"
 
+// size: 0x30
 struct CWeaponData {
 	EWeapons WeaponType;
 	EGadgetType ModelID;

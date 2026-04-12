@@ -2,6 +2,7 @@
 #include "Vehicle.h"
 #include "MathFuncs.h"
 #include "SpoolableResourceManager.h"
+#include "LifeInstances.h"
 
 void CLifeActor_Vehicle::CustomInitalise(Matrix matrix, int vehicleType, int tintValue, float initialSpeed, float initialFelony, float impactSoftness, float explosionSoftness, float bulletSoftness, float impactFragility, CLifeActor* attachedVehicle, bool randomTint, bool startCreated, bool spoolWithMission, bool smashStuff, CLifeEventData* pEventData)
 {
@@ -39,6 +40,12 @@ void CLifeActor_Vehicle::CustomInitalise(Matrix matrix, int vehicleType, int tin
 	m_pLifeEventData = pActualEventData; // set life event data (real?)
 
 	m_initialMatrix = matrix;
+
+	auto instances = GetLifeInstances();
+	if (instances)
+	{
+		instances->AskForInstance(this, startCreated);
+	}
 
 	m_piVehicleInstance = NULL;
 	void* Singleton_Time = *(void**)(0x70c5b0); // CGameTime *

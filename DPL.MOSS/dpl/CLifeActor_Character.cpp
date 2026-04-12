@@ -34,6 +34,16 @@ void CLifeActor_Character::CustomInitialise(ECharacterType skin, Matrix matrix, 
 	m_bCreateFromStart = createFromStart;
 	m_bDoNotUseIdleAnims = doNotUseIdleAnims;
 
+	// custom automatic stuff
+	if (felony > 0.001f)
+	{
+		m_bAddToFelonyManager = true;
+	}
+
+	// initial vehicle stuff
+	m_vehiclePtr = initialVehicle;
+	m_originalSeat = initialVehicleSeat;
+
 	m_bPlayer = isPlayer;
 	if (!m_bPlayer)
 		m_ePlayerNumber = 0xefcdab0;
@@ -50,6 +60,9 @@ void CLifeActor_Character::CustomInitialise(ECharacterType skin, Matrix matrix, 
 			// set spool centre
 			ls->SetSpoolCentre(m_initialPosition.X, m_initialPosition.Z);
 		}
+
+		// player can do crime and go to jail!
+		m_bAddToFelonyManager = true;
 	}
 
 	auto srm = SpoolableResourceManager::GetInstance();
@@ -93,21 +106,22 @@ void CLifeActor_Character::CustomInitialise(ECharacterType skin, Matrix matrix, 
 		CWeaponData* data = ws->weaponData(weapon);
 		if (data != NULL)
 		{
-			CWeapon tempWeapon = CWeapon();
-			tempWeapon.Initialise(data, 999, true, 0);
+			m_weapon = CWeapon();
+			m_weapon.Initialise(data, 999, true, 0);
 
-			m_weaponData.WeaponType = data->WeaponType;
-			m_weaponData.ModelID = data->ModelID;
-			m_weaponData.AmmoSize[0] = data->AmmoSize[0];
-			m_weaponData.AmmoSize[1] = data->AmmoSize[1];
-			m_weaponData.field16 = data->field16;
-			m_weaponData.field20 = data->field20;
-			m_weaponData.Range = data->Range;
-			m_weaponData.RateOfFire = data->RateOfFire;
-			m_weaponData.Automatic = data->Automatic;
-			m_weaponData.field36 = data->field36;
-			m_weaponData.Spread = data->Spread;
-			m_weaponData.MaxAmmo = data->MaxAmmo;
+			// this was when I was wrong about the CLifeActor_Character structure
+			//m_weaponData.WeaponType = data->WeaponType;
+			//m_weaponData.ModelID = data->ModelID;
+			//m_weaponData.AmmoSize[0] = data->AmmoSize[0];
+			//m_weaponData.AmmoSize[1] = data->AmmoSize[1];
+			//m_weaponData.field16 = data->field16;
+			//m_weaponData.field20 = data->field20;
+			//m_weaponData.Range = data->Range;
+			//m_weaponData.RateOfFire = data->RateOfFire;
+			//m_weaponData.Automatic = data->Automatic;
+			//m_weaponData.field36 = data->field36;
+			//m_weaponData.Spread = data->Spread;
+			//m_weaponData.MaxAmmo = data->MaxAmmo;
 		}
 	}
 
@@ -130,4 +144,20 @@ void CLifeActor_Character::CustomInitialise(ECharacterType skin, Matrix matrix, 
 
 	// CLifeEntityManager->RegisterUpdate()
 	((void(__thiscall*)(void*, void**))0x483bc8)(*(void**)(0x70c7bc), &m_pEntity);
+}
+
+Vector4 CLifeActor_Character::position(unsigned int gameStepIndex)
+{
+	Vector4 returnStorage = Vector4();
+
+	((Vector4*(__thiscall*)(CLifeActor_Character*, Vector4*, unsigned int))0x474fd1)(this, &returnStorage, gameStepIndex);
+	return returnStorage;
+}
+
+Vector4 CLifeActor_Character::GetPosition()
+{
+	void* Singleton_Time = *(void**)(0x70c5b0); // CGameTime *
+	unsigned int gameStepIndex = *(int*)Singleton_Time + 0x4; // Singleton_Time->m_nGameFrame
+
+	return position(gameStepIndex);
 }

@@ -209,6 +209,7 @@
     <ClInclude Include="dpl\ECharacterType.h" />
     <ClInclude Include="dpl\ECharAnimType.h" />
     <ClInclude Include="dpl\ECheat.h" />
+    <ClInclude Include="dpl\eCheatSettings.h" />
     <ClInclude Include="dpl\EFXType.h" />
     <ClInclude Include="dpl\EGadgetType.h" />
     <ClInclude Include="dpl\EGenericTextID.h" />

@@ -2,6 +2,7 @@
 #include "Lua_VehicleActor.h"
 #include "..\dpl\Factory.h"
 #include "..\dpl\MathFuncs.h"
+#include "..\dpl\CLifeSystem_AIChaseCoordinator.h"
 
 const char* g_CharacterActorMetaName = "Character_Actor";
 
@@ -84,68 +85,68 @@ int lua_CharacterActorIndex(lua_State* L)
 
 int lua_CharacterActorGoWander(lua_State* L)
 {
+	CLifeActor_Character* acharacter = *(CLifeActor_Character**)luaL_checkudata(L, 1, g_CharacterActorMetaName);
+	
+	int nargs = lua_gettop(L);
+
+	float speed = luaL_optnumber(L, 2, 30.0f);
+	float acceleration = luaL_optnumber(L, 3, 1.0f);
+	float traction = luaL_optnumber(L, 4, 1.0f);
+	float handOfTom = luaL_optnumber(L, 5, 1.0f);
+	
+	bool driveAsCiv = false;
+	if (nargs > 5)
+		driveAsCiv = lua_toboolean(L, 6);
+
+	int cheatSettings = luaL_optinteger(L, 7, 1);
+
+	auto ai = CLifeSystem_AIChaseCoordinator::GetInstance();
+	if (ai)
+	{
+		TPursuerPointer pursuer = ai->GetPursuer((CLifeActor*)acharacter);
+		if (pursuer != NULL)
+		{
+			pursuer->m_pPursuer->m_rDesiredChaseSpeed = speed;
+			pursuer->m_pPursuer->m_rAccelerationMultiplier = acceleration;
+			pursuer->m_pPursuer->m_rTractionMultiplier = traction;
+			pursuer->m_pPursuer->m_rHOGMultiplier = handOfTom;
+			pursuer->m_pPursuer->m_bDriveAsCiv = driveAsCiv;
+			pursuer->m_pPursuer->m_eCheatSettings = (eCheatSettings)cheatSettings;
+
+			ai->StartRandomWander(pursuer);
+		}
+	}
+
 	return 0;
 }
 
 int lua_CharacterActorStopWander(lua_State* L)
 {
+	CLifeActor_Character* acharacter = *(CLifeActor_Character**)luaL_checkudata(L, 1, g_CharacterActorMetaName);
+
+	auto ai = CLifeSystem_AIChaseCoordinator::GetInstance();
+	if (ai)
+	{
+		TPursuerPointer pursuer = ai->GetPursuer((CLifeActor*)acharacter);
+		if (pursuer != NULL)
+		{
+			ai->StopRandomWander(&pursuer);
+		}
+	}
+
 	return 0;
 }
 
 int lua_GetCharacterActorForwardVector(lua_State* L)
 {
-	CLifeActor_Vehicle* avehicle = *(CLifeActor_Vehicle**)luaL_checkudata(L, 1, g_VehicleActorMetaName);
-	CLifeActor_Character* acharacter = *(CLifeActor_Character**)luaL_checkudata(L, 1, g_CharacterActorMetaName);
-
-	// Allocate Lua-managed memory for the struct directly
-	void** udata = (void**)lua_newuserdata(L, sizeof(void*));
-	*udata = new Lua_Vector();
-
-	Lua_Vector* vecRes = *(Lua_Vector**)udata;
-
-	Vector4 fwd = Vector4();
-	Matrix mt = avehicle->GetMatrix();
-
-	fwd.X = mt.forward.X;
-	fwd.Y = mt.forward.Y;
-	fwd.Z = mt.forward.Z;
-
-	vecRes->X = fwd.X;
-	vecRes->Y = fwd.Y;
-	vecRes->Z = fwd.Z;
-
-	luaL_getmetatable(L, g_LuaVectorMetaTable);
-	lua_setmetatable(L, -2);
-
-	return 1; // number of return(s)
+	// TODO
+	return 0;
 }
 
 int lua_GetCharacterActorRightVector(lua_State* L)
 {
-	CLifeActor_Vehicle* avehicle = *(CLifeActor_Vehicle**)luaL_checkudata(L, 1, g_VehicleActorMetaName);
-	CLifeActor_Character* acharacter = *(CLifeActor_Character**)luaL_checkudata(L, 1, g_CharacterActorMetaName);
-
-	// Allocate Lua-managed memory for the struct directly
-	void** udata = (void**)lua_newuserdata(L, sizeof(void*));
-	*udata = new Lua_Vector();
-
-	Lua_Vector* vecRes = *(Lua_Vector**)udata;
-
-	Vector4 fwd = Vector4();
-	Matrix mt = avehicle->GetMatrix();
-
-	fwd.X = mt.right.X;
-	fwd.Y = mt.right.Y;
-	fwd.Z = mt.right.Z;
-
-	vecRes->X = fwd.X;
-	vecRes->Y = fwd.Y;
-	vecRes->Z = fwd.Z;
-
-	luaL_getmetatable(L, g_LuaVectorMetaTable);
-	lua_setmetatable(L, -2);
-
-	return 1; // number of return(s)
+	// TODO
+	return 0;
 }
 
 int lua_GetCharacterActorPosition(lua_State* L)

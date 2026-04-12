@@ -4,7 +4,9 @@
 #include "Matrix.h"
 #include "Vector4.h"
 #include "CWeapon.h"
+#include "CCharacter.h"
 
+// size: 0x1f4
 class CLifeInstance_Character {
 public:
 	CLifeInstance_Character();
@@ -37,6 +39,8 @@ public:
 		float funk
 	);
 	void CoreCreate();
-private:
-	char _pad[0x1f4];
+public:
+	char _pad[0x58];
+
+	CCharacter* m_piCharacter;
 };

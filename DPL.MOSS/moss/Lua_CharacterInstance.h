@@ -1,0 +1,14 @@
+#pragma once
+#include "Lua_Main.h"
+#include "Lua_Character.h"
+#include "..\dpl\CCharacter.h"
+#include "..\dpl\CLifeInstance_Character.h"
+
+extern const char* g_CharacterInstanceMetaName;
+
+void Init_Lua_MetaTable_CharacterInstance();
+
+int lua_CharacterInstanceIndex(lua_State* L);
+
+int lua_GetCharacterInstance(lua_State* L);
+int lua_GetCharacterInstancePointer(lua_State* L);

@@ -6,6 +6,7 @@
 
 // metatables
 #include "Lua_Character.h"
+#include "Lua_CharacterInstance.h"
 #include "Lua_Vehicle.h"
 #include "Lua_VehicleInstance.h"
 #include "Lua_VehicleActor.h"
@@ -790,6 +791,7 @@ void Init_Lua_MetaTables()
 	Init_Lua_MetaTable_ObjectiveIcon();
 	Init_Lua_MetaTable_Prop();
 	Init_Lua_MetaTable_CameraSelect();
+	Init_Lua_MetaTable_CharacterInstance();
 	// TODO: vehicle (object), life system, vehicle manager, maybe do gadgets (props, etc.)
 
 	// extern

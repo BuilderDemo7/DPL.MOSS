@@ -14,3 +14,8 @@ void CLifeInstances::CreateVehicle(CVehicle* pVehicle, tVehicleModelUID tVehicle
 {
    ((void(__thiscall*)(CLifeInstances*, CVehicle*, tVehicleModelUID, Vector4*, float))0x46F230)(this, pVehicle, tVehicle, vPosition, fRotation);
 }
+
+void CLifeInstances::AskForInstance(CLifeActor* pActor, bool bCreateOnStart)
+{
+	((void(__thiscall*)(CLifeInstances*, CLifeActor*, bool))0x46ea9b)(this, pActor, bCreateOnStart);
+}

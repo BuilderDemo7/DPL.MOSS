@@ -366,6 +366,12 @@
     <ClInclude Include="dpl\CLifeActor_Character.h">
       <Filter>Header files\dpl</Filter>
     </ClInclude>
+    <ClInclude Include="moss\Lua_CharacterInstance.h">
+      <Filter>Header files\MOSS</Filter>
+    </ClInclude>
+    <ClInclude Include="dpl\CWeaponsStore.h">
+      <Filter>Header files\dpl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -601,6 +607,15 @@
     </ClCompile>
     <ClCompile Include="moss\Lua_CameraSelect.cpp">
       <Filter>Source files\MOSS</Filter>
+    </ClCompile>
+    <ClCompile Include="dpl\CLifeActor_Character.cpp">
+      <Filter>Source files\dpl</Filter>
+    </ClCompile>
+    <ClCompile Include="moss\Lua_CharacterInstance.cpp">
+      <Filter>Source files\MOSS</Filter>
+    </ClCompile>
+    <ClCompile Include="dpl\CWeaponsStore.cpp">
+      <Filter>Source files\dpl</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

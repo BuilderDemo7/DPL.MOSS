@@ -200,6 +200,7 @@
     <ClInclude Include="dpl\CTargetManager.h" />
     <ClInclude Include="dpl\CVehicleManager.h" />
     <ClInclude Include="dpl\CWeapon.h" />
+    <ClInclude Include="dpl\CWeaponsStore.h" />
     <ClInclude Include="dpl\CWipeManager.h" />
     <ClInclude Include="dpl\EAddWipe.h" />
     <ClInclude Include="dpl\EAnimStates.h" />
@@ -260,6 +261,7 @@
     <ClInclude Include="main.h" />
     <ClInclude Include="moss\Lua_CameraSelect.h" />
     <ClInclude Include="moss\Lua_Character.h" />
+    <ClInclude Include="moss\Lua_CharacterInstance.h" />
     <ClInclude Include="moss\Lua_Helicopter.h" />
     <ClInclude Include="moss\Lua_Hooking.h" />
     <ClInclude Include="moss\Lua_Main.h" />
@@ -289,6 +291,7 @@
     <ClCompile Include="dpl\CharacterAIManager.cpp" />
     <ClCompile Include="dpl\CLifeAcquirableVehicleManager.cpp" />
     <ClCompile Include="dpl\CLifeActor.cpp" />
+    <ClCompile Include="dpl\CLifeActor_Character.cpp" />
     <ClCompile Include="dpl\CLifeActor_Prop.cpp" />
     <ClCompile Include="dpl\CLifeActor_Vehicle.cpp" />
     <ClCompile Include="dpl\CLifeEventDataManager.cpp" />
@@ -309,6 +312,7 @@
     <ClCompile Include="dpl\CTargetManager.cpp" />
     <ClCompile Include="dpl\CVehicleManager.cpp" />
     <ClCompile Include="dpl\CWeapon.cpp" />
+    <ClCompile Include="dpl\CWeaponsStore.cpp" />
     <ClCompile Include="dpl\CWipeManager.cpp" />
     <ClCompile Include="dpl\Factory.cpp" />
     <ClCompile Include="dpl\GameCamera.cpp" />
@@ -341,6 +345,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="moss\Lua_CameraSelect.cpp" />
     <ClCompile Include="moss\Lua_Character.cpp" />
+    <ClCompile Include="moss\Lua_CharacterInstance.cpp" />
     <ClCompile Include="moss\Lua_Helicopter.cpp" />
     <ClCompile Include="moss\Lua_Hooking.cpp" />
     <ClCompile Include="moss\Lua_Main.cpp" />

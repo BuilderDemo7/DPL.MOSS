@@ -17,6 +17,8 @@ public:
 	CLifeActor* m_pPlayerActor;
 
 	CLifePlayer* GetPlayer();
+	void RegisterPlayerActor(CLifeActor* pActor);
+	void SetSpoolCentre(float x, float z);
 
 	void SetPopulationDensity(int type, float value);
 

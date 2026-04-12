@@ -266,6 +266,11 @@ Vector Vehicle_Actor:GetRight() : Vector Vehicle_Actor:GetRightVector()
 Vehicle Vehicle_LifeInstance:GetInstance()
 intptr_t Vehicle_LifeInstance:GetPointer() # CLifeInstance_Vehicle*
 
+# Character_LifeInstance
+
+Character Character_LifeInstance:GetInstance()
+intptr_t Character_LifeInstance:GetPointer() # Character_LifeInstance*
+
 # Helicopter
 
 void Helicopter:SetDesiredPosition(Vector pos) : void Helicopter:SetPosition(Vector pos)

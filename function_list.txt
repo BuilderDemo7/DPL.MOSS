@@ -275,6 +275,8 @@ void Character_Actor:Create() : void Character_Actor:Instantiate()
 void Character_Actor:Destroy() : void Character_Actor:Delete()
 Vector Character_Actor:GetForward() : Vector Character_Actor:GetForwardVector()
 Vector Character_Actor:GetRight() : Vector Character_Actor:GetRightVector()
+void Character_Actor:GoWander([ float speed = 30.0, float acceleration = 1.0, float traction = 1.0, float handOfTom = 1.0, bool driveAsCiv = false) # NOTE: when driveAsCiv is set to true, the AI will drive just like a civilian, the game will crash if the game doesn't find a suitable road map for the AI (so place it on the road to prevent this crash).
+void Character_Actor:StopWander()
 
 # Vehicle_LifeInstance
 

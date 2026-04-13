@@ -87,6 +87,11 @@ int lua_CharacterActorGoWander(lua_State* L)
 {
 	CLifeActor_Character* acharacter = *(CLifeActor_Character**)luaL_checkudata(L, 1, g_CharacterActorMetaName);
 	
+	if (acharacter->m_piCharacterInstance == NULL)
+	{
+		return 0; // character instance not created
+	}
+
 	int nargs = lua_gettop(L);
 
 	float speed = luaL_optnumber(L, 2, 30.0f);
@@ -123,6 +128,11 @@ int lua_CharacterActorGoWander(lua_State* L)
 int lua_CharacterActorStopWander(lua_State* L)
 {
 	CLifeActor_Character* acharacter = *(CLifeActor_Character**)luaL_checkudata(L, 1, g_CharacterActorMetaName);
+
+	if (acharacter->m_piCharacterInstance == NULL)
+	{
+		return 0; // character instance not created
+	}
 
 	auto ai = CLifeSystem_AIChaseCoordinator::GetInstance();
 	if (ai)

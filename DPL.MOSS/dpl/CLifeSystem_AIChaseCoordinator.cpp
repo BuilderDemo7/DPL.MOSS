@@ -8,7 +8,11 @@ CLifeSystem_AIChaseCoordinator* CLifeSystem_AIChaseCoordinator::GetInstance()
 
 TPursuerPointer CLifeSystem_AIChaseCoordinator::GetPursuer(CLifeActor* pActor)
 {
-	return ((TPursuerPointer(__thiscall*)(CLifeSystem_AIChaseCoordinator*, CLifeActor*))0x4a4cd4)(this, pActor);
+	TPursuerPointer returnStorage = NULL;
+
+	((TPursuerPointer(__thiscall*)(CLifeSystem_AIChaseCoordinator*, TPursuerPointer*, CLifeActor*))0x4a4cd4)(this, &returnStorage, pActor);
+
+	return returnStorage;
 }
 
 void CLifeSystem_AIChaseCoordinator::StartRandomWander(TPursuerPointer pursuerObject)

@@ -29,10 +29,10 @@ end
 -- step() - called every frame the game updates
 function step()
 	if not goneWander then -- if not already wandering
-		if myCharacter ~= nil then -- if the character was created
-			local chara = myCharacter:GetInstance() -- returns a Character
+		if aiCharacter ~= nil then -- if the character was created
+			local chara = aiCharacter:GetInstance() -- returns a Character
 			if (chara ~= nil) then -- checks if the character instance was spooled in (when you're close to it) 
-				myCharacter:GoWander(wanderSpeed, wanderAcceleration, 1.0, 1.0, driveAsCivilian) -- start the wander AI on the street, BE CAREFUL when changing the spawn position if it's off-road then the game will crash
+				aiCharacter:GoWander(wanderSpeed, wanderAcceleration, 1.0, 1.0, driveAsCivilian) -- start the wander AI on the street, BE CAREFUL when changing the spawn position if it's off-road then the game will crash
 				goneWander = true
 			end
 		end

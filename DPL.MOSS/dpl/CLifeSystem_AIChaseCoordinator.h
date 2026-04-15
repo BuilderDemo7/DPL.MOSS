@@ -21,8 +21,8 @@ public:
 
 	float m_rDesiredChaseSpeed;
 	float m_rDesiredChaseDistance;
-
-	char __padding1[0x4];
+	uint8_t m_ui8PermittedRoadTypeFlags;
+	char __padding1[0x3];
 
 	float m_rAccelerationMultiplier;
 	float m_rTractionMultiplier;
@@ -40,7 +40,36 @@ public:
 	int field0xC;
 };
 
+class AIChaseTargetClass
+{
+public:
+	CCharacter* m_piTargetCharacter;
+	void* m_piTargetMovingObject;
+
+	char __padding0[0x18];
+
+	float m_rAttractionStrength;
+	uint8_t m_ui8BehaviourFlags;
+
+	char __padding1[0x8];
+};
+
+class CLife_AITarget
+{
+public:
+	AIChaseTargetClass* GetAIObject();
+
+	int field0;
+	AIChaseTargetClass* m_pAITargetObject;
+};
+
+class CLifeActor_AIChaseTarget : CLife_AITarget
+{
+public:
+};
+
 typedef CLife_AIPursuer* TPursuerPointer;
+typedef CLifeActor_AIChaseTarget* TTargetPointer;
 
 class CLifeSystem_AIChaseCoordinator
 {
@@ -48,6 +77,11 @@ public:
 	static CLifeSystem_AIChaseCoordinator* GetInstance();
 
 	TPursuerPointer GetPursuer(CLifeActor* pActor);
+	TTargetPointer GetTargetCharacter(CLifeActor* pActor);
+
 	void StartRandomWander(TPursuerPointer pursuerObject);
 	void StopRandomWander(TPursuerPointer* pursuerObject);
+
+	void LinkPursuerToTarget(TPursuerPointer pursuerObject, TTargetPointer targetObject);
+	void UnlinkPursuerFromTarget(TPursuerPointer* pursuerObject, TTargetPointer* targetObject);
 };

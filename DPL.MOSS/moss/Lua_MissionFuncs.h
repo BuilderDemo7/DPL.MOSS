@@ -2,6 +2,7 @@
 #include "Lua_Main.h"
 
 int lua_GetPlayerCharacter(lua_State* L);
+int lua_GetPlayerActor(lua_State* L);
 int lua_ShowMissionComment(lua_State* L);
 int lua_EndAllLifeEvents(lua_State* L);
 

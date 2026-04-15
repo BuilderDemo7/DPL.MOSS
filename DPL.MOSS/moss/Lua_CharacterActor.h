@@ -15,6 +15,7 @@ int lua_CharacterActorIndex(lua_State* L);
 //int lua_SetVehicleInstancePosition(lua_State* L);
 //int lua_GetVehicleInstancePosition(lua_State* L);
 int lua_GetCharacterActorInstance(lua_State* L);
+int lua_GetCharacterActorLifeInstance(lua_State* L);
 int lua_GetCharacterActorPointer(lua_State* L);
 
 int lua_CreateCharacterActor(lua_State* L);
@@ -32,3 +33,6 @@ int lua_GetCharacterActorRightVector(lua_State* L);
 
 int lua_CharacterActorGoWander(lua_State* L);
 int lua_CharacterActorStopWander(lua_State* L);
+
+int lua_CharacterActorDriveToTarget(lua_State* L);
+int lua_CharacterActorStopDrivingToTarget(lua_State* L);

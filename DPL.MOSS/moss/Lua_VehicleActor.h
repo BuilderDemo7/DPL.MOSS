@@ -15,6 +15,7 @@ int lua_VehicleActorIndex(lua_State* L);
 //int lua_SetVehicleInstancePosition(lua_State* L);
 //int lua_GetVehicleInstancePosition(lua_State* L);
 int lua_GetVehicleActorInstance(lua_State* L);
+int lua_GetVehicleActorLifeInstance(lua_State* L);
 int lua_GetVehicleActorPointer(lua_State* L);
 
 int lua_CreateVehicleActor(lua_State* L);

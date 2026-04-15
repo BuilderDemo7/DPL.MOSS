@@ -33,6 +33,7 @@ void draw_targets() # called every frame the target manager is drawn (e.g. objec
 # Mission Functions
 
 Character GetPlayerCharacter()
+Character_Actor GetPlayerActor()
 void ShowMissionComment(float duration, string message)
 void EndAllLifeEvents() # exclude all missions!
 void LaunchVEdit() # launches the garage menu
@@ -275,13 +276,16 @@ void Character_Actor:Create() : void Character_Actor:Instantiate()
 void Character_Actor:Destroy() : void Character_Actor:Delete()
 Vector Character_Actor:GetForward() : Vector Character_Actor:GetForwardVector()
 Vector Character_Actor:GetRight() : Vector Character_Actor:GetRightVector()
-void Character_Actor:GoWander([ float speed = 30.0, float acceleration = 1.0, float traction = 1.0, float handOfTom = 1.0, bool driveAsCiv = false) # NOTE: when driveAsCiv is set to true, the AI will drive just like a civilian, the game will crash if the game doesn't find a suitable road map for the AI (so place it on the road to prevent this crash).
+void Character_Actor:GoWander([ float speed = 30.0, float acceleration = 1.0, float traction = 1.0, float handOfTom = 1.0, bool driveAsCiv = false, int cheatSettings = 1) # NOTE: when driveAsCiv is set to true, the AI will drive just like a civilian, the game will crash if the game doesn't find a suitable road map for the AI (so place it on the road to prevent this crash).
 void Character_Actor:StopWander()
+void Character_Actor:DriveToTarget(LifeActor target, [ float speed = 30.0, float acceleration = 1.0, float traction = 1.0, float handOfTom = 1.0, bool driveAsCiv = false, bool stopAtTarget = true, bool useHandbrakeToStop = false, int cheatSettings = 1) # NOTE: when driveAsCiv is set to true, the AI will drive just like a civilian, the game will crash if the game doesn't find a suitable road map for the AI (so place it on the road to prevent this crash).
+void Character_Actor:StopDrivingToTarget(LifeActor target)
 
 # Vehicle_LifeInstance
 
 Vehicle Vehicle_LifeInstance:GetInstance()
 intptr_t Vehicle_LifeInstance:GetPointer() # CLifeInstance_Vehicle*
+void Vehicle_LifeInstance:SetMustangHandling(bool on)
 
 # Character_LifeInstance
 

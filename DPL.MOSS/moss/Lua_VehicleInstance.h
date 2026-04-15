@@ -14,3 +14,5 @@ int lua_VehicleInstanceIndex(lua_State* L);
 //int lua_GetVehicleInstancePosition(lua_State* L);
 int lua_GetVehicleInstance(lua_State* L);
 int lua_GetVehicleInstancePointer(lua_State* L);
+
+int lua_SetVehicleMustangHandling(lua_State* L);

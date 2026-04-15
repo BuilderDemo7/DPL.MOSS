@@ -1,6 +1,7 @@
 #include "Lua_MissionFuncs.h"
 #include "Lua_Character.h"
 #include "Lua_Vehicle.h"
+#include "Lua_CharacterActor.h"
 
 #include "..\dpl\AIFelonySystemFelonyManager.h"
 #include "..\dpl\CLifeSystemCommentLog.h"
@@ -13,6 +14,7 @@
 #include "..\dpl\GameCamera.h"
 #include "..\dpl\Speed.h"
 #include "..\dpl\InputManager.h"
+#include "..\dpl\CLifeActor_Character.h"
 
 int lua_EndAllLifeEvents(lua_State* L)
 {
@@ -235,6 +237,41 @@ int lua_GetPlayerCharacter(lua_State* L)
 	*udata = character;
 
 	luaL_getmetatable(L, g_CharacterMetaName);
+	lua_setmetatable(L, -2);
+
+	return 1; // number of return(s)
+}
+
+int lua_GetPlayerActor(lua_State* L)
+{
+	CLifeActor_Character* character = NULL;
+
+	CLifeSystem* lsys = CLifeSystem::GetInstance();
+
+	if (lsys != NULL)
+	{
+		character = (CLifeActor_Character*)lsys->m_pPlayerActor;
+	}
+
+	if ((int)character == 0xfdfdfdcd)
+	{
+		lua_pushnil(L);
+		return 1;
+	}
+
+	if (character == NULL)
+	{
+		lua_pushnil(L);
+		return 1;
+	}
+
+	// Allocate Lua-managed memory for the struct directly
+	CLifeActor_Character** udata =
+		(CLifeActor_Character**)lua_newuserdata(L, sizeof(CLifeActor_Character*));
+
+	*udata = character;
+
+	luaL_getmetatable(L, g_CharacterActorMetaName);
 	lua_setmetatable(L, -2);
 
 	return 1; // number of return(s)

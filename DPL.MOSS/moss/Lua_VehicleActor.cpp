@@ -27,7 +27,7 @@ int lua_VehicleActorIndex(lua_State* L)
 		return 1;
 	}
 	else if (strcmp(key, "GetLifeInstance") == 0) {
-		lua_pushcfunction(L, lua_GetVehicleActorInstance);
+		lua_pushcfunction(L, lua_GetVehicleActorLifeInstance);
 		return 1;
 	}
 	else if (strcmp(key, "GetPointer") == 0) {
@@ -286,6 +286,27 @@ int lua_GetVehicleActorInstance(lua_State* L)
 
 	// attach the vehicle metatable
 	luaL_getmetatable(L, g_VehicleMetaName);
+	lua_setmetatable(L, -2);
+
+	return 1;
+}
+
+int lua_GetVehicleActorLifeInstance(lua_State* L)
+{
+	CLifeActor_Vehicle* avehicle = *(CLifeActor_Vehicle**)luaL_checkudata(L, 1, g_VehicleActorMetaName);
+
+	if (avehicle->m_piVehicleInstance == NULL)
+	{
+		lua_pushnil(L);
+		return 1;
+	}
+
+	// allocate userdata to hold the pointer
+	CLifeInstance_Vehicle** udata = (CLifeInstance_Vehicle**)lua_newuserdata(L, sizeof(CLifeInstance_Vehicle*));
+	*udata = avehicle->m_piVehicleInstance;
+
+	// attach the vehicle metatable
+	luaL_getmetatable(L, g_VehicleInstanceMetaName);
 	lua_setmetatable(L, -2);
 
 	return 1;

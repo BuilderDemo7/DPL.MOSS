@@ -683,6 +683,7 @@ void Init_Lua_Funcs()
 {
 	// TODO: fill all the necessary functions
 	lua_register(L, "GetPlayerCharacter", lua_GetPlayerCharacter); // Character GetPlayerCharacter()
+	lua_register(L, "GetPlayerActor", lua_GetPlayerActor); // Character_Actor GetPlayerActor()
 	lua_register(L, "ShowMissionComment", lua_ShowMissionComment); // void ShowMissionComment(float duration, string message)
 	lua_register(L, "EndAllLifeEvents", lua_EndAllLifeEvents); // void EndAllLifeEvents()
 

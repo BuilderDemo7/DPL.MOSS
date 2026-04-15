@@ -28,6 +28,10 @@ int lua_VehicleInstanceIndex(lua_State* L)
 		lua_pushcfunction(L, lua_GetVehicleInstancePointer);
 		return 1;
 	}
+	else if (strcmp(key, "SetMustangHandling") == 0) {
+		lua_pushcfunction(L, lua_SetVehicleMustangHandling);
+		return 1;
+	}
 	else {
 		lua_pushnil(L);
 	}
@@ -74,4 +78,15 @@ int lua_GetVehicleInstancePointer(lua_State* L)
 	lua_pushinteger(L, (int)ivehicle);
 
 	return 1;
+}
+
+int lua_SetVehicleMustangHandling(lua_State* L)
+{
+	CLifeInstance_Vehicle* ivehicle = *(CLifeInstance_Vehicle**)luaL_checkudata(L, 1, g_VehicleInstanceMetaName);
+
+	bool bOn = lua_toboolean(L, 2);
+
+	ivehicle->SetMustangHandling(bOn);
+
+	return 0;
 }

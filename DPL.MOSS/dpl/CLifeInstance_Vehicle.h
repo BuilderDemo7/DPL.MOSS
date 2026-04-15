@@ -9,4 +9,6 @@ class CLifeInstance_Vehicle
 public:
 	char __padding0[0x70];
 	CVehicle* m_piVehicle;
+
+	void SetMustangHandling(bool bOn);
 };

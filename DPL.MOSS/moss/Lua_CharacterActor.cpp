@@ -29,7 +29,7 @@ int lua_CharacterActorIndex(lua_State* L)
 		return 1;
 	}
 	else if (strcmp(key, "GetLifeInstance") == 0) {
-		lua_pushcfunction(L, lua_GetCharacterActorInstance);
+		lua_pushcfunction(L, lua_GetCharacterActorLifeInstance);
 		return 1;
 	}
 	else if (strcmp(key, "GetPointer") == 0) {
@@ -74,6 +74,14 @@ int lua_CharacterActorIndex(lua_State* L)
 	}
 	else if (strcmp(key, "StopWander") == 0) {
 		lua_pushcfunction(L, lua_CharacterActorStopWander);
+		return 1;
+	}
+	else if (strcmp(key, "DriveToTarget") == 0) {
+		lua_pushcfunction(L, lua_CharacterActorDriveToTarget);
+		return 1;
+	}
+	else if (strcmp(key, "StopDrivingToTarget") == 0) {
+		lua_pushcfunction(L, lua_CharacterActorStopDrivingToTarget);
 		return 1;
 	}
 	else {
@@ -141,6 +149,123 @@ int lua_CharacterActorStopWander(lua_State* L)
 		if (pursuer != NULL)
 		{
 			ai->StopRandomWander(&pursuer);
+		}
+	}
+
+	return 0;
+}
+
+int lua_CharacterActorDriveToTarget(lua_State* L)
+{
+	CLifeActor_Character* acharacter = *(CLifeActor_Character**)luaL_checkudata(L, 1, g_CharacterActorMetaName);
+
+	if (acharacter->m_piCharacterInstance == NULL)
+	{
+		return 0; // character instance not created
+	}
+
+	int nargs = lua_gettop(L);
+
+	CLifeActor** targetActor = (CLifeActor**)luaL_testudata(L, 2, g_VehicleActorMetaName);
+	if(!targetActor)
+		targetActor = (CLifeActor**)luaL_testudata(L, 2, g_CharacterActorMetaName);
+
+	if (!targetActor)
+		return luaL_error(L, "invalid userdata, expected a LifeActor, do not use instances types");
+
+	CLifeActor* tActor = *targetActor;
+
+	float speed = luaL_optnumber(L, 3, 30.0f);
+	float acceleration = luaL_optnumber(L, 4, 1.0f);
+	float traction = luaL_optnumber(L, 5, 1.0f);
+	float handOfTom = luaL_optnumber(L, 6, 1.0f);
+
+	bool driveAsCiv = false;
+	if (nargs > 6)
+		driveAsCiv = lua_toboolean(L, 7);
+
+	bool stopAtTarget = true;
+	if (nargs > 7)
+		stopAtTarget = lua_toboolean(L, 8);
+
+	bool useHandbrakeToStop = false;
+	if (nargs > 8)
+		useHandbrakeToStop = lua_toboolean(L, 9);
+
+	int cheatSettings = luaL_optinteger(L, 10, 1);
+
+	auto ai = CLifeSystem_AIChaseCoordinator::GetInstance();
+	if (ai)
+	{
+		if (tActor)
+		{
+			TPursuerPointer pursuer = ai->GetPursuer((CLifeActor*)acharacter);
+			TTargetPointer target = ai->GetTargetCharacter(tActor);
+			if (pursuer != NULL && target != NULL)
+			{
+				pursuer->m_pPursuer->m_ui8PermittedRoadTypeFlags = 0;
+
+				pursuer->m_pPursuer->m_rDesiredChaseSpeed = speed;
+				pursuer->m_pPursuer->m_rAccelerationMultiplier = acceleration;
+				pursuer->m_pPursuer->m_rTractionMultiplier = traction;
+				pursuer->m_pPursuer->m_rHOGMultiplier = handOfTom;
+				pursuer->m_pPursuer->m_bDriveAsCiv = driveAsCiv;
+				pursuer->m_pPursuer->m_eCheatSettings = (eCheatSettings)cheatSettings;
+
+				auto aiObjPtr = ((CLife_AITarget*)target)->GetAIObject();
+				if (aiObjPtr)
+				{
+					AIChaseTargetClass* aiObj = aiObjPtr; //*aiObjPtr;
+
+					aiObj->m_ui8BehaviourFlags = 0;
+
+					if (stopAtTarget)
+						aiObj->m_ui8BehaviourFlags |= 1;
+					else
+						aiObj->m_ui8BehaviourFlags = aiObj->m_ui8BehaviourFlags & 0xfe;
+
+					if (useHandbrakeToStop)
+						aiObj->m_ui8BehaviourFlags |= 2;
+					else
+						aiObj->m_ui8BehaviourFlags = aiObj->m_ui8BehaviourFlags & 0xfd;
+				}
+
+				ai->LinkPursuerToTarget(pursuer, target);
+			}
+		}
+	}
+
+	return 0;
+}
+
+int lua_CharacterActorStopDrivingToTarget(lua_State* L)
+{
+	CLifeActor_Character* acharacter = *(CLifeActor_Character**)luaL_checkudata(L, 1, g_CharacterActorMetaName);
+
+	if (acharacter->m_piCharacterInstance == NULL)
+	{
+		return 0; // character instance not created
+	}
+
+	int nargs = lua_gettop(L);
+
+	CLifeActor** targetActor = (CLifeActor**)luaL_testudata(L, 2, g_VehicleActorMetaName);
+	if (!targetActor)
+		targetActor = (CLifeActor**)luaL_testudata(L, 2, g_CharacterActorMetaName);
+
+	if (!targetActor)
+		return luaL_error(L, "invalid userdata, expected a LifeActor, do not use instances types");
+
+	CLifeActor* tActor = *targetActor;
+
+	auto ai = CLifeSystem_AIChaseCoordinator::GetInstance();
+	if (ai)
+	{
+		TPursuerPointer pursuer = ai->GetPursuer((CLifeActor*)acharacter);
+		TTargetPointer target = ai->GetTargetCharacter(tActor);
+		if (pursuer != NULL && target != NULL)
+		{
+			ai->UnlinkPursuerFromTarget(&pursuer, &target);
 		}
 	}
 
@@ -257,6 +382,27 @@ int lua_GetCharacterActorInstance(lua_State* L)
 
 	// attach the vehicle metatable
 	luaL_getmetatable(L, g_CharacterMetaName);
+	lua_setmetatable(L, -2);
+
+	return 1;
+}
+
+int lua_GetCharacterActorLifeInstance(lua_State* L)
+{
+	CLifeActor_Character* acharacter = *(CLifeActor_Character**)luaL_checkudata(L, 1, g_CharacterActorMetaName);
+
+	if (acharacter->m_piCharacterInstance == NULL)
+	{
+		lua_pushnil(L);
+		return 1;
+	}
+
+	// allocate userdata to hold the pointer
+	CLifeInstance_Character** udata = (CLifeInstance_Character**)lua_newuserdata(L, sizeof(CLifeInstance_Character*));
+	*udata = acharacter->m_piCharacterInstance;
+
+	// attach the vehicle metatable
+	luaL_getmetatable(L, g_CharacterInstanceMetaName);
 	lua_setmetatable(L, -2);
 
 	return 1;

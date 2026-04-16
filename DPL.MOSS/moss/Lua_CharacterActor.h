@@ -1,6 +1,7 @@
 #pragma once
 #include "Lua_Main.h"
 #include "Lua_Character.h"
+#include "Lua_LifeActor.h"
 #include "Lua_CharacterInstance.h"
 #include "..\dpl\CCharacter.h"
 #include "..\dpl\CLifeInstance_Character.h"

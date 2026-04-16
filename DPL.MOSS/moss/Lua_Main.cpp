@@ -5,6 +5,7 @@
 #include <string>
 
 // metatables
+#include "Lua_LifeActor.h"
 #include "Lua_Character.h"
 #include "Lua_CharacterInstance.h"
 #include "Lua_CharacterActor.h"
@@ -539,6 +540,28 @@ void Init_Lua_Constants()
 	lua_pushinteger(L, ECameraSelect_VehicleCamType::ECameraSelect_VehicleCamType_First); lua_setglobal(L, "ECameraSelect_VehicleCamType_First");
 	lua_pushinteger(L, ECameraSelect_VehicleCamType::ECameraSelect_VehicleCamType_LWheel); lua_setglobal(L, "ECameraSelect_VehicleCamType_LWheel");
 	lua_pushinteger(L, ECameraSelect_VehicleCamType::ECameraSelect_VehicleCamType_RWheel); lua_setglobal(L, "ECameraSelect_VehicleCamType_RWheel");
+
+	// ObjectiveIconDisplayType
+	lua_pushinteger(L, ObjectiveIconDisplayType::DisplayType_VEDIT); lua_setglobal(L, "DisplayType_VEDIT");
+	lua_pushinteger(L, ObjectiveIconDisplayType::DisplayType_POSITIONMARKERTALLFAT); lua_setglobal(L, "DisplayType_POSITIONMARKERTALLFAT");
+	lua_pushinteger(L, ObjectiveIconDisplayType::DisplayType_ARMOUREDCAR); lua_setglobal(L, "DisplayType_ARMOUREDCAR");
+	lua_pushinteger(L, ObjectiveIconDisplayType::DisplayType_CIRCUITRACE); lua_setglobal(L, "DisplayType_CIRCUITRACE");
+	lua_pushinteger(L, ObjectiveIconDisplayType::DisplayType_HITMAN); lua_setglobal(L, "DisplayType_HITMAN");
+	lua_pushinteger(L, ObjectiveIconDisplayType::DisplayType_MOTOCROSS); lua_setglobal(L, "DisplayType_MOTOCROSS");
+	lua_pushinteger(L, ObjectiveIconDisplayType::DisplayType_PERFECTDELIVERY); lua_setglobal(L, "DisplayType_PERFECTDELIVERY");
+	lua_pushinteger(L, ObjectiveIconDisplayType::DisplayType_REPOMAN); lua_setglobal(L, "DisplayType_REPOMAN");
+	lua_pushinteger(L, ObjectiveIconDisplayType::DisplayType_STICKUP); lua_setglobal(L, "DisplayType_STICKUP");
+	lua_pushinteger(L, ObjectiveIconDisplayType::DisplayType_STREETRACE); lua_setglobal(L, "DisplayType_STREETRACE");
+	lua_pushinteger(L, ObjectiveIconDisplayType::DisplayType_TAXI); lua_setglobal(L, "DisplayType_TAXI");
+	lua_pushinteger(L, ObjectiveIconDisplayType::DisplayType_LOANSHARK); lua_setglobal(L, "DisplayType_LOANSHARK");
+	lua_pushinteger(L, ObjectiveIconDisplayType::DisplayType_POSITIONMARKERTALLSKINNY); lua_setglobal(L, "DisplayType_POSITIONMARKERTALLSKINNY");
+	lua_pushinteger(L, ObjectiveIconDisplayType::DisplayType_POSITIONMARKERSHORTSKINNY); lua_setglobal(L, "DisplayType_POSITIONMARKERSHORTSKINNY");
+	lua_pushinteger(L, ObjectiveIconDisplayType::DisplayType_POSITIONMARKERSHORTFAT); lua_setglobal(L, "DisplayType_POSITIONMARKERSHORTFAT");
+	lua_pushinteger(L, ObjectiveIconDisplayType::DisplayType_POSITIONMARKERCONE); lua_setglobal(L, "DisplayType_POSITIONMARKERCONE");
+	lua_pushinteger(L, ObjectiveIconDisplayType::DisplayType_PRISONTRANSPORT); lua_setglobal(L, "DisplayType_PRISONTRANSPORT");
+	lua_pushinteger(L, ObjectiveIconDisplayType::DisplayType_GARAGEPOSITIONMARKERSHORTFAT); lua_setglobal(L, "DisplayType_GARAGEPOSITIONMARKERSHORTFAT");
+	lua_pushinteger(L, ObjectiveIconDisplayType::DisplayType_GARAGEPOSITIONMARKERSHORTSKINNY); lua_setglobal(L, "DisplayType_GARAGEPOSITIONMARKERSHORTSKINNY");
+	lua_pushinteger(L, ObjectiveIconDisplayType::DisplayType_GARAGEPOSITIONMARKERTALLSKINNY); lua_setglobal(L, "DisplayType_GARAGEPOSITIONMARKERTALLSKINNY");
 
 	// alphanumerics
 	lua_pushinteger(L, '0');

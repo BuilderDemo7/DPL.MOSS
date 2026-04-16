@@ -19,7 +19,7 @@ TTargetPointer CLifeSystem_AIChaseCoordinator::GetTargetCharacter(CLifeActor* pA
 {
 	TTargetPointer returnStorage = NULL;
 
-	((TTargetPointer(__thiscall*)(CLifeSystem_AIChaseCoordinator*, TTargetPointer*, CLifeActor*))0x4a4cd4)(this, &returnStorage, pActor);
+	((TTargetPointer*(__thiscall*)(CLifeSystem_AIChaseCoordinator*, TTargetPointer*, CLifeActor*))0x4a4d4c)(this, &returnStorage, pActor);
 
 	return returnStorage;
 }

@@ -5,6 +5,31 @@
 
 #include "EGadgetType.h"
 
+enum ObjectiveIconDisplayType
+{
+	DisplayType_VEDIT = 2,
+	DisplayType_POSITIONMARKERTALLFAT = 0,
+	DisplayType_ARMOUREDCAR = 4,
+	DisplayType_CIRCUITRACE = 5,
+	DisplayType_HITMAN = 6,
+	DisplayType_MOTOCROSS = 7,
+	DisplayType_PERFECTDELIVERY = 8,
+	DisplayType_REPOMAN = 10,
+	DisplayType_SAFEHOUSE = 0xb,
+	DisplayType_STICKUP = 0xc,
+	DisplayType_STREETRACE = 0xd,
+	DisplayType_TAXI = 0xe,
+	DisplayType_LOANSHARK = 0xf,
+	DisplayType_POSITIONMARKERTALLSKINNY = 0x10,
+	DisplayType_POSITIONMARKERSHORTSKINNY = 0x11,
+	DisplayType_POSITIONMARKERSHORTFAT = 0x13,
+	DisplayType_POSITIONMARKERCONE = 0x14,
+	DisplayType_PRISONTRANSPORT = 0x15,
+	DisplayType_GARAGEPOSITIONMARKERSHORTFAT = 0x19,
+	DisplayType_GARAGEPOSITIONMARKERSHORTSKINNY = 0x1a,
+	DisplayType_GARAGEPOSITIONMARKERTALLSKINNY = 0x1b
+};
+
 #pragma pack(push, 1)
 struct SObjectiveIcon
 {
@@ -39,5 +64,5 @@ struct SObjectiveIcon
 };
 #pragma pack(pop)
 
-void SetupObjectiveIcon(SObjectiveIcon* oicon, int displayType, int lifeEventType = 0);
+void SetupObjectiveIcon(SObjectiveIcon* oicon, int displayType, int lifeEventType = 0, bool bIsLifeEventVisible = true);
 void AutoRenderObjectiveIcon(SObjectiveIcon* oicon, Matrix* matrix, CPCViewport* piViewport);

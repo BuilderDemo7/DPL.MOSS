@@ -381,6 +381,9 @@
     <ClInclude Include="dpl\eCheatSettings.h">
       <Filter>Header files\dpl</Filter>
     </ClInclude>
+    <ClInclude Include="moss\Lua_LifeActor.h">
+      <Filter>Header files\MOSS</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -631,6 +634,9 @@
     </ClCompile>
     <ClCompile Include="dpl\CLifeSystem_AIChaseCoordinator.cpp">
       <Filter>Source files\dpl</Filter>
+    </ClCompile>
+    <ClCompile Include="moss\Lua_LifeActor.cpp">
+      <Filter>Source files\MOSS</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

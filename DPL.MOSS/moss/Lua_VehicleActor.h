@@ -1,6 +1,7 @@
 #pragma once
 #include "Lua_Main.h"
 #include "Lua_Vehicle.h"
+#include "Lua_LifeActor.h"
 #include "Lua_VehicleInstance.h"
 #include "..\dpl\Vehicle.h"
 #include "..\dpl\CLifeInstance_Vehicle.h"

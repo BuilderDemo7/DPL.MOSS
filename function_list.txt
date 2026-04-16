@@ -264,6 +264,8 @@ void Vehicle_Actor:Create() : void Vehicle_Actor:Instantiate()
 void Vehicle_Actor:Destroy() : void Vehicle_Actor:Delete()
 Vector Vehicle_Actor:GetForward() : Vector Vehicle_Actor:GetForwardVector()
 Vector Vehicle_Actor:GetRight() : Vector Vehicle_Actor:GetRightVector()
+void Vehicle_Actor:AddObjectiveIcon(ObjectiveIconDisplayType displayType, [ int visibility = 2, bool displayMinimapArrow = false, bool displayAsCop = false, float additionalHeightOffset = 0.0, int lifeEventType = 0)
+void Vehicle_Actor:RemoveObjectiveIcon(ObjectiveIconDisplayType displayType, [ int visibility = 2, bool displayMinimapArrow = false, bool displayAsCop = false, float additionalHeightOffset = 0.0, int lifeEventType = 0)
 
 # Character_Actor
 
@@ -280,6 +282,8 @@ void Character_Actor:GoWander([ float speed = 30.0, float acceleration = 1.0, fl
 void Character_Actor:StopWander()
 void Character_Actor:DriveToTarget(LifeActor target, [ float speed = 30.0, float acceleration = 1.0, float traction = 1.0, float handOfTom = 1.0, bool driveAsCiv = false, bool stopAtTarget = true, bool useHandbrakeToStop = false, int cheatSettings = 1) # NOTE: when driveAsCiv is set to true, the AI will drive just like a civilian, the game will crash if the game doesn't find a suitable road map for the AI (so place it on the road to prevent this crash).
 void Character_Actor:StopDrivingToTarget(LifeActor target)
+void Character_Actor:AddObjectiveIcon(ObjectiveIconDisplayType displayType, [ int visibility = 2, bool displayMinimapArrow = false, bool displayAsCop = false, float additionalHeightOffset = 0.0, int lifeEventType = 0)
+void Character_Actor:RemoveObjectiveIcon(ObjectiveIconDisplayType displayType, [ int visibility = 2, bool displayMinimapArrow = false, bool displayAsCop = false, float additionalHeightOffset = 0.0, int lifeEventType = 0)
 
 # Vehicle_LifeInstance
 

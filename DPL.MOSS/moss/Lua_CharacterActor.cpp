@@ -84,6 +84,15 @@ int lua_CharacterActorIndex(lua_State* L)
 		lua_pushcfunction(L, lua_CharacterActorStopDrivingToTarget);
 		return 1;
 	}
+	// LifeActor generic methods
+	else if (strcmp(key, "AddObjectiveIcon") == 0) {
+		lua_pushcfunction(L, lua_AddObjectiveIconToLifeActor);
+		return 1;
+	}
+	else if (strcmp(key, "RemoveObjectiveIcon") == 0) {
+		lua_pushcfunction(L, lua_RemoveObjectiveIconFromLifeActor);
+		return 1;
+	}
 	else {
 		lua_pushnil(L);
 	}

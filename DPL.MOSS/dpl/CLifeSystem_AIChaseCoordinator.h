@@ -61,6 +61,8 @@ public:
 
 	int field0;
 	AIChaseTargetClass* m_pAITargetObject;
+	int field8;
+	int fieldC;
 };
 
 class CLifeActor_AIChaseTarget : CLife_AITarget
@@ -84,4 +86,6 @@ public:
 
 	void LinkPursuerToTarget(TPursuerPointer pursuerObject, TTargetPointer targetObject);
 	void UnlinkPursuerFromTarget(TPursuerPointer* pursuerObject, TTargetPointer* targetObject);
+
+	int field0;
 };

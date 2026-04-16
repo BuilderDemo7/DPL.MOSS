@@ -4,13 +4,12 @@
 
 #include <iostream>
 
-void SetupObjectiveIcon(SObjectiveIcon* oicon, int displayType, int lifeEventType)
+void SetupObjectiveIcon(SObjectiveIcon* oicon, int displayType, int lifeEventType, bool bIsLifeEventVisible)
 {
 	if (lifeEventType == 2) {
 		oicon->m_material = 0;
 	}
 	else if (lifeEventType == 3) {
-		bool bIsLifeEventVisible = true;
 		if (bIsLifeEventVisible) {
 			oicon->m_material = 1;
 		}

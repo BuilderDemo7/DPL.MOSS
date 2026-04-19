@@ -37,3 +37,6 @@ int lua_CharacterActorStopWander(lua_State* L);
 
 int lua_CharacterActorDriveToTarget(lua_State* L);
 int lua_CharacterActorStopDrivingToTarget(lua_State* L);
+
+int lua_CharacterActorChaseTarget(lua_State* L);
+int lua_CharacterActorStopChasingTarget(lua_State* L);

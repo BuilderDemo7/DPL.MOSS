@@ -30,6 +30,13 @@ enum ObjectiveIconDisplayType
 	DisplayType_GARAGEPOSITIONMARKERTALLSKINNY = 0x1b
 };
 
+enum ObjectiveIconVisibility
+{
+	ObjVisibility_MinimapAndModel = 1,
+	ObjVisibility_ModelOnly = 2,
+	ObjVisibility_MinimapOnly = 3,
+};
+
 #pragma pack(push, 1)
 struct SObjectiveIcon
 {

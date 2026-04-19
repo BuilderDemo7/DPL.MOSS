@@ -64,6 +64,12 @@ CameraSelect CreateCameraSelect(ECameraSelectType cameraType, LifeActor target, 
 * Character Actor
 Character_Actor CreateCharacter(int skin, float x, float y, float z, [ float angle = 0.0, bool startCreated = true, EWeapons weapon, float initialHealth = 1.0, float initialFelony = 0.0, Vehicle_Actor initialVehicle = nil, int initialVehicleSeat = 0, bool addToFelonyManager = false, bool doNotUseIdleAnims, bool isPlayer = false)
 
+* Point_Actor
+Point_Actor CreatePoint(Vector position, [ Quaternion rotation = Quaternion(0, 0, 0, 0)) # useful for marking points to be used as a target/objective icon
+
+* TestVolume
+TestVolume CreateTestVolume(Vector position, [ Quaternion rotation = Quaternion(0, 0, 0, 0), EPrimitiveType primType = EPrimitiveType_Cylinder, float widthOrRadius = 2.5, float length = 0.0, height = 5.0, LifeActor attachTo = nil)
+
 # Music / Sounds
 
 void SetMusicTrack(int trackId)
@@ -264,8 +270,8 @@ void Vehicle_Actor:Create() : void Vehicle_Actor:Instantiate()
 void Vehicle_Actor:Destroy() : void Vehicle_Actor:Delete()
 Vector Vehicle_Actor:GetForward() : Vector Vehicle_Actor:GetForwardVector()
 Vector Vehicle_Actor:GetRight() : Vector Vehicle_Actor:GetRightVector()
-void Vehicle_Actor:AddObjectiveIcon(ObjectiveIconDisplayType displayType, [ int visibility = 2, bool displayMinimapArrow = false, bool displayAsCop = false, float additionalHeightOffset = 0.0, int lifeEventType = 0)
-void Vehicle_Actor:RemoveObjectiveIcon(ObjectiveIconDisplayType displayType, [ int visibility = 2, bool displayMinimapArrow = false, bool displayAsCop = false, float additionalHeightOffset = 0.0, int lifeEventType = 0)
+void Vehicle_Actor:AddObjectiveIcon(ObjectiveIconDisplayType displayType, [ ObjVisibility_MinimapAndModel visibility = ObjVisibility_MinimapAndModel, bool displayMinimapArrow = false, bool displayAsCop = false, float additionalHeightOffset = 0.0, int lifeEventType = 0)
+void Vehicle_Actor:RemoveObjectiveIcon(ObjectiveIconDisplayType displayType, [ ObjVisibility_MinimapAndModel visibility = ObjVisibility_MinimapAndModel, bool displayMinimapArrow = false, bool displayAsCop = false, float additionalHeightOffset = 0.0, int lifeEventType = 0)
 
 # Character_Actor
 
@@ -282,8 +288,24 @@ void Character_Actor:GoWander([ float speed = 30.0, float acceleration = 1.0, fl
 void Character_Actor:StopWander()
 void Character_Actor:DriveToTarget(LifeActor target, [ float speed = 30.0, float acceleration = 1.0, float traction = 1.0, float handOfTom = 1.0, bool driveAsCiv = false, bool stopAtTarget = true, bool useHandbrakeToStop = false, int cheatSettings = 1) # NOTE: when driveAsCiv is set to true, the AI will drive just like a civilian, the game will crash if the game doesn't find a suitable road map for the AI (so place it on the road to prevent this crash).
 void Character_Actor:StopDrivingToTarget(LifeActor target)
-void Character_Actor:AddObjectiveIcon(ObjectiveIconDisplayType displayType, [ int visibility = 2, bool displayMinimapArrow = false, bool displayAsCop = false, float additionalHeightOffset = 0.0, int lifeEventType = 0)
-void Character_Actor:RemoveObjectiveIcon(ObjectiveIconDisplayType displayType, [ int visibility = 2, bool displayMinimapArrow = false, bool displayAsCop = false, float additionalHeightOffset = 0.0, int lifeEventType = 0)
+void Character_Actor:AddObjectiveIcon(ObjectiveIconDisplayType displayType, [ ObjVisibility_MinimapAndModel visibility = ObjVisibility_MinimapAndModel, bool displayMinimapArrow = false, bool displayAsCop = false, float additionalHeightOffset = 0.0, int lifeEventType = 0)
+void Character_Actor:RemoveObjectiveIcon(ObjectiveIconDisplayType displayType, [ ObjVisibility_MinimapAndModel visibility = ObjVisibility_MinimapAndModel, bool displayMinimapArrow = false, bool displayAsCop = false, float additionalHeightOffset = 0.0, int lifeEventType = 0)
+
+# Point_Actor
+
+void Point_Actor:SetPosition(Vector pos)
+Vector Point_Actor:GetPosition()
+void Point_Actor:SetRotation(Quaternion rotation)
+Quaternion Point_Actor:GetRotation()
+intptr_t Point_Actor:GetPointer()
+void Point_Actor:SetHeading(float heading) : void Point_Actor:SetAngle(float angle) # will use radians
+??? Point_Actor:SetHeading(???) : ??? Prop:GetAngle(???) # W.I.P DO NOT USE, will be returned in radians, use math.deg() to convert
+??? Point_Actor:SetVelocity(???) # W.I.P DO NOT USE
+??? Point_Actor:GetVelocity(???) # W.I.P DO NOT USE
+??? Point_Actor:GetForwardVector(???) # W.I.P DO NOT USE
+??? Point_Actor:GetRightVector(???) # W.I.P DO NOT USE
+void Point_Actor:AddObjectiveIcon(ObjectiveIconDisplayType displayType, [ ObjVisibility_MinimapAndModel visibility = ObjVisibility_MinimapAndModel, bool displayMinimapArrow = false, bool displayAsCop = false, float additionalHeightOffset = 0.0, int lifeEventType = 0)
+void Point_Actor:RemoveObjectiveIcon(ObjectiveIconDisplayType displayType, [ ObjVisibility_MinimapAndModel visibility = ObjVisibility_MinimapAndModel, bool displayMinimapArrow = false, bool displayAsCop = false, float additionalHeightOffset = 0.0, int lifeEventType = 0)
 
 # Vehicle_LifeInstance
 
@@ -356,6 +378,8 @@ void Prop:SetHeading(float heading) : void Prop:SetAngle(float angle) # will use
 ??? Prop:GetForwardVector(???) # W.I.P DO NOT USE
 ??? Prop:GetRightVector(???) # W.I.P DO NOT USE
 void Prop:SetGadgetType(EGadgetType gadget)
+void Prop:AddObjectiveIcon(ObjectiveIconDisplayType displayType, [ ObjVisibility_MinimapAndModel visibility = ObjVisibility_MinimapAndModel, bool displayMinimapArrow = false, bool displayAsCop = false, float additionalHeightOffset = 0.0, int lifeEventType = 0)
+void Prop:RemoveObjectiveIcon(ObjectiveIconDisplayType displayType, [ ObjVisibility_MinimapAndModel visibility = ObjVisibility_MinimapAndModel, bool displayMinimapArrow = false, bool displayAsCop = false, float additionalHeightOffset = 0.0, int lifeEventType = 0)
 
 # CameraSelect
 

@@ -177,8 +177,11 @@
     <ClInclude Include="dpl\CharacterAIManager.h" />
     <ClInclude Include="dpl\CLifeAcquirableVehicleManager.h" />
     <ClInclude Include="dpl\CLifeActor.h" />
+    <ClInclude Include="dpl\CLifeActor_Camera.h" />
     <ClInclude Include="dpl\CLifeActor_Character.h" />
+    <ClInclude Include="dpl\CLifeActor_Marker.h" />
     <ClInclude Include="dpl\CLifeActor_Prop.h" />
+    <ClInclude Include="dpl\CLifeActor_TestVolume.h" />
     <ClInclude Include="dpl\CLifeActor_Vehicle.h" />
     <ClInclude Include="dpl\CLifeEventDataManager.h" />
     <ClInclude Include="dpl\CLifeInstance_Character.h" />
@@ -244,6 +247,7 @@
     <ClInclude Include="dpl\SObjectiveIcon.h" />
     <ClInclude Include="dpl\Speed.h" />
     <ClInclude Include="dpl\SpoolableResourceManager.h" />
+    <ClInclude Include="dpl\SPrimitiveData.h" />
     <ClInclude Include="dpl\Sprite.h" />
     <ClInclude Include="dpl\SStaticInstance.h" />
     <ClInclude Include="dpl\Vector.h" />
@@ -261,6 +265,7 @@
     <ClInclude Include="lua\quaternion_metatable.h" />
     <ClInclude Include="lua\vector_metatable.h" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="moss\Lua_Camera.h" />
     <ClInclude Include="moss\Lua_CameraSelect.h" />
     <ClInclude Include="moss\Lua_Character.h" />
     <ClInclude Include="moss\Lua_CharacterActor.h" />
@@ -272,8 +277,10 @@
     <ClInclude Include="moss\Lua_MapItem.h" />
     <ClInclude Include="moss\Lua_MissionFuncs.h" />
     <ClInclude Include="moss\Lua_ObjectiveIcon.h" />
+    <ClInclude Include="moss\Lua_PointActor.h" />
     <ClInclude Include="moss\Lua_Prop.h" />
     <ClInclude Include="moss\Lua_ResourceManager.h" />
+    <ClInclude Include="moss\Lua_TestVolume.h" />
     <ClInclude Include="moss\Lua_Vehicle.h" />
     <ClInclude Include="moss\Lua_VehicleActor.h" />
     <ClInclude Include="moss\Lua_VehicleInstance.h" />
@@ -295,8 +302,11 @@
     <ClCompile Include="dpl\CharacterAIManager.cpp" />
     <ClCompile Include="dpl\CLifeAcquirableVehicleManager.cpp" />
     <ClCompile Include="dpl\CLifeActor.cpp" />
+    <ClCompile Include="dpl\CLifeActor_Camera.cpp" />
     <ClCompile Include="dpl\CLifeActor_Character.cpp" />
+    <ClCompile Include="dpl\CLifeActor_Marker.cpp" />
     <ClCompile Include="dpl\CLifeActor_Prop.cpp" />
+    <ClCompile Include="dpl\CLifeActor_TestVolume.cpp" />
     <ClCompile Include="dpl\CLifeActor_Vehicle.cpp" />
     <ClCompile Include="dpl\CLifeEventDataManager.cpp" />
     <ClCompile Include="dpl\CLifeInstance_Character.cpp" />
@@ -348,6 +358,7 @@
     <ClCompile Include="lua\quaternion_metatable.cpp" />
     <ClCompile Include="lua\vector_metatable.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="moss\Lua_Camera.cpp" />
     <ClCompile Include="moss\Lua_CameraSelect.cpp" />
     <ClCompile Include="moss\Lua_Character.cpp" />
     <ClCompile Include="moss\Lua_CharacterActor.cpp" />
@@ -359,8 +370,10 @@
     <ClCompile Include="moss\Lua_MapItem.cpp" />
     <ClCompile Include="moss\Lua_MissionFuncs.cpp" />
     <ClCompile Include="moss\Lua_ObjectiveIcon.cpp" />
+    <ClCompile Include="moss\Lua_PointActor.cpp" />
     <ClCompile Include="moss\Lua_Prop.cpp" />
     <ClCompile Include="moss\Lua_ResourceManager.cpp" />
+    <ClCompile Include="moss\Lua_TestVolume.cpp" />
     <ClCompile Include="moss\Lua_Vehicle.cpp" />
     <ClCompile Include="moss\Lua_VehicleActor.cpp" />
     <ClCompile Include="moss\Lua_VehicleInstance.cpp" />

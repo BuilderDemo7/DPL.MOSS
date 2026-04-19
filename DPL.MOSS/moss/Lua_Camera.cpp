@@ -1,0 +1,211 @@
+#include "Lua_Camera.h"
+#include "..\dpl\Factory.h"
+#include "Lua_LifeActor.h"
+
+const char* g_CameraMetaName = "Camera";
+
+void Init_Lua_MetaTable_Camera()
+{
+	luaL_newmetatable(L, g_CameraMetaName);
+
+	// set __index
+	lua_pushcfunction(L, lua_CameraIndex);
+	lua_setfield(L, -2, "__index");
+
+	lua_pop(L, 1);
+}
+
+int lua_CameraIndex(lua_State* L)
+{
+	CLifeActor_Camera* camera = *(CLifeActor_Camera**)luaL_checkudata(L, 1, g_CameraMetaName);
+	const char* key = lua_tostring(L, 2);
+
+	// NOTE: methods are like a _thiscall [MyFunc(void* this, ...)]
+
+	if (strcmp(key, "GetPointer") == 0) {
+		lua_pushcfunction(L, lua_GetCameraPointer);
+		return 1;
+	}
+	else if (strcmp(key, "GetAttachedActor") == 0) {
+		lua_pushcfunction(L, lua_GetCameraAttachedTo);
+		return 1;
+	}
+	else if (strcmp(key, "GetAttachedActorPointer") == 0) {
+		lua_pushcfunction(L, lua_GetCameraAttachedToPointer);
+		return 1;
+	}
+	else if (strcmp(key, "GetLookAtActor") == 0) {
+		lua_pushcfunction(L, lua_GetCameraAttachedTo);
+		return 1;
+	}
+	else if (strcmp(key, "GetLookAtActorPointer") == 0) {
+		lua_pushcfunction(L, lua_GetCameraAttachedToPointer);
+		return 1;
+	}
+	// LifeActor generic methods
+	else if (strcmp(key, "AddObjectiveIcon") == 0) {
+		lua_pushcfunction(L, lua_AddObjectiveIconToLifeActor);
+		return 1;
+	}
+	else if (strcmp(key, "RemoveObjectiveIcon") == 0) {
+		lua_pushcfunction(L, lua_RemoveObjectiveIconFromLifeActor);
+		return 1;
+	}
+	else if (strcmp(key, "GetLookAtActor") == 0) {
+		lua_pushcfunction(L, lua_GetCameraAttachedTo);
+		return 1;
+	}
+	else if (strcmp(key, "GetLookAtActorPointer") == 0) {
+		lua_pushcfunction(L, lua_GetCameraAttachedToPointer);
+		return 1;
+	}
+	else {
+		lua_pushnil(L);
+	}
+}
+
+int lua_GetCameraAttachedTo(lua_State* L)
+{
+	CLifeActor_Camera* camera = *(CLifeActor_Camera**)luaL_checkudata(L, 1, g_CameraMetaName);
+	CLifeActor* actor = camera->m_pAttachTo;
+	if (actor != NULL)
+	{
+		Lua_LifeActorInfo info = GetLuaLifeActor(actor);
+
+		luaL_getmetatable(L, info.m_pszMetaTableName); // return metatable type
+		lua_setmetatable(L, -2); // return/set the return
+
+		return 1;
+	}
+
+	lua_pushnil(L);
+	return 1;
+}
+
+int lua_GetCameraAttachedToPointer(lua_State* L)
+{
+	CLifeActor_Camera* camera = *(CLifeActor_Camera**)luaL_checkudata(L, 1, g_CameraMetaName);
+	CLifeActor* actor = camera->m_pAttachTo;
+
+	lua_pushinteger(L, (int)actor);
+
+	return 1;
+}
+
+int lua_GetCameraLookAt(lua_State* L)
+{
+	CLifeActor_Camera* camera = *(CLifeActor_Camera**)luaL_checkudata(L, 1, g_CameraMetaName);
+	CLifeActor* actor = camera->m_pLookAt;
+	if (actor != NULL)
+	{
+		Lua_LifeActorInfo info = GetLuaLifeActor(actor);
+
+		luaL_getmetatable(L, info.m_pszMetaTableName); // return metatable type
+		lua_setmetatable(L, -2); // return/set the return
+
+		return 1;
+	}
+
+	lua_pushnil(L);
+	return 1;
+}
+
+int lua_GetCameraLookAtPointer(lua_State* L)
+{
+	CLifeActor_Camera* camera = *(CLifeActor_Camera**)luaL_checkudata(L, 1, g_CameraMetaName);
+	CLifeActor* actor = camera->m_pLookAt;
+
+	lua_pushinteger(L, (int)actor);
+
+	return 1;
+}
+
+int lua_GetCameraPointer(lua_State* L)
+{
+	CLifeActor_Camera* camera = *(CLifeActor_Camera**)luaL_checkudata(L, 1, g_CameraMetaName);
+
+	lua_pushinteger(L, (int)camera);
+
+	return 1;
+}
+
+int lua_CreateCamera(lua_State* L)
+{
+	int nargs = lua_gettop(L);
+
+	float x, y, z = 0;
+	CLifeActor** attachTo = (CLifeActor**)lua_checklifeactor(L, 3, false);
+	CLifeActor** lookAt = (CLifeActor**)lua_checklifeactor(L, 4, false);
+
+	CLifeActor* pAttachTo = NULL;
+	CLifeActor* pLookAt = NULL;
+
+	if (attachTo)
+		pAttachTo = *attachTo;
+	if (lookAt)
+		pLookAt = *lookAt;
+
+	Vector4 rotation = Vector4();
+
+	Lua_Vector* vec = *(Lua_Vector**)luaL_checkudata(L, 1, g_LuaVectorMetaTable);
+	x = vec->X;
+	y = vec->Y;
+	z = vec->Z;
+
+	if (nargs > 1)
+	{
+		Lua_Quaternion* qua = *(Lua_Quaternion**)luaL_checkudata(L, 3, g_LuaQuaternionMetaTable);
+		rotation.X = qua->X;
+		rotation.Y = qua->Y;
+		rotation.Z = qua->Z;
+		rotation.W = qua->W;
+	}
+
+	CLifeActor_Camera* camera = (CLifeActor_Camera*)hamster::CreateObject(EFactoryType::EFactoryType_LifeActor_Camera);
+
+	if (camera != NULL)
+	{
+		Matrix mtx = Matrix();
+
+		//mtx.forward = Vector(0, 0, 1);
+		//mtx.right = Vector(0, 1, 0);
+		//mtx.up = Vector(1, 0, 0);
+
+		float xx = rotation.X * rotation.X;
+		float yy = rotation.Y * rotation.Y;
+		float zz = rotation.Z * rotation.Z;
+		float xy = rotation.X * rotation.Y;
+		float xz = rotation.X * rotation.Z;
+		float yz = rotation.Y * rotation.Z;
+		float wx = rotation.W * rotation.X;
+		float wy = rotation.W * rotation.Y;
+		float wz = rotation.W * rotation.Z;
+
+		mtx.right.X = 1.0f - 2.0f * (yy + zz);
+		mtx.right.Y = 2.0f * (xy + wz);
+		mtx.right.Z = 2.0f * (xz - wy);
+
+		mtx.up.X = 2.0f * (xy - wz);
+		mtx.up.Y = 1.0f - 2.0f * (xx + zz);
+		mtx.up.Z = 2.0f * (yz + wx);
+
+		mtx.forward.X = 2.0f * (xz + wy);
+		mtx.forward.Y = 2.0f * (yz - wx);
+		mtx.forward.Z = 1.0f - 2.0f * (xx + yy);
+
+		mtx.pos = Vector(x, y, z);
+
+		camera->CustomInitalise(mtx, pAttachTo, pLookAt);
+
+		CLifeActor_Camera** udata = (CLifeActor_Camera**)lua_newuserdata(L, sizeof(void*));
+		*udata = camera;
+
+		luaL_getmetatable(L, g_CameraMetaName); // return metatable type
+		lua_setmetatable(L, -2); // return/set the return
+
+		return 1;
+	}
+
+	lua_pushnil(L);
+	return 1;
+}

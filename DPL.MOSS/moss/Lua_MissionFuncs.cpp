@@ -15,6 +15,7 @@
 #include "..\dpl\Speed.h"
 #include "..\dpl\InputManager.h"
 #include "..\dpl\CLifeActor_Character.h"
+#include "..\dpl\CFontManager.h"
 
 int lua_EndAllLifeEvents(lua_State* L)
 {
@@ -66,6 +67,14 @@ int lua_GetGameDifficulty(lua_State* L)
 
 	lua_pushinteger(L, diff);
 	return 1;
+}
+
+int lua_DrawText(lua_State* L)
+{
+	CPCViewport* genVP = CPCViewport::GetGenericViewport();
+	// TODO
+
+	return 0;
 }
 
 int lua_EnableCops(lua_State* L)

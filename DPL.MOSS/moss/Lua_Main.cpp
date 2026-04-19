@@ -17,6 +17,9 @@
 #include "Lua_ObjectiveIcon.h"
 #include "Lua_Prop.h"
 #include "Lua_CameraSelect.h"
+#include "Lua_PointActor.h"
+#include "Lua_TestVolume.h"
+#include "Lua_Camera.h"
 
 // funcs
 #include "Lua_MissionFuncs.h"
@@ -550,6 +553,7 @@ void Init_Lua_Constants()
 	lua_pushinteger(L, ObjectiveIconDisplayType::DisplayType_MOTOCROSS); lua_setglobal(L, "DisplayType_MOTOCROSS");
 	lua_pushinteger(L, ObjectiveIconDisplayType::DisplayType_PERFECTDELIVERY); lua_setglobal(L, "DisplayType_PERFECTDELIVERY");
 	lua_pushinteger(L, ObjectiveIconDisplayType::DisplayType_REPOMAN); lua_setglobal(L, "DisplayType_REPOMAN");
+	lua_pushinteger(L, ObjectiveIconDisplayType::DisplayType_SAFEHOUSE); lua_setglobal(L, "DisplayType_SAFEHOUSE");
 	lua_pushinteger(L, ObjectiveIconDisplayType::DisplayType_STICKUP); lua_setglobal(L, "DisplayType_STICKUP");
 	lua_pushinteger(L, ObjectiveIconDisplayType::DisplayType_STREETRACE); lua_setglobal(L, "DisplayType_STREETRACE");
 	lua_pushinteger(L, ObjectiveIconDisplayType::DisplayType_TAXI); lua_setglobal(L, "DisplayType_TAXI");
@@ -562,6 +566,18 @@ void Init_Lua_Constants()
 	lua_pushinteger(L, ObjectiveIconDisplayType::DisplayType_GARAGEPOSITIONMARKERSHORTFAT); lua_setglobal(L, "DisplayType_GARAGEPOSITIONMARKERSHORTFAT");
 	lua_pushinteger(L, ObjectiveIconDisplayType::DisplayType_GARAGEPOSITIONMARKERSHORTSKINNY); lua_setglobal(L, "DisplayType_GARAGEPOSITIONMARKERSHORTSKINNY");
 	lua_pushinteger(L, ObjectiveIconDisplayType::DisplayType_GARAGEPOSITIONMARKERTALLSKINNY); lua_setglobal(L, "DisplayType_GARAGEPOSITIONMARKERTALLSKINNY");
+
+	// ObjectiveIconVisibility
+	lua_pushinteger(L, ObjectiveIconVisibility::ObjVisibility_MinimapAndModel); lua_setglobal(L, "ObjVisibility_MinimapAndModel");
+	lua_pushinteger(L, ObjectiveIconVisibility::ObjVisibility_MinimapOnly); lua_setglobal(L, "ObjVisibility_MinimapOnly");
+	lua_pushinteger(L, ObjectiveIconVisibility::ObjVisibility_ModelOnly); lua_setglobal(L, "ObjVisibility_ModelOnly");
+
+	// EPrimitiveType
+	lua_pushinteger(L, EPrimitiveType::InvalidPrimitive); lua_setglobal(L, "EPrimitiveType_Invalid");
+	lua_pushinteger(L, EPrimitiveType::Cylinder); lua_setglobal(L, "EPrimitiveType_Cylinder");
+	lua_pushinteger(L, EPrimitiveType::Box); lua_setglobal(L, "EPrimitiveType_Box");
+	lua_pushinteger(L, EPrimitiveType::Sphere); lua_setglobal(L, "EPrimitiveType_Sphere");
+	lua_pushinteger(L, EPrimitiveType::Plane); lua_setglobal(L, "EPrimitiveType_Plane");
 
 	// alphanumerics
 	lua_pushinteger(L, '0');
@@ -804,6 +820,12 @@ void Init_Lua_Funcs()
 
 	// prop
 	lua_register(L, "CreateProp", lua_CreateProp); // Prop CreateProp(Vector position, EGadgetType gadgetType, [ Quaternion rotation, bool canbeTargeted = false, bool startCreated = true)
+
+	// point actor
+	lua_register(L, "CreatePoint", lua_CreatePoint); // Point_Actor CreatePoint(Vector position, [ Quaternion rotation = Quaternion(0, 0, 0, 0))
+
+	// test volume actor
+	lua_register(L, "CreateTestVolume", lua_CreateTestVolume); // TestVolume CreateTestVolume(Vector position, [ Quaternion rotation = Quaternion(0, 0, 0, 0), EPrimitiveType primType = EPrimitiveType_Cylinder, float widthOrRadius = 2.5, float length = 0.0, height = 5.0, LifeActor attachTo = nil)
 }
 
 void Init_Lua_MetaTables()
@@ -820,6 +842,9 @@ void Init_Lua_MetaTables()
 	Init_Lua_MetaTable_CameraSelect();
 	Init_Lua_MetaTable_CharacterInstance();
 	Init_Lua_MetaTable_CharacterActor();
+	Init_Lua_MetaTable_PointActor();
+	Init_Lua_MetaTable_TestVolume();
+	Init_Lua_MetaTable_Camera();
 	// TODO: vehicle (object), life system, vehicle manager, maybe do gadgets (props, etc.)
 
 	// extern

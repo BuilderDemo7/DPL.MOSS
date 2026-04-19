@@ -1,5 +1,6 @@
 #pragma once
 #include "Lua_Main.h"
+#include "Lua_LifeActor.h"
 #include "..\dpl\CLifeActor_Prop.h"
 
 extern const char* g_PropMetaName;

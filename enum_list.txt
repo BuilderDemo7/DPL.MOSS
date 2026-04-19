@@ -195,3 +195,19 @@ enum ObjectiveIconDisplayType
 	DisplayType_GARAGEPOSITIONMARKERSHORTSKINNY = 0x1a,
 	DisplayType_GARAGEPOSITIONMARKERTALLSKINNY = 0x1b
 };
+
+enum ObjectiveIconVisibility
+{
+	ObjVisibility_MinimapAndModel = 1,
+	ObjVisibility_ModelOnly = 2,
+	ObjVisibility_MinimapOnly = 3,
+};
+
+enum EPrimitiveType
+{
+	EPrimitiveType_Invalid = -1,
+	EPrimitiveType_Cylinder = 0x1,
+	EPrimitiveType_Box = 0x2,
+	EPrimitiveType_Sphere = 0x3,
+	EPrimitiveType_Plane = 0x4
+};

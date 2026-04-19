@@ -384,6 +384,27 @@
     <ClInclude Include="moss\Lua_LifeActor.h">
       <Filter>Header files\MOSS</Filter>
     </ClInclude>
+    <ClInclude Include="dpl\CLifeActor_Marker.h">
+      <Filter>Header files\dpl</Filter>
+    </ClInclude>
+    <ClInclude Include="moss\Lua_PointActor.h">
+      <Filter>Header files\MOSS</Filter>
+    </ClInclude>
+    <ClInclude Include="dpl\CLifeActor_TestVolume.h">
+      <Filter>Header files\dpl</Filter>
+    </ClInclude>
+    <ClInclude Include="dpl\SPrimitiveData.h">
+      <Filter>Header files\dpl</Filter>
+    </ClInclude>
+    <ClInclude Include="moss\Lua_TestVolume.h">
+      <Filter>Header files\MOSS</Filter>
+    </ClInclude>
+    <ClInclude Include="dpl\CLifeActor_Camera.h">
+      <Filter>Header files\dpl</Filter>
+    </ClInclude>
+    <ClInclude Include="moss\Lua_Camera.h">
+      <Filter>Header files\MOSS</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -636,6 +657,24 @@
       <Filter>Source files\dpl</Filter>
     </ClCompile>
     <ClCompile Include="moss\Lua_LifeActor.cpp">
+      <Filter>Source files\MOSS</Filter>
+    </ClCompile>
+    <ClCompile Include="dpl\CLifeActor_Marker.cpp">
+      <Filter>Source files\dpl</Filter>
+    </ClCompile>
+    <ClCompile Include="moss\Lua_PointActor.cpp">
+      <Filter>Source files\MOSS</Filter>
+    </ClCompile>
+    <ClCompile Include="dpl\CLifeActor_TestVolume.cpp">
+      <Filter>Source files\dpl</Filter>
+    </ClCompile>
+    <ClCompile Include="moss\Lua_TestVolume.cpp">
+      <Filter>Source files\MOSS</Filter>
+    </ClCompile>
+    <ClCompile Include="dpl\CLifeActor_Camera.cpp">
+      <Filter>Source files\dpl</Filter>
+    </ClCompile>
+    <ClCompile Include="moss\Lua_Camera.cpp">
       <Filter>Source files\MOSS</Filter>
     </ClCompile>
   </ItemGroup>

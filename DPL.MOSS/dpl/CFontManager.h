@@ -29,6 +29,15 @@ struct FontSpecs {
 	char field16_0x3d;
 	char field17_0x3e;
 	char field18_0x3f;
+
+	FontSpecs()
+	{
+		colour = Vector4(1, 1, 1, 1);
+		w = 1.0f;
+		xScale = 1.0f;
+		yScale = 1.0f;
+		justify = EJustify_Left;
+	}
 };
 
 class CFontManager

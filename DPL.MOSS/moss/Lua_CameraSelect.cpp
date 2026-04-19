@@ -1,8 +1,6 @@
 #include "Lua_CameraSelect.h"
 #include "..\dpl\Factory.h"
-
-// include life actors here
-#include "Lua_VehicleActor.h"
+#include "Lua_LifeActor.h"
 
 const char* g_CameraSelectMetaName = "CameraSelect";
 
@@ -55,21 +53,12 @@ int lua_GetCameraSelectTarget(lua_State* L)
 	CLifeActor* actor = camSel->m_targetActor;
 	if (actor != NULL)
 	{
-		EFactoryType fct = actor->hamsterFactoryType();
+		Lua_LifeActorInfo info = GetLuaLifeActor(actor);
 
-		CLifeActor** udata = (CLifeActor**)lua_newuserdata(L, sizeof(void*));
-		*udata = actor;
+		luaL_getmetatable(L, info.m_pszMetaTableName); // return metatable type
+		lua_setmetatable(L, -2); // return/set the return
 
-		switch (fct)
-		{
-			case EFactoryType_LifeActor_Vehicle:
-			{
-				luaL_getmetatable(L, g_VehicleActorMetaName); // return metatable type
-				lua_setmetatable(L, -2); // return/set the return
-
-				return 1;
-			}
-		}
+		return 1;
 	}
 
 	lua_pushnil(L);
@@ -119,7 +108,7 @@ int lua_DisableCameraSelect(lua_State* L)
 int lua_CreateCameraSelect(lua_State* L)
 {
 	ECameraSelectType cameraType = (ECameraSelectType)luaL_checkinteger(L, 1);
-	CLifeActor** actor = (CLifeActor**)luaL_testudata(L, 2, g_VehicleActorMetaName);
+	CLifeActor** actor = (CLifeActor**)lua_checklifeactor(L, 2);
 	
 	ECameraSelect_VehicleCamType vehiclePosition = (ECameraSelect_VehicleCamType)luaL_optinteger(L, 3, ECameraSelect_VehicleCamType_Bonnet);
 

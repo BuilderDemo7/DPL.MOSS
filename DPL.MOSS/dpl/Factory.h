@@ -9,6 +9,12 @@ enum EFactoryType
 	EFactoryType_Font,
 
 	EFactoryType_Helicopter = 0x20, // actual helicopter
+	
+	EFactoryType_Camera_MatrixOffset = 0x51,
+	EFactoryType_Camera_Fixed = 0x52,
+	EFactoryType_Camera_Tracking = 0x53,
+	EFactoryType_Camera_Free = 0x55, // free camera!!
+	
 	EFactoryType_LifeInstance_Character = 0x88,
 	EFactoryType_LifeInstance_Vehicle = 0x89,
 	EFactoryType_LifeInstance_Volume = 0x8A,

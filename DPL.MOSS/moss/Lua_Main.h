@@ -14,6 +14,7 @@ extern bool g_bLuaScriptsStarted;
 
 extern lua_State* L;
 
+void Init_LuaMisc();
 void Init_LuaScripts();
 
 void Lua_Start();

@@ -16,6 +16,8 @@
 #include "..\dpl\InputManager.h"
 #include "..\dpl\CLifeActor_Character.h"
 #include "..\dpl\CFontManager.h"
+#include "..\dpl\Factory.h"
+#include "..\dpl\MathFuncs.h"
 
 int lua_EndAllLifeEvents(lua_State* L)
 {
@@ -73,6 +75,153 @@ int lua_DrawText(lua_State* L)
 {
 	CPCViewport* genVP = CPCViewport::GetGenericViewport();
 	// TODO
+
+	return 0;
+}
+
+bool g_bFreeCamOn = false;
+void* g_pFreeCamPtr = NULL;
+
+int lua_ToggleFreeCam(lua_State* L)
+{
+	bool status = lua_toboolean(L, 1);
+	int gamepad = luaL_optinteger(L, 2, 0);
+
+	// if already in that status
+	if (g_bFreeCamOn == status)
+		return 0;
+
+	g_bFreeCamOn = status;
+	CLifeSystem* lfs = CLifeSystem::GetInstance();
+
+	if (status)
+	{
+		Matrix mtx = Matrix();
+
+		mtx.forward = Vector(0, 0, 1);
+		mtx.up = Vector(0, 1, 0);
+		mtx.right = Vector(1, 0, 0);
+
+		if (lfs)
+		{
+			CLifePlayer* player = lfs->GetPlayer();
+			if (player)
+			{
+				CCharacter* chara = player->GetDriverBehaviour()->GetCharacter();
+				Matrix* pMtx = chara->GetMatrix();
+
+				Vector4 q = Vector4(0, 0, 0, 0);
+				mtx = math_initFromQandV3(&q, pMtx->pos);
+				//mtx.forward = pMtx->forward;
+				//mtx.right = pMtx->right;
+				//mtx.up = pMtx->up;
+			}
+		}
+
+		g_pFreeCamPtr = hamster::CreateObject(EFactoryType_Camera_Free);
+		if (g_pFreeCamPtr != NULL)
+		{
+			// Initialise__12CFixedCameraRC4MAm4fff
+			((void(__thiscall*)(void*, Matrix*, int ePadID))0x557beb)(g_pFreeCamPtr, &mtx, gamepad);
+
+			if (GameCamera::GetInstance() != NULL)
+			{
+				// SetOverrideCamera__10GameCameraGQ27hamstert8CAutoPtr2Z7ICameraZii
+				((void(__thiscall*)(GameCamera*, void* piCamera, int blendtime))0x55a6de)(GameCamera::GetInstance(), g_pFreeCamPtr, 0);
+			}
+		}
+		else
+		{
+			g_bFreeCamOn = false;
+		}
+	}
+	else
+	{
+		// SetOverrideCamera__10GameCameraGQ27hamstert8CAutoPtr2Z7ICameraZii
+		((void(__thiscall*)(GameCamera*, void* piCamera, int blendtime))0x55a6de)(GameCamera::GetInstance(), NULL, 0);
+		if (g_pFreeCamPtr != NULL)
+		{
+			// void operator()<class_IInterface> (void * pPointer)
+			void* unknown = g_pFreeCamPtr;
+			((void(__thiscall*)(void**, void*))0x4ad031)(&unknown, g_pFreeCamPtr);
+
+			g_pFreeCamPtr = NULL;
+		}
+	}
+
+	return 0;
+}
+
+int lua_ToggleIGCS(lua_State* L)
+{
+	bool status = lua_toboolean(L, 1);
+
+	CLifeSystem* lfs = CLifeSystem::GetInstance();
+	
+	if (status)
+	{
+		if (lfs)
+		{
+			CLifePlayer* player = lfs->GetPlayer();
+			player->m_bEnabled = false;
+
+			// disable HUD
+			void* Singleton_GameOverlayManager = *(void**)0x70c71c;
+
+			// EnableOverlays__19CGameOverlayManagerb
+			((void(__thiscall*)(void*, bool))0x4b754a)(Singleton_GameOverlayManager, false);
+			// EnableOverheadMap__19CGameOverlayManagerb
+			((void(__thiscall*)(void*, bool))0x4b76d7)(Singleton_GameOverlayManager, false);
+
+			// disable Chara. sounds
+			void* Singleton_CharacterSoundManager = *(void**)0x70c69c;
+
+			((void(__thiscall*)(void*, bool))0x4e0f5a)(Singleton_CharacterSoundManager, false);
+
+			// clear fragments
+			void* Singleton_FragmentManager = *(void**)0x70c680;
+
+			// RemoveFragments__15FragmentManagerQ28fragment5EType
+			((void(__thiscall*)(void*, int))0x536cbc)(Singleton_FragmentManager, 6);
+			((void(__thiscall*)(void*, int))0x536cbc)(Singleton_FragmentManager, 4);
+			((void(__thiscall*)(void*, int))0x536cbc)(Singleton_FragmentManager, 0);
+			((void(__thiscall*)(void*, int))0x536cbc)(Singleton_FragmentManager, 1);
+			((void(__thiscall*)(void*, int))0x536cbc)(Singleton_FragmentManager, 2);
+			((void(__thiscall*)(void*, int))0x536cbc)(Singleton_FragmentManager, 3);
+
+			CCharacter* chara = player->GetDriverBehaviour()->GetCharacter();
+			CVehicle* vehi = chara->GetVehicle();
+			if (vehi)
+			{
+				// activate handbrake
+				SVehicleManipulationPacket packet = SVehicleManipulationPacket();
+				packet.bHandbrake = true;
+
+				vehi->SendManipulationPacket(&packet);
+			}
+		}
+	}
+	else
+	{
+		if (lfs)
+		{
+			CLifePlayer* player = lfs->GetPlayer();
+			player->m_bEnabled = false;
+
+			// re-enable HUD
+			void* Singleton_GameOverlayManager = *(void**)0x70c71c;
+
+			// EnableOverlays__19CGameOverlayManagerb
+			((void(__thiscall*)(void*, bool))0x4b754a)(Singleton_GameOverlayManager, true);
+			// EnableOverheadMap__19CGameOverlayManagerb
+			((void(__thiscall*)(void*, bool))0x4b76d7)(Singleton_GameOverlayManager, true);
+
+			// re-enable Chara. sounds
+			void* Singleton_CharacterSoundManager = *(void**)0x70c69c;
+
+			((void(__thiscall*)(void*, bool))0x4e0f5a)(Singleton_CharacterSoundManager, true);
+		}
+	}
 
 	return 0;
 }

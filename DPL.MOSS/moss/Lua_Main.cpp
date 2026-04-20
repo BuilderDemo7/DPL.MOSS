@@ -40,6 +40,12 @@ std::vector<int> g_LuaDrawTargetManEvents;// draw_targets()
 
 lua_State* L = NULL;
 
+void Init_LuaMisc()
+{
+	g_bFreeCamOn = false;
+	g_pFreeCamPtr = NULL;
+}
+
 void Init_LuaScripts()
 {
 #ifdef _DEBUG
@@ -210,6 +216,8 @@ void Init_LuaScripts()
 	g_bLuaScriptsLoaded = true;
 
 	printf("%d scripts were loaded with success in 'moss_scripts' folder, %d with errors.\n", scriptsLoaded, scriptsErrored);
+
+	Init_LuaMisc();
 }
 
 void Lua_Start()
@@ -817,6 +825,11 @@ void Init_Lua_Funcs()
 	// camera
 	lua_register(L, "SetCameraPosition", lua_SetCameraPosition); // void SetCameraPosition(Vector pos)
 	lua_register(L, "CreateCameraSelect", lua_CreateCameraSelect); // CameraSelect CreateCameraSelect(ECameraSelectType cameraType, LifeActor target, ECameraSelect_VehicleCamType vehiclePosition, [ float duration = 60.0, float zoom = 1.0, float motionBlur = 0.0, float speed = 1.0, float blendTime = 0.0)
+	lua_register(L, "CreateCamera", lua_CreateCamera); // Camera CreateCamera(Vector position, Quaternion rotation, [ LifeActor attachTo = nil, LifeActor lookAt = nil)
+	lua_register(L, "ToggleFreeCam", lua_ToggleFreeCam); // void ToggleFreeCam(bool status, [ int gamepadId = 0)
+
+	// IGCs
+	lua_register(L, "ToggleIGCS", lua_ToggleIGCS); // void ToggleIGCS(bool status)
 
 	// prop
 	lua_register(L, "CreateProp", lua_CreateProp); // Prop CreateProp(Vector position, EGadgetType gadgetType, [ Quaternion rotation, bool canbeTargeted = false, bool startCreated = true)

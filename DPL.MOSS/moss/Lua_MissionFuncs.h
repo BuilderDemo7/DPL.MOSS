@@ -1,6 +1,9 @@
 #pragma once
 #include "Lua_Main.h"
 
+extern bool g_bFreeCamOn;
+extern void* g_pFreeCamPtr;
+
 int lua_GetPlayerCharacter(lua_State* L);
 int lua_GetPlayerActor(lua_State* L);
 int lua_ShowMissionComment(lua_State* L);
@@ -10,6 +13,9 @@ int lua_EndAllLifeEvents(lua_State* L);
 //int lua_SetLifeEventStatus(lua_State* L);
 
 int lua_GetEra(lua_State* L);
+
+int lua_ToggleFreeCam(lua_State* L);
+int lua_ToggleIGCS(lua_State* L);
 
 int lua_SetGameDifficulty(lua_State* L);
 int lua_GetGameDifficulty(lua_State* L);

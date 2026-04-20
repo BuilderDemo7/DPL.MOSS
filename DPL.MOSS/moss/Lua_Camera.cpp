@@ -2,6 +2,8 @@
 #include "..\dpl\Factory.h"
 #include "Lua_LifeActor.h"
 
+#include "..\dpl\MathFuncs.h"
+
 const char* g_CameraMetaName = "Camera";
 
 void Init_Lua_MetaTable_Camera()
@@ -154,7 +156,7 @@ int lua_CreateCamera(lua_State* L)
 
 	if (nargs > 1)
 	{
-		Lua_Quaternion* qua = *(Lua_Quaternion**)luaL_checkudata(L, 3, g_LuaQuaternionMetaTable);
+		Lua_Quaternion* qua = *(Lua_Quaternion**)luaL_checkudata(L, 2, g_LuaQuaternionMetaTable);
 		rotation.X = qua->X;
 		rotation.Y = qua->Y;
 		rotation.Z = qua->Z;
@@ -165,12 +167,13 @@ int lua_CreateCamera(lua_State* L)
 
 	if (camera != NULL)
 	{
-		Matrix mtx = Matrix();
+		Matrix mtx = math_initFromQandV3(&rotation, Vector(x,y,z));
 
 		//mtx.forward = Vector(0, 0, 1);
 		//mtx.right = Vector(0, 1, 0);
 		//mtx.up = Vector(1, 0, 0);
 
+		/*
 		float xx = rotation.X * rotation.X;
 		float yy = rotation.Y * rotation.Y;
 		float zz = rotation.Z * rotation.Z;
@@ -193,6 +196,18 @@ int lua_CreateCamera(lua_State* L)
 		mtx.forward.Y = 2.0f * (yz - wx);
 		mtx.forward.Z = 1.0f - 2.0f * (xx + yy);
 
+		// TODO: find a way to fix the camera projection, the sky goes black but the direction is correct
+		mtx.forward.X = -mtx.forward.X;
+		mtx.forward.Z = -mtx.forward.Z;
+
+		mtx.right.X = -mtx.right.X;
+		mtx.right.Z = -mtx.right.Z;
+
+		mtx.forward.Normalise();
+		mtx.right.Normalise();
+		mtx.up.Normalise();
+
+		*/
 		mtx.pos = Vector(x, y, z);
 
 		camera->CustomInitalise(mtx, pAttachTo, pLookAt);

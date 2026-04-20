@@ -58,8 +58,9 @@ Helicopter CreateHelicopter(float x, float y, float z, [ float velx = 0.0, float
 * Prop
 Prop CreateProp(Vector position, EGadgetType gadgetType, [ Quaternion rotation = Quaternion.new(0,0,0,0), bool canbeTargeted = false, bool startCreated = true)
 
-* Camera
+* CameraSelect + Camera
 CameraSelect CreateCameraSelect(ECameraSelectType cameraType, LifeActor target, ECameraSelect_VehicleCamType vehiclePosition, [ float duration = 60.0, float zoom = 1.0, float motionBlur = 0.0, float speed = 1.0, float blendTime = 0.0)
+Camera CreateCamera(Vector position, [ Quaternion rotation = Quaternion.new(0,0,0,0), LifeActor attachTo = nil, LifeActor lookAt = nil)
 
 * Character Actor
 Character_Actor CreateCharacter(int skin, float x, float y, float z, [ float angle = 0.0, bool startCreated = true, EWeapons weapon, float initialHealth = 1.0, float initialFelony = 0.0, Vehicle_Actor initialVehicle = nil, int initialVehicleSeat = 0, bool addToFelonyManager = false, bool doNotUseIdleAnims, bool isPlayer = false)
@@ -69,6 +70,11 @@ Point_Actor CreatePoint(Vector position, [ Quaternion rotation = Quaternion(0, 0
 
 * TestVolume
 TestVolume CreateTestVolume(Vector position, [ Quaternion rotation = Quaternion(0, 0, 0, 0), EPrimitiveType primType = EPrimitiveType_Cylinder, float widthOrRadius = 2.5, float length = 0.0, height = 5.0, LifeActor attachTo = nil)
+
+# Camera
+
+void SetCameraPosition(Vector pos) # doesn't work quite right
+void ToggleFreeCam(bool status, [ int gamepadId = 0)
 
 # Music / Sounds
 
@@ -110,6 +116,8 @@ void SetChaseCarPatrolDensity(float density, [ AIFelonySystemPatrolCarTypeEnum p
 bool IsPlayerFreeAiming()
 bool HasPlayerShotRecently()
 void AddAllWeaponsForPlayer()
+
+void ToggleIGCS(bool status)
 
 # Overhead Map
 

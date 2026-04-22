@@ -11,4 +11,6 @@ public:
 	CVehicle* m_piVehicle;
 
 	void SetMustangHandling(bool bOn);
+
+	// vtable + 0x9c -> position()
 };

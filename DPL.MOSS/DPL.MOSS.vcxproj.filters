@@ -405,6 +405,9 @@
     <ClInclude Include="moss\Lua_Camera.h">
       <Filter>Header files\MOSS</Filter>
     </ClInclude>
+    <ClInclude Include="moss\Lua_LifeInstance.h">
+      <Filter>Header files\MOSS</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -675,6 +678,9 @@
       <Filter>Source files\dpl</Filter>
     </ClCompile>
     <ClCompile Include="moss\Lua_Camera.cpp">
+      <Filter>Source files\MOSS</Filter>
+    </ClCompile>
+    <ClCompile Include="moss\Lua_LifeInstance.cpp">
       <Filter>Source files\MOSS</Filter>
     </ClCompile>
   </ItemGroup>

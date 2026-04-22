@@ -273,6 +273,7 @@
     <ClInclude Include="moss\Lua_Helicopter.h" />
     <ClInclude Include="moss\Lua_Hooking.h" />
     <ClInclude Include="moss\Lua_LifeActor.h" />
+    <ClInclude Include="moss\Lua_LifeInstance.h" />
     <ClInclude Include="moss\Lua_Main.h" />
     <ClInclude Include="moss\Lua_MapItem.h" />
     <ClInclude Include="moss\Lua_MissionFuncs.h" />
@@ -366,6 +367,7 @@
     <ClCompile Include="moss\Lua_Helicopter.cpp" />
     <ClCompile Include="moss\Lua_Hooking.cpp" />
     <ClCompile Include="moss\Lua_LifeActor.cpp" />
+    <ClCompile Include="moss\Lua_LifeInstance.cpp" />
     <ClCompile Include="moss\Lua_Main.cpp" />
     <ClCompile Include="moss\Lua_MapItem.cpp" />
     <ClCompile Include="moss\Lua_MissionFuncs.cpp" />

@@ -6,6 +6,7 @@
 
 // metatables
 #include "Lua_LifeActor.h"
+#include "Lua_LifeInstance.h"
 #include "Lua_Character.h"
 #include "Lua_CharacterInstance.h"
 #include "Lua_CharacterActor.h"
@@ -839,6 +840,9 @@ void Init_Lua_Funcs()
 
 	// test volume actor
 	lua_register(L, "CreateTestVolume", lua_CreateTestVolume); // TestVolume CreateTestVolume(Vector position, [ Quaternion rotation = Quaternion(0, 0, 0, 0), EPrimitiveType primType = EPrimitiveType_Cylinder, float widthOrRadius = 2.5, float length = 0.0, height = 5.0, LifeActor attachTo = nil)
+
+	// life instances stuff
+	lua_register(L, "GetLifeInstances", lua_GetLifeInstances); // { LifeInstance } GetLifeInstances()
 }
 
 void Init_Lua_MetaTables()
@@ -858,6 +862,8 @@ void Init_Lua_MetaTables()
 	Init_Lua_MetaTable_PointActor();
 	Init_Lua_MetaTable_TestVolume();
 	Init_Lua_MetaTable_Camera();
+	Init_Lua_MetaTable_LifeActor();
+	Init_Lua_MetaTable_LifeInstance();
 	// TODO: vehicle (object), life system, vehicle manager, maybe do gadgets (props, etc.)
 
 	// extern

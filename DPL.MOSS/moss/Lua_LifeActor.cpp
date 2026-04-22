@@ -8,6 +8,72 @@
 #include "Lua_PointActor.h"
 #include "Lua_Prop.h" // also an LifeActor
 
+const char* g_LifeActorMetaName = "LifeActor";
+
+void Init_Lua_MetaTable_LifeActor()
+{
+	luaL_newmetatable(L, g_LifeActorMetaName);
+
+	// set __index
+	lua_pushcfunction(L, lua_LifeActorIndex);
+	lua_setfield(L, -2, "__index");
+
+	lua_pop(L, 1);
+}
+
+int lua_LifeActorIndex(lua_State* L)
+{
+	CLifeActor* actor = *(CLifeActor**)lua_touserdata(L, 1);
+	const char* key = lua_tostring(L, 2);
+
+	// NOTE: methods are like a _thiscall [MyFunc(void* this, ...)]
+
+	if (strcmp(key, "GetPointer") == 0) {
+		lua_pushcfunction(L, lua_GetLifeActorPointer);
+		return 1;
+	}
+	// LifeActor generic methods
+	else if (strcmp(key, "AddObjectiveIcon") == 0) {
+		lua_pushcfunction(L, lua_AddObjectiveIconToLifeActor);
+		return 1;
+	}
+	else if (strcmp(key, "RemoveObjectiveIcon") == 0) {
+		lua_pushcfunction(L, lua_RemoveObjectiveIconFromLifeActor);
+		return 1;
+	}
+	else if (strcmp(key, "Create") == 0 || strcmp(key, "Instantiate") == 0) {
+		lua_pushcfunction(L, lua_InstantiateLifeActor);
+		return 1;
+	}
+	else if (strcmp(key, "Destroy") == 0 || strcmp(key, "Delete") == 0) {
+		lua_pushcfunction(L, lua_DestroyLifeActor);
+		return 1;
+	}
+	else if (strcmp(key, "hamsterFactoryType") == 0 || strcmp(key, "FactoryType") == 0) {
+		int facType = -1;
+
+		if (actor != NULL)
+			facType = actor->hamsterFactoryType();
+		
+		lua_pushinteger(L, facType);
+		return 1;
+	}
+	else {
+		lua_pushnil(L);
+	}
+
+	return 1;
+}
+
+int lua_GetLifeActorPointer(lua_State* L)
+{
+	CLifeActor* actor = *(CLifeActor**)lua_touserdata(L, 1);
+
+	lua_pushinteger(L, (int)actor);
+
+	return 1;
+}
+
 int lua_AddObjectiveIconToLifeActor(lua_State* L)
 {
 	CLifeActor* actor = *(CLifeActor**)lua_touserdata(L, 1);

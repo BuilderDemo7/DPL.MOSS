@@ -534,9 +534,9 @@ int lua_SetVehicleColor(lua_State* L)
 {
 	CVehicle* vehicle = *(CVehicle**)luaL_checkudata(L, 1, g_VehicleMetaName); // param 1
 
-	float r = luaL_checknumber(L, 1);
-	float g = luaL_checknumber(L, 2);
-	float b = luaL_checknumber(L, 3);
+	float r = luaL_checknumber(L, 2);
+	float g = luaL_checknumber(L, 3);
+	float b = luaL_checknumber(L, 4);
 
 	vehicle->SetColor(r, g, b);
 
@@ -547,9 +547,9 @@ int lua_GetVehicleColor(lua_State* L)
 {
 	CVehicle* vehicle = *(CVehicle**)luaL_checkudata(L, 1, g_VehicleMetaName); // param 1
 
-	float r = luaL_checknumber(L, 1);
-	float g = luaL_checknumber(L, 2);
-	float b = luaL_checknumber(L, 3);
+	float r = 0;
+	float g = 0;
+	float b = 0;
 
 	Vector col = vehicle->GetColor();
 

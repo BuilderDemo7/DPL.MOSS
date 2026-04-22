@@ -91,6 +91,10 @@ int GetGameDifficulty()
 
 Era GetEra()
 
+# Life Instances
+
+{ LifeInstance } GetLifeInstances()
+
 # Felony Manager
 
 void SetVehicleFelonyLevel(Vehicle vehicle, float felony, [ AIFelonySystemPatrolCarTypeEnum patrolType = E_PATROLCARTYPE_COP) # equivalent to Vehicle:SetFelony(...)

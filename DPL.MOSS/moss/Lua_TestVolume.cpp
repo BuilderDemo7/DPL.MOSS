@@ -72,6 +72,16 @@ int lua_TestVolumeIndex(lua_State* L)
 		lua_pushcfunction(L, lua_RemoveObjectiveIconFromLifeActor);
 		return 1;
 	}
+	else if (strcmp(key, "hamsterFactoryType") == 0 || strcmp(key, "FactoryType") == 0) {
+		int facType = -1;
+
+		CLifeActor* actor = ((CLifeActor*)tVolume);
+		if (actor != NULL)
+			facType = actor->hamsterFactoryType();
+
+		lua_pushinteger(L, facType);
+		return 1;
+	}
 	else {
 		lua_pushnil(L);
 	}

@@ -60,6 +60,12 @@ int lua_GetVehicleInstance(lua_State* L)
 	
 	CVehicle* retVeh = ivehicle->m_piVehicle;
 
+	if (retVeh == NULL)
+	{
+		lua_pushnil(L);
+		return 1;
+	}
+
 	// allocate userdata to hold the pointer
 	CVehicle** udata = (CVehicle**)lua_newuserdata(L, sizeof(CCharacter*));
 	*udata = retVeh;

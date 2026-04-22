@@ -43,4 +43,6 @@ public:
 	char _pad[0x58];
 
 	CCharacter* m_piCharacter;
+
+	// vtable + 0xa8 -> position()
 };

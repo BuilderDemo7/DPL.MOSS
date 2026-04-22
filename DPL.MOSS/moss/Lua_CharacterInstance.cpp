@@ -56,6 +56,12 @@ int lua_GetCharacterInstance(lua_State* L)
 
 	CCharacter* retChar = icharacter->m_piCharacter;
 
+	if (retChar == NULL)
+	{
+		lua_pushnil(L);
+		return 1;
+	}
+
 	// allocate userdata to hold the pointer
 	CCharacter** udata = (CCharacter**)lua_newuserdata(L, sizeof(CCharacter*));
 	*udata = retChar;

@@ -4,11 +4,17 @@
 #include "..\dpl\SObjectiveIcon.h"
 #include "..\dpl\CTargetManager.h"
 
+extern const char* g_LifeActorMetaName;
+
 struct Lua_LifeActorInfo
 {
 	const char* m_pszMetaTableName;
 	void* m_pUserData; // CLifeActor**
 };
+
+void Init_Lua_MetaTable_LifeActor();
+int lua_LifeActorIndex(lua_State* L);
+int lua_GetLifeActorPointer(lua_State* L);
 
 int lua_AddObjectiveIconToLifeActor(lua_State* L);
 int lua_RemoveObjectiveIconFromLifeActor(lua_State* L);

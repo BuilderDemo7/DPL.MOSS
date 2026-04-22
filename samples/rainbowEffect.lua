@@ -1,7 +1,7 @@
 --=====================================
 --	Sample by S-Core03
 --	
---	Rainbow effect sample for any vehicle that the player is inside
+--	Rainbow effect sample for any vehicle that the player is inside and after 'end' key is pressed
 --=====================================
 
 local animTimer = 0

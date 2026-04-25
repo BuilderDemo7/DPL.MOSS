@@ -20,7 +20,9 @@ void CLifeSystem::RegisterPlayerActor(CLifeActor* pActor)
 	((void(__thiscall*)(CLifeSystem*, CLifeActor*))0x47199f)(this, pActor);
 }
 
+// actually it was meant to be with CLifeSystemSpoolCentre
 void CLifeSystem::SetSpoolCentre(float x, float z)
 {
-	((void(__thiscall*)(CLifeSystem*, float, float))0x473029)(this, x, z);
+	//((void(__thiscall*)(CLifeSystem*, float, float))0x473029)(this, x, z);
+	((void(__thiscall*)(void*, float, float))0x473029)(*(void**)0x70c7fc, x, z);
 }

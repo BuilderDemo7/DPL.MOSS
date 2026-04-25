@@ -3,7 +3,7 @@
 #include "LifeInstances.h"
 #include "SpoolableResourceManager.h"
 
-void CLifeActor_Character::CustomInitialise(ECharacterType skin, Matrix matrix, EWeapons weapon, float initialHealth, float felony, CLifeActor_Vehicle* initialVehicle, int initialVehicleSeat, bool createFromStart, bool addToFelonyManager, bool doNotUseIdleAnims, bool isPlayer, CLifeEventData* pEventData)
+void CLifeActor_Character::CustomInitialise(ECharacterType skin, Matrix matrix, EWeapons weapon, float initialHealth, float felony, CLifeActor_Vehicle* initialVehicle, int initialVehicleSeat, bool createFromStart, bool addToFelonyManager, bool doNotUseIdleAnims, bool isPlayer, bool ignorePlayerRegister, bool keepSkin, int playerNumber, CLifeEventData* pEventData)
 {
 	CLifeEventData* pActualEventData = pEventData;
 
@@ -48,39 +48,45 @@ void CLifeActor_Character::CustomInitialise(ECharacterType skin, Matrix matrix, 
 	if (!m_bPlayer)
 		m_ePlayerNumber = 0xefcdab0;
 	else
-		m_ePlayerNumber = 0;
+		m_ePlayerNumber = playerNumber;
 
-	if (m_bPlayer)
+	if (!ignorePlayerRegister)
 	{
-		auto ls = CLifeSystem::GetInstance();
-		if (ls)
+		if (m_bPlayer)
 		{
-			ls->RegisterPlayerActor(this); // register player
+			auto ls = CLifeSystem::GetInstance();
+			if (ls)
+			{
+				ls->RegisterPlayerActor(this); // register player
 
-			// set spool centre
-			ls->SetSpoolCentre(m_initialPosition.X, m_initialPosition.Z);
+				// set spool centre
+				ls->SetSpoolCentre(m_initialPosition.X, m_initialPosition.Z);
+			}
+
+			// player can do crime and go to jail!
+			m_bAddToFelonyManager = true;
 		}
-
-		// player can do crime and go to jail!
-		m_bAddToFelonyManager = true;
 	}
 
-	auto srm = SpoolableResourceManager::GetInstance();
-	if (srm != NULL)
+	if (!keepSkin)
 	{
-		// default skin if the target skin isn't loaded/present
-		if (!srm->IsEntityPresent(SpooledPackageType_CharacterSkins, m_skin))
+		auto srm = SpoolableResourceManager::GetInstance();
+		if (srm != NULL)
 		{
-			if (srm->IsEntityLoaded(SpooledPackageType_CharacterSkins, TheKid_Then))
-				m_skin = TheKid_Then;
-			if (srm->IsEntityLoaded(SpooledPackageType_CharacterSkins, TheDriver_Now))
-				m_skin = TheDriver_Now;
-		}
+			// default skin if the target skin isn't loaded/present
+			if (!srm->IsEntityPresent(SpooledPackageType_CharacterSkins, m_skin))
+			{
+				if (srm->IsEntityLoaded(SpooledPackageType_CharacterSkins, TheKid_Then))
+					m_skin = TheKid_Then;
+				if (srm->IsEntityLoaded(SpooledPackageType_CharacterSkins, TheDriver_Now))
+					m_skin = TheDriver_Now;
+			}
 
-		Vector v2Pos; // MAv2
-		v2Pos.X = m_initialPosition.X;
-		v2Pos.Y = m_initialPosition.Z;
-		srm->RequestEntity(SpooledPackageType_CharacterSkins, m_skin, (int)&v2Pos, ESpoolPriority_Required);
+			Vector v2Pos; // MAv2
+			v2Pos.X = m_initialPosition.X;
+			v2Pos.Y = m_initialPosition.Z;
+			srm->RequestEntity(SpooledPackageType_CharacterSkins, m_skin, (int)&v2Pos, ESpoolPriority_Required);
+		}
 	}
 
 	if (createFromStart)

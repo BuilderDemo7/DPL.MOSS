@@ -170,7 +170,7 @@ int lua_VehicleIndex(lua_State* L)
 int lua_SetVehiclePhysicsPriority(lua_State* L)
 {
 	CVehicle* vehicle = *(CVehicle**)luaL_checkudata(L, 1, g_VehicleMetaName); // param 1
-	int priority = luaL_checkinteger(L, 1);
+	int priority = luaL_checkinteger(L, 2);
 
 	// lol, driving type, I had not idea what to name that back then
 	// light type(true) = rendering priority
@@ -193,7 +193,7 @@ int lua_GetVehiclePhysicsPriority(lua_State* L)
 int lua_SetVehicleRenderingPriority(lua_State* L)
 {
 	CVehicle* vehicle = *(CVehicle**)luaL_checkudata(L, 1, g_VehicleMetaName); // param 1
-	int priority = luaL_checkinteger(L, 1);
+	int priority = luaL_checkinteger(L, 2);
 
 	// lol, driving type, I had not idea what to name that back then
 	// light type(true) = rendering priority
@@ -796,6 +796,8 @@ int lua_SendVehicleManipulationPacket(lua_State* L)
 { 
 	CVehicle* vehicle = *(CVehicle**)luaL_checkudata(L, 1, g_VehicleMetaName); // param 1
 
+	int nargs = lua_gettop(L);
+
 	SVehicleManipulationPacket packet;
 	float thrust, steerAngle, burnout, hornVol, leanFB;
 	bool nitro, handbrake, action1, brakeIsPressed;
@@ -807,9 +809,15 @@ int lua_SendVehicleManipulationPacket(lua_State* L)
 	burnout = (int)luaL_optnumber(L, 4, 0);
 	leanFB = (int)luaL_optnumber(L, 5, 0);
 	hornVol = (int)luaL_optnumber(L, 6, 0);
-	nitro = (int)luaL_optnumber(L, 7, 0);
-	handbrake = (int)luaL_optnumber(L, 8, 0);
-	brakeIsPressed = (int)luaL_optnumber(L, 9, 0);
+
+	if (nargs > 6)
+		nitro = lua_toboolean(L, 7);
+	if (nargs > 7)
+		handbrake = lua_toboolean(L, 8);
+	if (nargs > 8)
+		brakeIsPressed = lua_toboolean(L, 9);
+	if (nargs > 9)
+		action1 = lua_toboolean(L, 10);
 
 	packet.fThrust = thrust;
 	packet.fSteerValue = steerAngle;
@@ -817,9 +825,10 @@ int lua_SendVehicleManipulationPacket(lua_State* L)
 	packet.fLeanFB = leanFB;
 	packet.fHornVolume = hornVol;
 	// 1 = true, 0 = false
-	packet.bNitro = (bool)(int)nitro; 
-	packet.bHandbrake = (bool)(int)handbrake;
-	packet.bBrakeIsPressed = (bool)(int)brakeIsPressed;
+	packet.bNitro = nitro; 
+	packet.bHandbrake = handbrake;
+	packet.bBrakeIsPressed = brakeIsPressed;
+	packet.bAction1 = action1;
 
 	if (vehicle)
 		vehicle->SendManipulationPacket(&packet);

@@ -196,7 +196,7 @@ int lua_CharacterWalk(lua_State* L)
 
 	int nargs = lua_gettop(L) - 1; // number of arguments after 'self'
 
-	float x, y, z; // velocity for walk
+	float x, y, z, w; // velocity for walk
 
 	Lua_Vector* vec = *(Lua_Vector**)luaL_checkudata(L, 2, g_LuaVectorMetaTable);
 	x = vec->X;
@@ -210,7 +210,9 @@ int lua_CharacterWalk(lua_State* L)
 	if (nargs > 3)
 		scared = lua_toboolean(L, 4);
 
-	Vector4 velocity = Vector4(x, y, z, 1);
+	w = luaL_optnumber(L, 5, 1.0f);
+
+	Vector4 velocity = Vector4(x, y, z, w);
 	character->Walk(&velocity, strafe, scared);
 
 	return 0;  // number of return(s)

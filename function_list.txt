@@ -66,7 +66,7 @@ CameraSelect CreateCameraSelect(ECameraSelectType cameraType, LifeActor target, 
 Camera CreateCamera(Vector position, [ Quaternion rotation = Quaternion.new(0,0,0,0), LifeActor attachTo = nil, LifeActor lookAt = nil)
 
 * Character Actor
-Character_Actor CreateCharacter(int skin, float x, float y, float z, [ float angle = 0.0, bool startCreated = true, EWeapons weapon, float initialHealth = 1.0, float initialFelony = 0.0, Vehicle_Actor initialVehicle = nil, int initialVehicleSeat = 0, bool addToFelonyManager = false, bool doNotUseIdleAnims, bool isPlayer = false)
+Character_Actor CreateCharacter(int skin, float x, float y, float z, [ float angle = 0.0, bool startCreated = true, EWeapons weapon, float initialHealth = 1.0, float initialFelony = 0.0, Vehicle_Actor initialVehicle = nil, int initialVehicleSeat = 0, bool addToFelonyManager = false, bool doNotUseIdleAnims = false, bool isPlayer = false, bool ignorePlayerRegister = false, bool keepSkin = false, int playerNumber = 0)
 
 * Point_Actor
 Point_Actor CreatePoint(Vector position, [ Quaternion rotation = Quaternion(0, 0, 0, 0)) # useful for marking points to be used as a target/objective icon
@@ -188,7 +188,7 @@ Vehicle: vehicle, EVehicleDoor: closestDoor FindClosestVehicleForEntry(Character
 # Math
 
 float GetDistanceBetweenPoints2D(float x1, float y1, float x2, float y2)
-float GetDistanceBetweenPoints2D(float x1, float y1, float z1, float x2, float y2, z2)
+float GetDistanceBetweenPoints3D(float x1, float y1, float z1, float x2, float y2, float z2)
 
 // Classes
 
@@ -245,7 +245,7 @@ void Character:SetArrested()
 void Character:SetHealth(float health) # from 0 to 1, e.g. 0.5, 0.6, etc.
 float Character:GetHealth()
 ??? Character:SwapSkin(???) # W.I.P, DO NOT USE
-void Character:Walk(Vector velocity, [ bool strafe = false, bool scared = false)
+void Character:Walk(Vector velocity, [ bool strafe = false, bool scared = false, float w = 1.0)
 
 # Vehicle
 
@@ -262,7 +262,7 @@ void Vehicle:SetRotation(Quaternion rotation)
 Quaternion Vehicle:GetRotation()
 Character Vehicle:GetDriver()
 int Vehicle:GetType() : int Vehicle:GetModel() # Vehicle names are usually in Text/vehnames.txt file
-void Vehicle:SendManipulationPacket(float thrust, float steerAngle, [ float burnout = 0, float leanFB = 0, float hornVolume = 0, bool nitro = false, bool handbrake = false, bool brakeIsPressed = false)
+void Vehicle:SendManipulationPacket(float thrust, float steerAngle, [ float burnout = 0, float leanFB = 0, float hornVolume = 0, bool nitro = false, bool handbrake = false, bool brakeIsPressed = false, bool action1 = false)
 void Vehicle:Destroy()
 void Vehicle:MakeInfiniteMass() : void Vehicle:GiveInfiniteMass()
 void Vehicle:MakeStatic()

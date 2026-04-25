@@ -583,6 +583,14 @@ int lua_CreateCharacterActor(lua_State* L)
 	bool isPlayer = false;
 	if (nargs > 13)
 		isPlayer = lua_toboolean(L, 14);
+	bool ignorePlayerRegister = false;
+	if (nargs > 14)
+		ignorePlayerRegister = lua_toboolean(L, 15);
+	bool keepSkin = false;
+	if (nargs > 15)
+		keepSkin = lua_toboolean(L, 16);
+
+	int playerNumber = luaL_optinteger(L, 17, 0);
 
 	CLifeActor_Character* acharacter = (CLifeActor_Character*)hamster::CreateObject(EFactoryType::EFactoryType_LifeActor_Character);
 
@@ -602,7 +610,7 @@ int lua_CreateCharacterActor(lua_State* L)
 		if (initialVehicle)
 			iveh = *initialVehicle;
 
-		acharacter->CustomInitialise((ECharacterType)skin, mat, wep, initialHealth, felony, iveh, initialVehicleSeat, startCreated, addToFelonyManager, doNotUseIdleAnims, isPlayer);
+		acharacter->CustomInitialise((ECharacterType)skin, mat, wep, initialHealth, felony, iveh, initialVehicleSeat, startCreated, addToFelonyManager, doNotUseIdleAnims, isPlayer, ignorePlayerRegister, keepSkin, playerNumber);
 
 		CLifeActor_Character** udata = (CLifeActor_Character**)lua_newuserdata(L, sizeof(void*));
 		*udata = acharacter;

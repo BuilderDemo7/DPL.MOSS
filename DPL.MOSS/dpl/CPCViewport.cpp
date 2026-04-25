@@ -2,12 +2,12 @@
 
 CPCViewport* CPCViewport::GetSimulationViewport()
 {
-	return (CPCViewport*)(*(int*)(0x71C390));
+	return (CPCViewport*)(0x71C390);
 }
 
 CPCViewport* CPCViewport::GetGenericViewport()
 {
-	return *(CPCViewport**)(*(int*)(0x70C718));
+	return *(CPCViewport**)(0x70C718);
 }
 
 void CPCViewport::SetFOV(float FOV)

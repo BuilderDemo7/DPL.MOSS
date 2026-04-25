@@ -6,6 +6,11 @@
 #include "CWeapon.h"
 #include "CCharacter.h"
 
+#include "CLifePlayer.h"
+
+class CLifeInstance_Vehicle;
+class CLifeActor_Character;
+
 // size: 0x1f4
 class CLifeInstance_Character {
 public:
@@ -39,10 +44,51 @@ public:
 		float funk
 	);
 	void CoreCreate();
+
+	Vector4 position(unsigned int gameStepIndex);
+	Vector4 GetPosition();
 public:
 	char _pad[0x58];
 
 	CCharacter* m_piCharacter;
+	CLifePlayer* m_piPlayer;
+
+	char _pad1[0x98];
+
+	Vector4 m_initialPosition;
+	Vector4 m_positionChangePerGameStep;
+	bool m_constrainPositionChange;
+
+	char _pad2[0x13];
+
+	float m_initialHeading;
+	float m_headingChangePerGameStep;
+	bool m_crouch;
+	bool m_cowerIfCrouched;
+	bool m_strafeAndWeaponDrawn;
+
+	char _pad3;
+
+	CWeapon m_weapon;
+	bool m_shootIfWeaponDrawn;
+	bool m_melee;
+	bool m_weaponDrawn;
+
+	char _pad4;
+
+	float m_inaccuracy;
+	CLifeInstance_Vehicle* m_vehiclePtr;
+	int m_vehicleDoor;
+	CLifeActor_Character* m_syncVehicleInfoPlayerActorPtr;
+	Vector4 m_targetPosition;
+	bool m_arrested;
+
+	char _pad5[0x3]; // bool32 padding
+
+	float m_health;
+	short m_skin;
+
+	char _pad6[0x2]; // short32 padding
 
 	// vtable + 0xa8 -> position()
 };

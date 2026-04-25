@@ -11,6 +11,22 @@ void CLifeInstance_Character::CoreCreate() {
 	((void(__thiscall*)(CLifeInstance_Character*))0x47f8c3)(this);
 }
 
+Vector4 CLifeInstance_Character::position(unsigned int gameStepIndex)
+{
+	Vector4 returnStorage = Vector4();
+
+	((Vector4*(__thiscall*)(CLifeInstance_Character*, Vector4*, unsigned int))0x47ddb5)(this, &returnStorage, gameStepIndex);
+	return returnStorage;
+}
+
+Vector4 CLifeInstance_Character::GetPosition()
+{
+	void* Singleton_Time = *(void**)(0x70c5b0); // CGameTime *
+	unsigned int gameStepIndex = *(int*)Singleton_Time + 0x4; // Singleton_Time->m_nGameFrame
+
+	return position(gameStepIndex);
+}
+
 void CLifeInstance_Character::Initialise(
 	AutoPtr<CLifeInstance_Character, int>* outPtr,
 	int playerEnum,

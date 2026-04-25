@@ -24,6 +24,15 @@ TTargetPointer CLifeSystem_AIChaseCoordinator::GetTargetCharacter(CLifeActor* pA
 	return returnStorage;
 }
 
+TAntiTargetPointer CLifeSystem_AIChaseCoordinator::GetAntiTarget(CLifeActor* pActor)
+{
+	TAntiTargetPointer returnStorage = NULL;
+
+	((TAntiTargetPointer*(__thiscall*)(CLifeSystem_AIChaseCoordinator*, TAntiTargetPointer*, CLifeActor*))0x4a4dd9)(this, &returnStorage, pActor);
+
+	return returnStorage;
+}
+
 void CLifeSystem_AIChaseCoordinator::StartRandomWander(TPursuerPointer pursuerObject)
 {
 	((void(__thiscall*)(CLifeSystem_AIChaseCoordinator*, TPursuerPointer))0x4a4f6c)(this, pursuerObject);

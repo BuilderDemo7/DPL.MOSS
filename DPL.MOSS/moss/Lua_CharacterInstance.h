@@ -12,3 +12,6 @@ int lua_CharacterInstanceIndex(lua_State* L);
 
 int lua_GetCharacterInstance(lua_State* L);
 int lua_GetCharacterInstancePointer(lua_State* L);
+
+int lua_SetCharacterInstancePosition(lua_State* L);
+int lua_GetCharacterInstancePosition(lua_State* L);

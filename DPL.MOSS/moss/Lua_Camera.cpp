@@ -61,6 +61,14 @@ int lua_CameraIndex(lua_State* L)
 		lua_pushcfunction(L, lua_GetCameraAttachedToPointer);
 		return 1;
 	}
+	else if (strcmp(key, "SetPosition") == 0) {
+		lua_pushcfunction(L, lua_SetCameraActorPosition);
+		return 1;
+	}
+	else if (strcmp(key, "SetRotation") == 0) {
+		lua_pushcfunction(L, lua_SetCameraActorRotation);
+		return 1;
+	}
 	else if (strcmp(key, "hamsterFactoryType") == 0 || strcmp(key, "FactoryType") == 0) {
 		int facType = -1;
 
@@ -74,6 +82,95 @@ int lua_CameraIndex(lua_State* L)
 	else {
 		lua_pushnil(L);
 	}
+}
+
+int lua_SetCameraActorPosition(lua_State* L)
+{
+	CLifeActor_Camera* camera = *(CLifeActor_Camera**)luaL_checkudata(L, 1, g_CameraMetaName);
+
+	int nargs = lua_gettop(L) - 1; // number of arguments after 'self'
+
+	float x, y, z;
+
+	if (nargs == 1) {
+		// Single argument: expect a Vector
+		Lua_Vector* vec = *(Lua_Vector**)luaL_checkudata(L, 2, g_LuaVectorMetaTable);
+		x = vec->X;
+		y = vec->Y;
+		z = vec->Z;
+	}
+	else if (nargs == 3) {
+		// Three numbers
+		x = (float)luaL_checknumber(L, 2);
+		y = (float)luaL_checknumber(L, 3);
+		z = (float)luaL_checknumber(L, 4);
+	}
+	else {
+		return luaL_error(L, "Expected 1 Vector or 3 numbers");
+	}
+
+	Vector4 pos = Vector4(x, y, z, 1);
+	camera->m_matrix.pos = Vector(x, y, z);
+	if (camera->m_pCamera != NULL)
+	{
+		unsigned int vtable = *(unsigned int*)camera->m_pCamera;
+
+		Matrix* mt = NULL;
+
+		switch (vtable)
+		{
+		case 0x6501e4: // _vt$12CFixedCamera
+		{
+			mt = (Matrix*)(((int)camera->m_pCamera) + 0x10);
+			break;
+		}
+		}
+
+		if (mt != NULL)
+		{
+			mt->pos = camera->m_matrix.pos;
+		}
+	}
+
+	return 0;  // number of return(s)
+}
+
+int lua_SetCameraActorRotation(lua_State* L)
+{
+	CLifeActor_Camera* camera = *(CLifeActor_Camera**)luaL_checkudata(L, 1, g_CameraMetaName);
+
+	Lua_Quaternion* q = *(Lua_Quaternion**)luaL_checkudata(L, 2, g_LuaQuaternionMetaTable);
+	
+	Vector4 rotation = Vector4(q->X, q->Y, q->Z, q->W);
+	
+	Matrix mtx = math_initFromQandV3(&rotation, camera->m_matrix.pos);
+
+	camera->m_matrix = mtx;
+	if (camera->m_pCamera != NULL)
+	{
+		unsigned int vtable = *(unsigned int*)camera->m_pCamera;
+
+		Matrix* mt = NULL;
+
+		switch (vtable)
+		{
+		case 0x6501e4: // _vt$12CFixedCamera
+		{
+			mt = (Matrix*)(((int)camera->m_pCamera) + 0x10);
+			break;
+		}
+		}
+
+		if (mt != NULL)
+		{
+			mt->forward = camera->m_matrix.forward;
+			mt->up = camera->m_matrix.up;
+			mt->right = camera->m_matrix.right;
+			mt->pos = camera->m_matrix.pos;
+		}
+	}
+
+	return 0;  // number of return(s)
 }
 
 int lua_GetCameraAttachedTo(lua_State* L)

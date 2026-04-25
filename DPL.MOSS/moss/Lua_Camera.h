@@ -16,3 +16,6 @@ int lua_GetCameraAttachedTo(lua_State* L);
 int lua_GetCameraAttachedToPointer(lua_State* L);
 int lua_GetCameraLookAt(lua_State* L);
 int lua_GetCameraLookAtPointer(lua_State* L);
+
+int lua_SetCameraActorRotation(lua_State* L);
+int lua_SetCameraActorPosition(lua_State* L);

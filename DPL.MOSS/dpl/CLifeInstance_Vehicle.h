@@ -12,5 +12,8 @@ public:
 
 	void SetMustangHandling(bool bOn);
 
+	Vector4 position(unsigned int gameStepIndex);
+	Vector4 GetPosition();
+
 	// vtable + 0x9c -> position()
 };

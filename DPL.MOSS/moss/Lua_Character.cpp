@@ -53,6 +53,10 @@ int lua_CharacterIndex(lua_State* L)
 		lua_pushcfunction(L, lua_GetCharacterPointer);
 		return 1;
 	}
+	if (strcmp(key, "Walk") == 0) {
+		lua_pushcfunction(L, lua_CharacterWalk);
+		return 1;
+	}
 	else if (strcmp(key, "GetVehicle") == 0) {
 		lua_pushcfunction(L, lua_GetCharacterVehicle);
 		return 1;
@@ -184,6 +188,32 @@ int lua_GetCharacterPosition(lua_State* L)
 	lua_setmetatable(L, -2);
 
 	return 1; // number of return(s)
+}
+
+int lua_CharacterWalk(lua_State* L)
+{
+	CCharacter* character = *(CCharacter**)luaL_checkudata(L, 1, g_CharacterMetaName); // param 1
+
+	int nargs = lua_gettop(L) - 1; // number of arguments after 'self'
+
+	float x, y, z; // velocity for walk
+
+	Lua_Vector* vec = *(Lua_Vector**)luaL_checkudata(L, 2, g_LuaVectorMetaTable);
+	x = vec->X;
+	y = vec->Y;
+	z = vec->Z;
+
+	bool strafe = false;
+	if (nargs > 2)
+		strafe = lua_toboolean(L, 3);
+	bool scared = false;
+	if (nargs > 3)
+		scared = lua_toboolean(L, 4);
+
+	Vector4 velocity = Vector4(x, y, z, 1);
+	character->Walk(&velocity, strafe, scared);
+
+	return 0;  // number of return(s)
 }
 
 int lua_GetCharacterForwardVector(lua_State* L)

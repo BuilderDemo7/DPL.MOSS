@@ -9,13 +9,14 @@ enum EJustify {
 	EJustify_SizeOf = 2147483647
 };
 
+#pragma pack(push, 1)
 struct FontSpecs {
 	struct Vector4 colour { 1, 1, 1, 1 };
 	int fontType;
 	int textType;
 	float x;
 	float y;
-	float w = 1.0f;
+	float w = -1.0f;
 	float xScale = 1.0f;
 	float yScale = 1.0f;
 	float spacing;
@@ -33,14 +34,28 @@ struct FontSpecs {
 	FontSpecs()
 	{
 		colour = Vector4(1, 1, 1, 1);
-		w = 1.0f;
+		
+		fontType = 0;
+		textType = 0;
+		
+		x = 0;
+		y = 0;
+		w = -1.0f;
+
+		spacing = 0.0f;
+		flags = 0;
+
 		xScale = 1.0f;
 		yScale = 1.0f;
 		justify = EJustify_Left;
 	}
 };
+#pragma pack(pop)
 
 class CFontManager
 {
+public:
+	static CFontManager* GetInstance();
+
 	void Print(AutoPtr<CPCViewport, int> piView, FontSpecs &spec, char *szFormat, ...);
 };

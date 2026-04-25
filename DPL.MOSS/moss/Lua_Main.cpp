@@ -790,6 +790,9 @@ void Init_Lua_Funcs()
 	lua_register(L, "GetCameraMapItem", lua_GetCameraMapItem); // MapItem GetCameraMapItem()
 	lua_register(L, "GetMapMarkerItem", lua_GetMapMarkerItem); // MapItem GetMapMarkerItem()
 
+	lua_register(L, "GetVehicleInstances", lua_GetVehicleInstances); // { Vehicle } GetVehicleInstances()
+	lua_register(L, "FindClosestVehicleForEntry", lua_FindClosestVehicleForEntry); // Vehicle: vehicle, EVehicleDoor: closestDoor FindClosestVehicleForEntry(Character character, [ bool shyOfPassengers = false, bool willDrive = true, bool checkBack = true)
+
 	lua_register(L, "SetGameSpeed", lua_SetMasterSpeedMultiplier);
 	lua_register(L, "SetMasterSpeedMultiplier", lua_SetMasterSpeedMultiplier);
 
@@ -825,6 +828,9 @@ void Init_Lua_Funcs()
 
 	// camera
 	lua_register(L, "SetCameraPosition", lua_SetCameraPosition); // void SetCameraPosition(Vector pos)
+	lua_register(L, "GetCameraPosition", lua_GetCameraPosition); // Vector GetCameraPosition()
+	lua_register(L, "GetCameraForwardVector", lua_GetCameraForwardVector); // Vector GetCameraForwardVector()
+	lua_register(L, "GetCameraRightVector", lua_GetCameraRightVector); // Vector GetCameraRightVector()
 	lua_register(L, "CreateCameraSelect", lua_CreateCameraSelect); // CameraSelect CreateCameraSelect(ECameraSelectType cameraType, LifeActor target, ECameraSelect_VehicleCamType vehiclePosition, [ float duration = 60.0, float zoom = 1.0, float motionBlur = 0.0, float speed = 1.0, float blendTime = 0.0)
 	lua_register(L, "CreateCamera", lua_CreateCamera); // Camera CreateCamera(Vector position, Quaternion rotation, [ LifeActor attachTo = nil, LifeActor lookAt = nil)
 	lua_register(L, "ToggleFreeCam", lua_ToggleFreeCam); // void ToggleFreeCam(bool status, [ int gamepadId = 0)
@@ -843,6 +849,9 @@ void Init_Lua_Funcs()
 
 	// life instances stuff
 	lua_register(L, "GetLifeInstances", lua_GetLifeInstances); // { LifeInstance } GetLifeInstances()
+
+	// font manager
+	lua_register(L, "DrawText", lua_DrawText); // void DrawText(string text, float x, float y, [ EJustify justify = EJustify_Left, float sx = 1.0, float sy = 1.0, float r = 1.0, float g = 1.0, float b = 1.0, float a = 1.0, float spacing = 0.0)
 }
 
 void Init_Lua_MetaTables()

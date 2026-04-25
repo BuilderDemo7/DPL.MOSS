@@ -57,3 +57,16 @@ int lua_GetInputInfo(lua_State* L);
 int lua_LaunchVEdit(lua_State* L);
 
 int lua_SetCameraPosition(lua_State* L);
+
+int lua_DrawText(lua_State* L);
+
+int lua_GetVehicleInstances(lua_State* L);
+
+int lua_GetPlaylistFileNames(lua_State* L);
+int lua_GetPlaylistOrder(lua_State* L);
+
+int lua_FindClosestVehicleForEntry(lua_State* L);
+
+int lua_GetCameraPosition(lua_State* L);
+int lua_GetCameraForwardVector(lua_State* L);
+int lua_GetCameraRightVector(lua_State* L);

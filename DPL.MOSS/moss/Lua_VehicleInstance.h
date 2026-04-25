@@ -10,8 +10,8 @@ void Init_Lua_MetaTable_VehicleInstance();
 
 int lua_VehicleInstanceIndex(lua_State* L);
 
-//int lua_SetVehicleInstancePosition(lua_State* L);
-//int lua_GetVehicleInstancePosition(lua_State* L);
+int lua_SetVehicleInstancePosition(lua_State* L);
+int lua_GetVehicleInstancePosition(lua_State* L);
 int lua_GetVehicleInstance(lua_State* L);
 int lua_GetVehicleInstancePointer(lua_State* L);
 

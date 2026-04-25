@@ -26,3 +26,6 @@ int lua_GetLifeInstances(lua_State* L);
 // generic funcs
 int lua_DestroyLifeInstance(lua_State* L);
 int lua_InstantiateLifeInstance(lua_State* L);
+
+int lua_GetLifeInstancePosition(lua_State* L);
+int lua_SetLifeInstancePosition(lua_State* L);

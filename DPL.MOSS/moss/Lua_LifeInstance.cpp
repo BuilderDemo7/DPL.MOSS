@@ -31,11 +31,45 @@ int lua_LifeInstanceIndex(lua_State* L)
 		lua_pushcfunction(L, lua_GetLifeInstanceInstance);
 		return 1;
 	}
+	else if (strcmp(key, "SetPosition") == 0) {
+		lua_pushcfunction(L, lua_SetLifeInstancePosition);
+		return 1;
+	}
+	else if (strcmp(key, "GetPosition") == 0) {
+		lua_pushcfunction(L, lua_GetLifeInstancePosition);
+		return 1;
+	}
 	else {
 		lua_pushnil(L);
 	}
 
 	return 1;
+}
+
+int lua_GetLifeInstancePosition(lua_State* L)
+{
+	// returns 0,0,0!
+
+	// Allocate Lua-managed memory for the struct directly
+	void** udata = (void**)lua_newuserdata(L, sizeof(void*));
+	*udata = new Lua_Vector();
+
+	Lua_Vector* vecRes = *(Lua_Vector**)udata;
+
+	Vector4 pos = Vector4(0, 0, 0, 1);
+	vecRes->X = pos.X;
+	vecRes->Y = pos.Y;
+	vecRes->Z = pos.Z;
+
+	luaL_getmetatable(L, g_LuaVectorMetaTable);
+	lua_setmetatable(L, -2);
+
+	return 1;
+}
+
+int lua_SetLifeInstancePosition(lua_State* L)
+{
+	return 0;
 }
 
 int lua_GetLifeInstanceInstance(lua_State* L)

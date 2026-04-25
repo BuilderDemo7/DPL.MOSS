@@ -54,6 +54,11 @@ public:
 	char __padding1[0x8];
 };
 
+class AIChaseAntiTargetClass
+{
+public:
+};
+
 class CLife_AITarget
 {
 public:
@@ -70,8 +75,14 @@ class CLifeActor_AIChaseTarget : CLife_AITarget
 public:
 };
 
+class CLife_AIAntiTarget
+{
+public:
+};
+
 typedef CLife_AIPursuer* TPursuerPointer;
 typedef CLifeActor_AIChaseTarget* TTargetPointer;
+typedef CLife_AIAntiTarget* TAntiTargetPointer;
 
 class CLifeSystem_AIChaseCoordinator
 {
@@ -80,6 +91,7 @@ public:
 
 	TPursuerPointer GetPursuer(CLifeActor* pActor);
 	TTargetPointer GetTargetCharacter(CLifeActor* pActor);
+	TAntiTargetPointer GetAntiTarget(CLifeActor* pActor);
 
 	void StartRandomWander(TPursuerPointer pursuerObject);
 	void StopRandomWander(TPursuerPointer* pursuerObject);

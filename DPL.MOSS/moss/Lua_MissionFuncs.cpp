@@ -18,6 +18,7 @@
 #include "..\dpl\CFontManager.h"
 #include "..\dpl\Factory.h"
 #include "..\dpl\MathFuncs.h"
+#include "..\dpl\CPlaylist.h"
 
 int lua_EndAllLifeEvents(lua_State* L)
 {
@@ -71,10 +72,169 @@ int lua_GetGameDifficulty(lua_State* L)
 	return 1;
 }
 
+int lua_GetPlaylistOrder(lua_State* L)
+{
+	CPlaylist* musicPlaylist = (CPlaylist*)0x6cfd08;
+
+	lua_newtable(L); // result table
+	int count = musicPlaylist->m_TrackCount;
+
+	for (int i = 0; i < count; i++)
+	{
+		if (musicPlaylist->m_Tracks[i] != TRACK_END)
+		{
+			if (musicPlaylist->m_Tracks[i] != TRACK_MISSING && musicPlaylist->m_Tracks[i] != TRACK_INVALID)
+				lua_pushinteger(L, musicPlaylist->m_Tracks[i]);
+			else
+				lua_pushnil(L);
+
+			// insert into array
+			lua_rawseti(L, -2, i + 1);
+		}
+	}
+
+	return 1; // return the table
+}
+
+int lua_GetPlaylistFileNames(lua_State* L)
+{
+	CPlaylist* musicPlaylist = (CPlaylist*)0x6cfd08;
+
+	lua_newtable(L); // result table
+	int count = musicPlaylist->m_TrackCount;
+
+	for (int i = 0; i < count; i++)
+	{
+		lua_pushstring(L, musicPlaylist->m_TrackFilenames->m_tracks[i].m_szName);
+
+		// insert into array
+		lua_rawseti(L, -2, i + 1);
+	}
+
+	return 1; // return the table
+}
+
+int lua_GetVehicleInstances(lua_State* L)
+{
+	CVehicleManager* vman = CVehicleManager::GetInstance();
+
+	if (vman == NULL)
+	{
+		lua_pushnil(L);
+		return 1;
+	}
+
+	lua_newtable(L); // result table
+	int count = 96;
+
+	for (int i = 0; i < count; i++)
+	{
+		if (vman->m_piVehicles[i].m_pPointer != NULL)
+		{
+			CVehicle** udata = (CVehicle**)lua_newuserdata(L, sizeof(void*));
+			*udata = vman->m_piVehicles[i].m_pPointer;
+
+			// set metatable
+			luaL_getmetatable(L, g_VehicleMetaName);
+			lua_setmetatable(L, -2);
+
+			// insert into array
+			lua_rawseti(L, -2, i + 1);
+		}
+	}
+
+	return 1; // return the table
+}
+
+int lua_FindClosestVehicleForEntry(lua_State* L)
+{
+	int nargs = lua_gettop(L); // number of arguments
+
+	CCharacter* character = *(CCharacter**)luaL_checkudata(L, 1, g_CharacterMetaName);
+
+	CVehicle* retStorage = NULL;
+	EVehicleDoor eDoor = EVehicleDoor_FrontLeft;
+
+	bool shyOfPassengers = false;
+	bool willDrive = true;
+	bool checkBack = true;
+
+	if (nargs > 1)
+		shyOfPassengers = lua_toboolean(L, 2);
+	if (nargs > 2)
+		willDrive = lua_toboolean(L, 3);
+	if (nargs > 3)
+		checkBack = lua_toboolean(L, 4);
+
+	CVehicle** veh = ((CVehicle**(__fastcall*)(CVehicle**, EVehicleDoor*, CCharacter*, bool bShyOfPassengers, bool bWillDrive, bool bCheckBack, bool bCheckOrientation))0x46a16f)(&retStorage, &eDoor, character, shyOfPassengers, willDrive, checkBack, true);
+
+	CVehicle* actualVeh = NULL;
+	if (veh != NULL)
+		actualVeh = *veh;
+
+	if (!actualVeh)
+	{
+		lua_pushnil(L);
+		lua_pushinteger(L, eDoor);
+		return 1;
+	}
+
+	// allocate userdata to hold the pointer
+	CVehicle** udata = (CVehicle**)lua_newuserdata(L, sizeof(CVehicle*));
+	*udata = actualVeh;
+
+	// attach the vehicle metatable
+	luaL_getmetatable(L, g_VehicleMetaName);
+	lua_setmetatable(L, -2);
+
+	lua_pushinteger(L, eDoor);
+	return 2;
+}
+
 int lua_DrawText(lua_State* L)
 {
-	CPCViewport* genVP = CPCViewport::GetGenericViewport();
-	// TODO
+	CPCViewport* genVP = CPCViewport::GetSimulationViewport();
+	FontSpecs specs = FontSpecs();
+
+	const char* text = luaL_checkstring(L, 1);
+	float x = lua_tonumber(L, 2);
+	float y = lua_tonumber(L, 3);
+	int justifyText = luaL_optinteger(L, 4, 0); // justify left
+	float sx = luaL_optnumber(L, 3, 1.0f);
+	float sy = luaL_optnumber(L, 4, 1.0f);
+
+	// color, 0 - 1.0
+	float r = luaL_optnumber(L, 5, 1.0f);
+	float g = luaL_optnumber(L, 6, 1.0f);
+	float b = luaL_optnumber(L, 7, 1.0f);
+	float a = luaL_optnumber(L, 8, 1.0f);
+
+	float spacing = luaL_optnumber(L, 9, 0.0f);
+
+	specs.x = x;
+	specs.y = y;
+	specs.xScale = sx;
+	specs.yScale = sy;
+
+	specs.colour.X = r;
+	specs.colour.Y = g;
+	specs.colour.Z = b;
+	specs.colour.W = a;
+
+	specs.justify = (EJustify)justifyText;
+	specs.spacing = spacing;
+
+	if (genVP != NULL)
+	{
+		CFontManager* fman = CFontManager::GetInstance();
+		if (fman != NULL)
+		{
+			AutoPtr<CPCViewport, int> aGenVP = AutoPtr<CPCViewport, int>();
+			aGenVP.m_pPointer = genVP;
+
+			fman->Print(aGenVP, specs, const_cast<char*>(text));
+		}
+	}
 
 	return 0;
 }
@@ -921,4 +1081,71 @@ int lua_SetCameraPosition(lua_State* L)
 	cam->m_Matrix.pos = Vector(x, y, z);
 
 	return 0;  // number of return(s)
+}
+
+int lua_GetCameraPosition(lua_State* L)
+{
+	GameCamera* cam = GameCamera::GetInstance();
+
+	// Allocate Lua-managed memory for the struct directly
+	void** udata = (void**)lua_newuserdata(L, sizeof(void*));
+	*udata = new Lua_Vector();
+
+	Lua_Vector* vecRes = *(Lua_Vector**)udata;
+
+	Vector4 pos = Vector4(cam->m_Matrix.pos.X, cam->m_Matrix.pos.Y, cam->m_Matrix.pos.Z, 1.0f);
+
+	vecRes->X = pos.X;
+	vecRes->Y = pos.Y;
+	vecRes->Z = pos.Z;
+
+	luaL_getmetatable(L, g_LuaVectorMetaTable);
+	lua_setmetatable(L, -2);
+
+	return 1; // number of return(s)
+}
+
+int lua_GetCameraForwardVector(lua_State* L)
+{
+	GameCamera* cam = GameCamera::GetInstance();
+
+	// Allocate Lua-managed memory for the struct directly
+	void** udata = (void**)lua_newuserdata(L, sizeof(void*));
+	*udata = new Lua_Vector();
+
+	Lua_Vector* vecRes = *(Lua_Vector**)udata;
+
+	Vector4 pos = Vector4(cam->m_Matrix.forward.X, cam->m_Matrix.forward.Y, cam->m_Matrix.forward.Z, 1.0f);
+
+	vecRes->X = pos.X;
+	vecRes->Y = pos.Y;
+	vecRes->Z = pos.Z;
+
+	luaL_getmetatable(L, g_LuaVectorMetaTable);
+	lua_setmetatable(L, -2);
+
+	return 1; // number of return(s)
+}
+
+
+int lua_GetCameraRightVector(lua_State* L)
+{
+	GameCamera* cam = GameCamera::GetInstance();
+
+	// Allocate Lua-managed memory for the struct directly
+	void** udata = (void**)lua_newuserdata(L, sizeof(void*));
+	*udata = new Lua_Vector();
+
+	Lua_Vector* vecRes = *(Lua_Vector**)udata;
+
+	Vector4 pos = Vector4(cam->m_Matrix.right.X, cam->m_Matrix.right.Y, cam->m_Matrix.right.Z, 1.0f);
+
+	vecRes->X = pos.X;
+	vecRes->Y = pos.Y;
+	vecRes->Z = pos.Z;
+
+	luaL_getmetatable(L, g_LuaVectorMetaTable);
+	lua_setmetatable(L, -2);
+
+	return 1; // number of return(s)
 }

@@ -792,6 +792,8 @@ void Init_Lua_Funcs()
 
 	lua_register(L, "GetVehicleInstances", lua_GetVehicleInstances); // { Vehicle } GetVehicleInstances()
 	lua_register(L, "FindClosestVehicleForEntry", lua_FindClosestVehicleForEntry); // Vehicle: vehicle, EVehicleDoor: closestDoor FindClosestVehicleForEntry(Character character, [ bool shyOfPassengers = false, bool willDrive = true, bool checkBack = true)
+	
+	lua_register(L, "GetCharacterInstances", lua_GetCharacterInstances); // { Character } GetCharacterInstances([ int role = -1)
 
 	lua_register(L, "SetGameSpeed", lua_SetMasterSpeedMultiplier);
 	lua_register(L, "SetMasterSpeedMultiplier", lua_SetMasterSpeedMultiplier);

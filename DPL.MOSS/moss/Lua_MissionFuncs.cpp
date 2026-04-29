@@ -6,6 +6,7 @@
 #include "..\dpl\AIFelonySystemFelonyManager.h"
 #include "..\dpl\CLifeSystemCommentLog.h"
 #include "..\dpl\CLifeSystem.h"
+#include "..\dpl\CCharacterManager.h"
 #include "..\dpl\CCharacterCategoryManager.h"
 #include "..\dpl\CLifeEventDataManager.h"
 #include "..\dpl\GameOverlayManager.h"
@@ -140,6 +141,70 @@ int lua_GetVehicleInstances(lua_State* L)
 
 			// insert into array
 			lua_rawseti(L, -2, i + 1);
+		}
+	}
+
+	return 1; // return the table
+}
+
+int lua_GetCharacterInstances(lua_State* L)
+{
+	CCharacterManager* cman = CCharacterManager::GetInstance();
+
+	int role = luaL_optinteger(L, 1, -1);
+
+	if (cman == NULL)
+	{
+		lua_pushnil(L);
+		return 1;
+	}
+
+	lua_newtable(L); // result table
+
+	SCharacterContainer* container = NULL;
+	if (role != -1)
+	{
+		container = &cman->m_charactersPerRole[role];
+		int count = container->m_numCharacters;
+
+		for (int i = 0; i < count; i++)
+		{
+			if (container->m_characters[i].m_pPointer != NULL)
+			{
+				CCharacter** udata = (CCharacter**)lua_newuserdata(L, sizeof(void*));
+				*udata = container->m_characters[i].m_pPointer;
+
+				// set metatable
+				luaL_getmetatable(L, g_CharacterMetaName);
+				lua_setmetatable(L, -2);
+
+				// insert into array
+				lua_rawseti(L, -2, i + 1);
+			}
+		}
+	}
+	else
+	{
+		for (int roleId = 0; roleId < eCharacterRole_End; roleId++)
+		{
+			SCharacterContainer* autoContainer = &cman->m_charactersPerRole[role];
+			int count = autoContainer->m_numCharacters;
+
+			for (int i = 0; i < count; i++)
+			{
+				if (autoContainer->m_characters[i].m_pPointer != NULL)
+				{
+					CCharacter** udata = (CCharacter**)lua_newuserdata(L, sizeof(void*));
+					*udata = autoContainer->m_characters[i].m_pPointer;
+
+					// set metatable
+					luaL_getmetatable(L, g_CharacterMetaName);
+					lua_setmetatable(L, -2);
+
+					// insert into array
+					lua_rawseti(L, -2, i + 1);
+				}
+			}
 		}
 	}
 

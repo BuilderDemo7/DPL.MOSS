@@ -39,6 +39,7 @@ void EndAllLifeEvents() # exclude all missions!
 void LaunchVEdit() # launches the garage menu
 
 { Vehicle } GetVehicleInstances() # NOTE: not the same as GetLifeInstances() and not much controllable as Vehicle_LifeInstance or Vehicle_Actor
+{ Character } GetCharacterInstances([ int role = -1) # NOTE: not the same as GetLifeInstances() and not much controllable as Character_LifeInstance or Character_Actor
 
 # HUD
 

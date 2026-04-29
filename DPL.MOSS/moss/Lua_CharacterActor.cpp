@@ -480,6 +480,9 @@ int lua_SetCharacterActorPosition(lua_State* L)
 
 	if (acharacter->m_piCharacterInstance != NULL)
 	{
+		acharacter->m_piCharacterInstance->m_initialPosition = pos;
+		acharacter->m_piCharacterInstance->SetSpoolPosition(&pos);
+
 		if (acharacter->m_piCharacterInstance->m_piCharacter != NULL)
 		{
 			acharacter->m_piCharacterInstance->m_piCharacter->SetPosition(&pos);

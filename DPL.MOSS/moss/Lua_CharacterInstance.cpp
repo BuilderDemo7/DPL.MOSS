@@ -70,6 +70,7 @@ int lua_SetCharacterInstancePosition(lua_State* L)
 
 	Vector4 pos = Vector4(x, y, z, 1);
 	icharacter->m_initialPosition = pos;
+	icharacter->SetSpoolPosition(&pos);
 
 	if (icharacter->m_piCharacter != NULL)
 	{

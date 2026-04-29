@@ -47,13 +47,15 @@ public:
 
 	Vector4 position(unsigned int gameStepIndex);
 	Vector4 GetPosition();
+
+	void SetSpoolPosition(Vector4* pos);
 public:
 	char _pad[0x58];
 
 	CCharacter* m_piCharacter;
 	CLifePlayer* m_piPlayer;
 
-	char _pad1[0x98];
+	char _pad1[0xA4];
 
 	Vector4 m_initialPosition;
 	Vector4 m_positionChangePerGameStep;

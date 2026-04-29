@@ -27,6 +27,22 @@ Vector4 CLifeInstance_Character::GetPosition()
 	return position(gameStepIndex);
 }
 
+void CLifeInstance_Character::SetSpoolPosition(Vector4* pos)
+{
+	// this->m_SpoolHandler->m_ref->list
+	//void* spoolHandler = (void*)((int)this + 0xE4);
+	//void* spoolHandler_dependencyList = *(void**)((int)spoolHandler + 0x4);
+	
+	void* spoolHandler_dependencyList = *(void**)((int)this + 0xE8);
+
+	Vector4* positionalStuff_pos = (Vector4*)((int)spoolHandler_dependencyList + 0xA0);
+
+	positionalStuff_pos->X = pos->X;
+	positionalStuff_pos->Y = pos->Y;
+	positionalStuff_pos->Z = pos->Z;
+	positionalStuff_pos->W = pos->W;
+}
+
 void CLifeInstance_Character::Initialise(
 	AutoPtr<CLifeInstance_Character, int>* outPtr,
 	int playerEnum,

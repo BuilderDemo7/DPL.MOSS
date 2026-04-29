@@ -7,6 +7,12 @@
 #include "ECharacterRoles.h"
 #include "ECharacterType.h"
 
+struct SCharacterContainer
+{
+	AutoPtr<CCharacter, int> m_characters[32];
+	int m_numCharacters;
+};
+
 class CCharacterManager {
 public:
 	static CCharacterManager* GetInstance();
@@ -17,4 +23,8 @@ public:
 	int GetFreeCharacterCount();
 	// no idea what this does or if it's correct
 	void CharacterSetNoFelon(CCharacter* character, int unk);
+
+	void* vtable;
+
+	SCharacterContainer m_charactersPerRole[eCharacterRole_End]; // m_charactersPerRole[ECharacterRoles index]
 };

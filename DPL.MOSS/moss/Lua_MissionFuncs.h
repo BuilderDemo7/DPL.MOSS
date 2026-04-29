@@ -61,6 +61,7 @@ int lua_SetCameraPosition(lua_State* L);
 int lua_DrawText(lua_State* L);
 
 int lua_GetVehicleInstances(lua_State* L);
+int lua_GetCharacterInstances(lua_State* L);
 
 int lua_GetPlaylistFileNames(lua_State* L);
 int lua_GetPlaylistOrder(lua_State* L);

@@ -187,7 +187,7 @@ int lua_GetCharacterInstances(lua_State* L)
 	{
 		for (int roleId = 0; roleId < eCharacterRole_End; roleId++)
 		{
-			SCharacterContainer* autoContainer = &cman->m_charactersPerRole[role];
+			SCharacterContainer* autoContainer = &cman->m_charactersPerRole[roleId];
 			int count = autoContainer->m_numCharacters;
 
 			for (int i = 0; i < count; i++)

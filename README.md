@@ -1,8 +1,7 @@
 # Driver: Parallel Lines MOSS
 <img width="7260" height="1016" alt="DPL.MOSS" src="https://github.com/user-attachments/assets/b7e34874-960c-466b-a271-d141b284ea69" />
 
-MOSS or **M**od **O**riented **S**cripting **S**ystem is a plugin that integra
-tes Lua in Driver: Parallel Lines (2007),
+MOSS or **M**od **O**riented **S**cripting **S**ystem is a plugin that integrates Lua in Driver: Parallel Lines (2007),
  with this mod you can script your own Lua scripts to modify behaviours in the game such as exploding cars, giving infinite health,
  create helicopters, teleport to random locations, etc.
  

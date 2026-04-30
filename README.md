@@ -11,7 +11,11 @@ Lua is a dynamic programming language which was chosen because it's fast, lightw
 # Installation
 You can download it from the [releases](https://github.com/BuilderDemo7/DPL.MOSS/releases) section of this repository, all you have to do is extract all the files inside the .zip file into
  the same directory as your DriverParallelLines.exe file (main directory of the game)
- 
+
+## Installing Mods
+Create or find a folder called 'moss_scripts' in the main directory of the game, it's the folder where you should put your mods inside,
+you can find mods or samples inside [samples](https://github.com/BuilderDemo7/DPL.MOSS/tree/master/samples) folder.
+
 # Developing Mods
 Quick step by step tutorial on how to develop mods with MOSS:
 

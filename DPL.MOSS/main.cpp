@@ -22,8 +22,9 @@ void OnInitializePlugin()
 	Nop(0x4722f1, 6);
 	InjectHook(0x4722f1, CLifeSystem__Step__Hook, PATCH_JUMP);
 
-	Nop(0x55d904, 5);
-	InjectHook(0x55d904, visuals_draw__DrawMission__Hook, PATCH_JUMP);
+	// old addr: 0x55d904
+	Nop(0x55d92e, 5);
+	InjectHook(0x55d92e, visuals_draw__DrawMission__Hook, PATCH_JUMP);
 	
 	Nop(0x473cf6, 6);
 	InjectHook(0x473cf6, CTargetManager__Draw__Hook, PATCH_JUMP);

@@ -134,7 +134,7 @@ void CVehicle::GetPosition(Vector4* returnStorage)
 	*/
 
 	// new method
-	((Vector4*(__thiscall*)(IHandlingInternal*, Vector4*))*(int*)(GetHandlingVTableAddress() + 0xC))(this->m_piQueryHandling.m_pPointer, returnStorage); // 0x58bd65 for cars
+	((Vector4*(__thiscall*)(IHandlingInternal*, Vector4*))*(int*)(GetHandlingVTableAddress() + 0xC))(GetHandling().m_pPointer, returnStorage); // 0x58bd65 for cars
 }
 
 void CVehicle::SetPosition(Vector4 pos)
@@ -212,7 +212,7 @@ void CVehicle::SetPosition(Vector* pos)
 
 Vector4* CVehicle::GetVelocity(Vector4* returnStorage)
 {
-	return ((Vector4*(__thiscall*)(IHandlingInternal*, Vector4*))*(int*)(GetHandlingVTableAddress() + 0x1C))(this->m_piQueryHandling.m_pPointer, returnStorage); // 0x58bd65 for cars
+	return ((Vector4*(__thiscall*)(IHandlingInternal*, Vector4*))*(int*)(GetHandlingVTableAddress() + 0x1C))(GetHandling().m_pPointer, returnStorage); // 0x58bd65 for cars
 }
 
 Vector4 CVehicle::GetVelocity()
@@ -299,7 +299,7 @@ void CVehicle::SetVelocity(Vector* pos)
 
 void CVehicle::GetOrientation(Vector4* returnStorage)
 {
-	((Vector4*(__thiscall*)(IHandlingInternal*, Vector4*))*(int*)(GetHandlingVTableAddress() + 0x10))(this->m_piQueryHandling.m_pPointer, returnStorage);
+	((Vector4*(__thiscall*)(IHandlingInternal*, Vector4*))*(int*)(GetHandlingVTableAddress() + 0x10))(GetHandling().m_pPointer, returnStorage);
 }
 
 // Flip formula: Vector(0, X, 0, X)
@@ -431,14 +431,51 @@ Matrix* CVehicle::GetMatrix(Matrix* mat)
 #endif
 }
 
+AutoPtr<IHandlingInternal, int> CVehicle::GetHandling()
+{
+	AutoPtr<IHandlingInternal, int> returnStorage = AutoPtr<IHandlingInternal, int>();
+
+	((void(__thiscall*)(CVehicle*, AutoPtr<IHandlingInternal, int>*))*(int*)(GetVTableAddress() + 0x64))(this, &returnStorage);
+
+	return returnStorage;
+}
+
 float CVehicle::GetRPM()
 {
-	return ((float(__thiscall*)(IHandlingInternal*))*(int*)(GetHandlingVTableAddress() + 0x24))(this->m_piQueryHandling.m_pPointer); // 0x58bd65 for cars
+	return ((float(__thiscall*)(IHandlingInternal*))*(int*)(GetHandlingVTableAddress() + 0x24))(GetHandling().m_pPointer); // 0x58bd65 for cars
+}
+
+float CVehicle::IsSkidding(bool leftWheel)
+{
+	return ((float(__thiscall*)(IHandlingInternal*, bool))*(int*)(GetHandlingVTableAddress() + 0x2C))(GetHandling().m_pPointer, leftWheel); // 0x58bd65 for cars
+}
+
+int CVehicle::GetGear()
+{
+	int gear = 0;
+
+	int vt = GetHandlingVTableAddress();
+	IHandlingInternal* handling = GetHandling().m_pPointer;
+	int m_pEngineAndGearBox = 0;
+	if (vt == 0x652970) // car
+	{
+		m_pEngineAndGearBox = (int)handling + 0xd8;
+		gear = *(int*)(m_pEngineAndGearBox + 0x60);
+	}
+	else if(vt == 0x652780) // bike
+	{
+		m_pEngineAndGearBox = (int)handling + 0xa8;
+		gear = *(int*)(m_pEngineAndGearBox + 0x60);
+	}
+	else
+		return 0;
+
+	return gear;
 }
 
 PHobject* CVehicle::GetPhysicsObject()
 {
-	return ((PHobject*(__thiscall*)(IHandlingInternal*))*(int*)(GetHandlingVTableAddress() + 0xEC))(this->m_piQueryHandling.m_pPointer);
+	return ((PHobject*(__thiscall*)(IHandlingInternal*))*(int*)(GetHandlingVTableAddress() + 0xEC))(GetHandling().m_pPointer);
 }
 
 void CVehicle::SetColor(float R, float G, float B)
@@ -736,17 +773,30 @@ SVehicleManipulationPacket* CVehicle::GetForcedInputs()
 
 sCustomCar* CVehicle::GetCustomCarData()
 {
-	return (sCustomCar*)(this + 0x5A4);
+	return ((sCustomCar*(__thiscall*)(CVehicle*))*(int*)(GetVTableAddress() + 0x2C))(this);
 }
 
 // 0x461382 <- also called here
 void CVehicle::SetCustomCarData(sCustomCar *pChav, cVehicleProperties *pProps, void *pBuffer) // SetCustomCarData__8CVehicleP10sCustomCarPC18cVehiclePropertiesPv(CVehicle *this,sCustomCar *pChav,cVehicleProperties *pProps,void *pBuffer)
 {
 #ifdef CALL_SETCUSTOMCAR
-	((void(__thiscall*)(CVehicle*, sCustomCar*, cVehicleProperties*, void*))0x5AE726)(this, pChav, pProps, pBuffer);
+	cVehicleProperties* cProps = pProps;
+	void* dmgBuffer = pBuffer;
+	if (dmgBuffer == NULL)
+		dmgBuffer = *(void**)((int)this + 0x5a8);
+	if (cProps == NULL)
+		cProps = *(cVehicleProperties**)((int)this + 0x7c);
+
+	((void(__thiscall*)(CVehicle*, sCustomCar*, cVehicleProperties*, void*))*(int*)(GetVTableAddress() + 0x28))(this, pChav, cProps, dmgBuffer);
+	//((void(__thiscall*)(CVehicle*, sCustomCar*, cVehicleProperties*, void*))0x5AE726)(this, pChav, pProps, pBuffer);
 #else
 	*(sCustomCar**)(this->GetPointer() + 0x5A4) = pChav;
 #endif
+}
+
+cVehicleProperties* CVehicle::GetVehicleProperties()
+{
+	return ((cVehicleProperties*(__thiscall*)(CVehicle*))*(int*)(GetVTableAddress() + 0x30))(this);
 }
 
 float CVehicle::GetThrottle()
@@ -892,7 +942,7 @@ int CVehicle::GetVTableAddress()
 
 int CVehicle::GetHandlingVTableAddress()
 {
-	return *(int*)(this->m_piQueryHandling.m_pPointer);
+	return *(int*)(GetHandling().m_pPointer);
 }
 
 bool CVehicle::IsValid()
@@ -905,7 +955,7 @@ bool CVehicle::IsValid()
 		return false;
 	if (&this->m_piQueryHandling == NULL)
 		return false;
-	if (this->m_piQueryHandling.m_pPointer == NULL)
+	if (GetHandling().m_pPointer == NULL)
 		return false;
 	try {
 		return ((this->GetPointer() != 0 && this != nullptr) && *(int*)(this->GetPointer()) == 0x653170);

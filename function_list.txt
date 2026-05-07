@@ -39,12 +39,19 @@ void EndAllLifeEvents() # exclude all missions!
 void LaunchVEdit() # launches the garage menu
 
 { Vehicle } GetVehicleInstances() # NOTE: not the same as GetLifeInstances() and not much controllable as Vehicle_LifeInstance or Vehicle_Actor
-{ Character } GetCharacterInstances([ int role = -1) # NOTE: not the same as GetLifeInstances() and not much controllable as Character_LifeInstance or Character_Actor
+{ Character } GetCharacterInstances([ int role = -1) # NOTE: if role is equal to -1 it will get characters from all roles (including player as first of the list, not the same as GetLifeInstances() and not much controllable as Character_LifeInstance or Character_Actor
+
+void SetSpoolCentre(float x, float z) # useful for defining area to be loaded around for the city, vehicles, etc.
+
+float GetWorldTime()
+void SetWorldTime(float newHour)
+
+void ParkVehicle(Vehicle vehicle)
 
 # HUD
 
 void ActivatePager()
-void DrawText(string text, float x, float y, [ EJustify justify = EJustify_Left, float sx = 1.0, float sy = 1.0, float r = 1.0, float g = 1.0, float b = 1.0, float a = 1.0, float spacing = 0.0) # WARNING: Crashes the game due to a unknown cause, do NOT use
+void DrawText(string text, float x, float y, [ EJustify justify = EJustify_Centered, float sx = 1.0, float sy = 1.0, float r = 1.0, float g = 1.0, float b = 1.0, float a = 1.0, float spacing = 0.0, float w = 1.0)
 
 # Object Creation & Destruction
 
@@ -270,6 +277,8 @@ void Vehicle:MakeStatic()
 void Vehicle:MakeDynamic()
 float Vehicle:GetNitro() # from 0.0 to 1.0, e.g. 0.1 (10% nitro), 0.5 (50% nitro), etc.
 void Vehicle:SetNitro(float amount)
+void Vehicle:ResetCustomData()
+void Vehicle:Damage(float damageLevel, [ ePartSubType part = -1) # part -1 means most of the parts will be damaged
 float Vehicle:GetDamage()
 void Vehicle:SetDamage(float amount)
 void Vehicle:Explode()
@@ -283,6 +292,8 @@ void Vehicle:SetRenderingPriority(int priority)
 int Vehicle:GetRenderingPriority()
 void Vehicle:SetColor(float r, float g, float b) # color values are a scale from 0.0 to 1.0, e.g. (1.0, 0.0, 0.0 - red)
 float: r, float: g, float: b Vehicle:GetColor()
+float Vehicle:GetRPM()
+int Vehicle:GetGear()
 
 # Vehicle_Actor
 
@@ -313,6 +324,8 @@ void Character_Actor:GoWander([ float speed = 30.0, float acceleration = 1.0, fl
 void Character_Actor:StopWander()
 void Character_Actor:DriveToTarget(LifeActor target, [ float speed = 30.0, float acceleration = 1.0, float traction = 1.0, float handOfTom = 1.0, bool driveAsCiv = false, bool stopAtTarget = true, bool useHandbrakeToStop = false, int cheatSettings = 1) # NOTE: when driveAsCiv is set to true, the AI will drive just like a civilian, the game will crash if the game doesn't find a suitable road map for the AI (so place it on the road to prevent this crash).
 void Character_Actor:StopDrivingToTarget(LifeActor target)
+void Character_Actor:ChaseTarget(LifeActor target, [ float speed = 30.0, float acceleration = 1.0, float traction = 1.0, float handOfTom = 1.0, int pursuitMode = 1, bool driveAsCiv = false, bool stopAtTarget = true, bool useHandbrakeToStop = false, int cheatSettings = 1) # NOTE: when driveAsCiv is set to true, the AI will drive just like a civilian, the game will crash if the game doesn't find a suitable road map for the AI (so place it on the road to prevent this crash).
+void Character_Actor:StopChasingTarget(LifeActor target)
 void Character_Actor:AddObjectiveIcon(ObjectiveIconDisplayType displayType, [ ObjVisibility_MinimapAndModel visibility = ObjVisibility_MinimapAndModel, bool displayMinimapArrow = false, bool displayAsCop = false, float additionalHeightOffset = 0.0, int lifeEventType = 0)
 void Character_Actor:RemoveObjectiveIcon(ObjectiveIconDisplayType displayType, [ ObjVisibility_MinimapAndModel visibility = ObjVisibility_MinimapAndModel, bool displayMinimapArrow = false, bool displayAsCop = false, float additionalHeightOffset = 0.0, int lifeEventType = 0)
 
@@ -337,11 +350,17 @@ void Point_Actor:RemoveObjectiveIcon(ObjectiveIconDisplayType displayType, [ Obj
 Vehicle Vehicle_LifeInstance:GetInstance()
 intptr_t Vehicle_LifeInstance:GetPointer() # CLifeInstance_Vehicle*
 void Vehicle_LifeInstance:SetMustangHandling(bool on)
+void Vehicle_LifeInstance:UnregisterSpoolHandler() # disable ping-out, useful for players or permanent/constant loaded instances
+void Vehicle_LifeInstance:SetCreateDamaged(bool createDamaged)
+bool Vehicle_LifeInstance:GetCreateDamaged()
+void Vehicle_LifeInstance:SetFelony(float felony)
+float Vehicle_LifeInstance:GetFelony()
 
 # Character_LifeInstance
 
 Character Character_LifeInstance:GetInstance()
-intptr_t Character_LifeInstance:GetPointer() # Character_LifeInstance*
+intptr_t Character_LifeInstance:GetPointer() # CLifeInstance_Character*
+void Character_LifeInstance:UnregisterSpoolHandler() # disable ping-out, useful for players or permanent/constant loaded instances
 
 # Helicopter
 

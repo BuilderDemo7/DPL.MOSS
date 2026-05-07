@@ -63,6 +63,13 @@ int lua_DrawText(lua_State* L);
 int lua_GetVehicleInstances(lua_State* L);
 int lua_GetCharacterInstances(lua_State* L);
 
+int lua_SetSpoolCentre(lua_State* L);
+
+int lua_GetWorldTime(lua_State* L);
+int lua_SetWorldTime(lua_State* L);
+
+int lua_ParkVehicle(lua_State* L);
+
 int lua_GetPlaylistFileNames(lua_State* L);
 int lua_GetPlaylistOrder(lua_State* L);
 

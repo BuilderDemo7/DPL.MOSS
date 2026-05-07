@@ -29,3 +29,5 @@ int lua_InstantiateLifeInstance(lua_State* L);
 
 int lua_GetLifeInstancePosition(lua_State* L);
 int lua_SetLifeInstancePosition(lua_State* L);
+
+int lua_UnregisterLifeInstanceSpoolHandler(lua_State* L);

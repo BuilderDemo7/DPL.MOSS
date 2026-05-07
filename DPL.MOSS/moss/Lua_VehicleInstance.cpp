@@ -40,11 +40,44 @@ int lua_VehicleInstanceIndex(lua_State* L)
 		lua_pushcfunction(L, lua_GetVehicleInstancePosition);
 		return 1;
 	}
+	else if (strcmp(key, "UnregisterSpoolHandler") == 0) {
+		lua_pushcfunction(L, lua_UnregisterVehicleInstanceSpoolHandler);
+		return 1;
+	}
+	else if (strcmp(key, "SetCreateDamaged") == 0) {
+		lua_pushcfunction(L, lua_SetVehicleInstanceCreatedDamaged);
+		return 1;
+	}
+	else if (strcmp(key, "GetCreateDamaged") == 0) {
+		lua_pushcfunction(L, lua_GetVehicleInstanceCreatedDamaged);
+		return 1;
+	}
+	else if (strcmp(key, "SetFelony") == 0) {
+		lua_pushcfunction(L, lua_SetVehicleInstanceFelony);
+		return 1;
+	}
+	else if (strcmp(key, "GetFelony") == 0) {
+		lua_pushcfunction(L, lua_GetVehicleInstanceFelony);
+		return 1;
+	}
 	else {
 		lua_pushnil(L);
 	}
 
 	return 1;
+}
+
+int lua_UnregisterVehicleInstanceSpoolHandler(lua_State* L)
+{
+	CLifeInstance_Vehicle* ivehicle = *(CLifeInstance_Vehicle**)luaL_checkudata(L, 1, g_VehicleInstanceMetaName);
+
+	CSpoolableMissionObject* handler = ivehicle->GetSpoolHandler();
+	if (handler != NULL)
+	{
+		handler->Unregister();
+	}
+
+	return 0;
 }
 
 int lua_SetVehicleInstancePosition(lua_State* L)
@@ -146,4 +179,46 @@ int lua_SetVehicleMustangHandling(lua_State* L)
 	ivehicle->SetMustangHandling(bOn);
 
 	return 0;
+}
+
+int lua_SetVehicleInstanceCreatedDamaged(lua_State* L)
+{
+	CLifeInstance_Vehicle* ivehicle = *(CLifeInstance_Vehicle**)luaL_checkudata(L, 1, g_VehicleInstanceMetaName);
+
+	bool bOn = lua_toboolean(L, 2);
+
+	*(bool*)((int)ivehicle + 0x2A0) = bOn;
+
+	return 0;
+}
+
+int lua_GetVehicleInstanceCreatedDamaged(lua_State* L)
+{
+	CLifeInstance_Vehicle* ivehicle = *(CLifeInstance_Vehicle**)luaL_checkudata(L, 1, g_VehicleInstanceMetaName);
+
+	bool bOn = *(bool*)((int)ivehicle + 0x2A0);
+
+	lua_pushboolean(L, bOn);
+	return 1;
+}
+
+int lua_SetVehicleInstanceFelony(lua_State* L)
+{
+	CLifeInstance_Vehicle* ivehicle = *(CLifeInstance_Vehicle**)luaL_checkudata(L, 1, g_VehicleInstanceMetaName);
+
+	float felony = luaL_checknumber(L, 2);
+
+	*(float*)((int)ivehicle + 0x25C) = felony;
+
+	return 0;
+}
+
+int lua_GetVehicleInstanceFelony(lua_State* L)
+{
+	CLifeInstance_Vehicle* ivehicle = *(CLifeInstance_Vehicle**)luaL_checkudata(L, 1, g_VehicleInstanceMetaName);
+
+	float felony = *(float*)((int)ivehicle + 0x2A0);
+
+	lua_pushnumber(L, felony);
+	return 1;
 }

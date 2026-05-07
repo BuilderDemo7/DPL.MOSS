@@ -408,6 +408,9 @@
     <ClInclude Include="moss\Lua_LifeInstance.h">
       <Filter>Header files\MOSS</Filter>
     </ClInclude>
+    <ClInclude Include="dpl\eVPropId.h">
+      <Filter>Header files\dpl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -682,6 +685,9 @@
     </ClCompile>
     <ClCompile Include="moss\Lua_LifeInstance.cpp">
       <Filter>Source files\MOSS</Filter>
+    </ClCompile>
+    <ClCompile Include="dpl\CSpoolableMissionObject.cpp">
+      <Filter>Source files\dpl</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

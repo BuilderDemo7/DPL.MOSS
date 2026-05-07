@@ -11,7 +11,11 @@ class CPCViewport {
 public:
 	static CPCViewport* GetSimulationViewport();
 	static CPCViewport* GetGenericViewport();
+	static CPCViewport* GetMainMenuViewport();
 	void SetFOV(float FOV);
+
+	void SetWidth(float width);
+	void SetHeight(float height);
 
 	int GetVTableAddress();
 	

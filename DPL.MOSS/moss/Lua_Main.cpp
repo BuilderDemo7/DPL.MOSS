@@ -29,6 +29,9 @@
 
 #include "..\Hooks.h"
 
+// DPL
+#include "..\dpl\CFontManager.h"
+
 bool g_bLuaScriptsLoaded = false;
 bool g_bLuaScriptsStarted = false;
 
@@ -535,6 +538,12 @@ void Init_Lua_Constants()
 	lua_pushinteger(L, ESpoolPriority::ESpoolPriority_Required); lua_setglobal(L, "ESpoolPriority_Required");
 	lua_pushinteger(L, ESpoolPriority::ESpoolPriority_Preferred); lua_setglobal(L, "ESpoolPriority_Preferred");
 
+	// EJustify
+	lua_pushinteger(L, EJustify::EJustify_Left); lua_setglobal(L, "EJustify_Left");
+	lua_pushinteger(L, EJustify::EJustify_Right); lua_setglobal(L, "EJustify_Right");
+	lua_pushinteger(L, EJustify::EJustify_Centered); lua_setglobal(L, "EJustify_Centered");
+	lua_pushinteger(L, EJustify::EJustify_SizeOf); lua_setglobal(L, "EJustify_SizeOf");
+
 	// ECameraSelectType
 	lua_pushinteger(L, ECameraSelectType::ECameraSelectType_UNDEFINED); lua_setglobal(L, "ECameraSelectType_UNDEFINED");
 	lua_pushinteger(L, ECameraSelectType::ECameraSelectType_CameraActor); lua_setglobal(L, "ECameraSelectType_CameraActor");
@@ -792,6 +801,11 @@ void Init_Lua_Funcs()
 
 	lua_register(L, "GetVehicleInstances", lua_GetVehicleInstances); // { Vehicle } GetVehicleInstances()
 	lua_register(L, "FindClosestVehicleForEntry", lua_FindClosestVehicleForEntry); // Vehicle: vehicle, EVehicleDoor: closestDoor FindClosestVehicleForEntry(Character character, [ bool shyOfPassengers = false, bool willDrive = true, bool checkBack = true)
+	
+	lua_register(L, "ParkVehicle", lua_ParkVehicle); // void ParkVehicle(Vehicle vehicle)
+	lua_register(L, "SetSpoolCentre", lua_SetSpoolCentre); // void SetSpoolCentre(float x, float z)
+	lua_register(L, "GetWorldTime", lua_GetWorldTime); // float GetWorldTime()
+	lua_register(L, "SetWorldTime", lua_SetWorldTime); // void SetWorldTime(float newHour)
 	
 	lua_register(L, "GetCharacterInstances", lua_GetCharacterInstances); // { Character } GetCharacterInstances([ int role = -1)
 

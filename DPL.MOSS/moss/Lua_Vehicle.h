@@ -56,3 +56,10 @@ int lua_SendVehicleManipulationPacket(lua_State* L);
 
 int lua_GetVehicleForwardVector(lua_State* L);
 int lua_GetVehicleRightVector(lua_State* L);
+
+int lua_ResetVehicleCustomData(lua_State* L);
+int lua_VehicleAddCustomDataPart(lua_State* L);
+int lua_DamageVehicle(lua_State* L);
+
+int lua_GetVehicleRPM(lua_State* L);
+int lua_GetVehicleGear(lua_State* L);

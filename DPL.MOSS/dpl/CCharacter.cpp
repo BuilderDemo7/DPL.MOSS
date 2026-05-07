@@ -249,6 +249,15 @@ Vector4* CCharacter::GetVelocity()
 	return (Vector4*)((int)this + 0x534);
 }
 
+void CCharacter::SetVelocity(Vector4* vel)
+{
+	Vector4* vec = (Vector4*)((int)this + 0x534);
+	vec->X = vel->X;
+	vec->Y = vel->Y;
+	vec->Z = vel->Z;
+	vec->W = vel->W;
+}
+
 HAnimInstance* CCharacter::GetAnimInstance()
 {
 	return  (HAnimInstance*)((int)this + 0x5FC);

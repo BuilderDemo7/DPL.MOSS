@@ -35,12 +35,20 @@ void CLifeInstance_Character::SetSpoolPosition(Vector4* pos)
 	
 	void* spoolHandler_dependencyList = *(void**)((int)this + 0xE8);
 
+	if (spoolHandler_dependencyList == NULL)
+		return;
+
 	Vector4* positionalStuff_pos = (Vector4*)((int)spoolHandler_dependencyList + 0xA0);
 
 	positionalStuff_pos->X = pos->X;
 	positionalStuff_pos->Y = pos->Y;
 	positionalStuff_pos->Z = pos->Z;
 	positionalStuff_pos->W = pos->W;
+}
+
+CSpoolableMissionObject* CLifeInstance_Character::GetSpoolHandler()
+{
+	return (CSpoolableMissionObject*)((int)this + 0xE4);
 }
 
 void CLifeInstance_Character::Initialise(

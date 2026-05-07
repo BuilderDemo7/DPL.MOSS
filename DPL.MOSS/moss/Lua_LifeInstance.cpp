@@ -39,11 +39,22 @@ int lua_LifeInstanceIndex(lua_State* L)
 		lua_pushcfunction(L, lua_GetLifeInstancePosition);
 		return 1;
 	}
+	else if (strcmp(key, "UnregisterSpoolHandler") == 0) {
+		lua_pushcfunction(L, lua_UnregisterLifeInstanceSpoolHandler);
+		return 1;
+	}
 	else {
 		lua_pushnil(L);
 	}
 
 	return 1;
+}
+
+int lua_UnregisterLifeInstanceSpoolHandler(lua_State* L)
+{
+	// not available for unknown life instances
+
+	return 0;
 }
 
 int lua_GetLifeInstancePosition(lua_State* L)

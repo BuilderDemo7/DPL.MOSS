@@ -36,11 +36,28 @@ int lua_CharacterInstanceIndex(lua_State* L)
 		lua_pushcfunction(L, lua_GetCharacterInstancePosition);
 		return 1;
 	}
+	else if (strcmp(key, "UnregisterSpoolHandler") == 0) {
+		lua_pushcfunction(L, lua_UnregisterCharacterInstanceSpoolHandler);
+		return 1;
+	}
 	else {
 		lua_pushnil(L);
 	}
 
 	return 1;
+}
+
+int lua_UnregisterCharacterInstanceSpoolHandler(lua_State* L)
+{
+	CLifeInstance_Character* icharacter = *(CLifeInstance_Character**)luaL_checkudata(L, 1, g_CharacterInstanceMetaName);
+	
+	CSpoolableMissionObject* handler = icharacter->GetSpoolHandler();
+	if (handler != NULL)
+	{
+		handler->Unregister();
+	}
+	
+	return 0;
 }
 
 int lua_SetCharacterInstancePosition(lua_State* L)

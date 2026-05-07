@@ -16,3 +16,10 @@ int lua_GetVehicleInstance(lua_State* L);
 int lua_GetVehicleInstancePointer(lua_State* L);
 
 int lua_SetVehicleMustangHandling(lua_State* L);
+
+int lua_UnregisterVehicleInstanceSpoolHandler(lua_State* L);
+
+int lua_SetVehicleInstanceFelony(lua_State* L);
+int lua_GetVehicleInstanceFelony(lua_State* L);
+int lua_SetVehicleInstanceCreatedDamaged(lua_State* L);
+int lua_GetVehicleInstanceCreatedDamaged(lua_State* L);

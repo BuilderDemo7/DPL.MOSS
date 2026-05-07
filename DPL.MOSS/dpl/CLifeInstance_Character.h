@@ -7,6 +7,7 @@
 #include "CCharacter.h"
 
 #include "CLifePlayer.h"
+#include "CSpoolableMissionObject.h"
 
 class CLifeInstance_Vehicle;
 class CLifeActor_Character;
@@ -49,6 +50,9 @@ public:
 	Vector4 GetPosition();
 
 	void SetSpoolPosition(Vector4* pos);
+
+	CSpoolableMissionObject* GetSpoolHandler();
+
 public:
 	char _pad[0x58];
 

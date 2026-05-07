@@ -88,6 +88,14 @@ int lua_VehicleIndex(lua_State* L)
 		lua_pushcfunction(L, lua_GetVehicleColor);
 		return 1;
 	}
+	else if (strcmp(key, "GetRPM") == 0) {
+		lua_pushcfunction(L, lua_GetVehicleRPM);
+		return 1;
+	}
+	else if (strcmp(key, "GetGear") == 0) {
+		lua_pushcfunction(L, lua_GetVehicleGear);
+		return 1;
+	}
 	else if (strcmp(key, "GetForwardVector") == 0 || strcmp(key, "GetForward") == 0) {
 		lua_pushcfunction(L, lua_GetVehicleForwardVector);
 		return 1;
@@ -118,6 +126,14 @@ int lua_VehicleIndex(lua_State* L)
 	}
 	else if (strcmp(key, "SetNitro") == 0) {
 		lua_pushcfunction(L, lua_SetVehicleNitro);
+		return 1;
+	}
+	else if (strcmp(key, "ResetCustomData") == 0) {
+		lua_pushcfunction(L, lua_ResetVehicleCustomData);
+		return 1;
+	}
+	else if (strcmp(key, "Damage") == 0) {
+		lua_pushcfunction(L, lua_DamageVehicle);
 		return 1;
 	}
 	else if (strcmp(key, "ActivateLamp") == 0 || strcmp(key, "SetLamp") == 0) {
@@ -187,6 +203,8 @@ int lua_GetVehiclePhysicsPriority(lua_State* L)
 	int priority = 0;
 	priority = vehicle->GetDrivingType();
 
+	lua_pushinteger(L, priority);
+
 	return 1; 
 }
 
@@ -208,6 +226,30 @@ int lua_GetVehicleRenderingPriority(lua_State* L)
 	CVehicle* vehicle = *(CVehicle**)luaL_checkudata(L, 1, g_VehicleMetaName); // param 1
 
 	int priority = *(int*)(vehicle->GetPointer() + 0x9C);
+
+	lua_pushinteger(L, priority);
+
+	return 1;
+}
+
+int lua_GetVehicleRPM(lua_State* L)
+{
+	CVehicle* vehicle = *(CVehicle**)luaL_checkudata(L, 1, g_VehicleMetaName); // param 1
+
+	float rpm = vehicle->GetRPM();
+
+	lua_pushnumber(L, rpm);
+
+	return 1;
+}
+
+int lua_GetVehicleGear(lua_State* L)
+{
+	CVehicle* vehicle = *(CVehicle**)luaL_checkudata(L, 1, g_VehicleMetaName); // param 1
+
+	int gear = vehicle->GetGear();
+
+	lua_pushinteger(L, gear);
 
 	return 1;
 }
@@ -235,6 +277,29 @@ int lua_FixVehicle(lua_State* L)
 	return 0;
 }
 
+int lua_DamageVehicle(lua_State* L)
+{
+	CVehicle* vehicle = *(CVehicle**)luaL_checkudata(L, 1, g_VehicleMetaName); // param 1
+	float damageLevel = luaL_checknumber(L, 2);
+	int part = luaL_optinteger(L, 3, -1); // -1 means most parts will be damaged
+
+	if (part != -1)
+	{
+		((void(__fastcall*)(ePartSubType, void* __unknown, CVehicle*, float damageLevel))0x54637f)((ePartSubType)part, NULL, vehicle, damageLevel);
+	}
+	else
+	{
+		((void(__fastcall*)(ePartSubType, void* __unknown, CVehicle*, float damageLevel))0x54637f)(PST_FLDOOR, NULL, vehicle, damageLevel);
+		((void(__fastcall*)(ePartSubType, void* __unknown, CVehicle*, float damageLevel))0x54637f)(PST_FRDOOR, NULL, vehicle, damageLevel);
+		((void(__fastcall*)(ePartSubType, void* __unknown, CVehicle*, float damageLevel))0x54637f)(PST_BLDOOR, NULL, vehicle, damageLevel);
+		((void(__fastcall*)(ePartSubType, void* __unknown, CVehicle*, float damageLevel))0x54637f)(PST_BRDOOR, NULL, vehicle, damageLevel);
+		((void(__fastcall*)(ePartSubType, void* __unknown, CVehicle*, float damageLevel))0x54637f)(PST_BONNET, NULL, vehicle, damageLevel);
+		((void(__fastcall*)(ePartSubType, void* __unknown, CVehicle*, float damageLevel))0x54637f)(PST_BBUMPER, NULL, vehicle, damageLevel);
+	}
+
+	return 0;
+}
+
 int lua_SetVehicleNitro(lua_State* L)
 {
 	CVehicle* vehicle = *(CVehicle**)luaL_checkudata(L, 1, g_VehicleMetaName); // param 1
@@ -246,6 +311,13 @@ int lua_SetVehicleNitro(lua_State* L)
 
 		// sCustomCar::Reset()
 		((void(__thiscall*)(sCustomCar*))0x57cb7a)(custom);
+
+		Vector rgb = vehicle->GetColor();
+		sRGBtint rgbTint = sRGBtint();
+		rgbTint.rgb[0] = (char)(rgb.X * 255.0f);
+		rgbTint.rgb[1] = (char)(rgb.Y * 255.0f);
+		rgbTint.rgb[2] = (char)(rgb.Z * 255.0f);
+		custom->basetint = rgbTint;
 
 		//custom->KitParts = 0; // since this is new, it should be 0
 
@@ -289,6 +361,67 @@ int lua_GetVehicleNitro(lua_State* L)
 
 	lua_pushnumber(L, 0);
 	return 1;
+}
+
+int lua_ResetVehicleCustomData(lua_State* L)
+{
+	CVehicle* vehicle = *(CVehicle**)luaL_checkudata(L, 1, g_VehicleMetaName); // param 1
+
+	if (vehicle->GetCustomCarData() == NULL)
+	{
+		sCustomCar* custom = vehicle->GetCustomCarData();
+		// sCustomCar::Reset()
+		((void(__thiscall*)(sCustomCar*))0x57cb7a)(custom);
+
+		Vector rgb = vehicle->GetColor();
+		sRGBtint rgbTint = sRGBtint();
+		rgbTint.rgb[0] = (char)(rgb.X * 255.0f);
+		rgbTint.rgb[1] = (char)(rgb.Y * 255.0f);
+		rgbTint.rgb[2] = (char)(rgb.Z * 255.0f);
+		custom->basetint = rgbTint;
+
+		return 0;
+	}
+
+	return 0;
+}
+
+int lua_VehicleAddCustomDataPart(lua_State* L)
+{
+	CVehicle* vehicle = *(CVehicle**)luaL_checkudata(L, 1, g_VehicleMetaName); // param 1
+	int group = luaL_checkinteger(L, 2);
+	int part = luaL_checkinteger(L, 3);
+
+	if (vehicle->GetCustomCarData() == NULL)
+	{
+		sCustomCar* custom = new sCustomCar();
+
+		// sCustomCar::Reset()
+		((void(__thiscall*)(sCustomCar*))0x57cb7a)(custom);
+
+		Vector rgb = vehicle->GetColor();
+		sRGBtint rgbTint = sRGBtint();
+		rgbTint.rgb[0] = (char)(rgb.X * 255.0f);
+		rgbTint.rgb[1] = (char)(rgb.Y * 255.0f);
+		rgbTint.rgb[2] = (char)(rgb.Z * 255.0f);
+		custom->basetint = rgbTint;
+
+		// add nitro part - sCustomCar::AddPart()
+		((void(__thiscall*)(sCustomCar*, int, int))0x57ccfe)(custom, group, part);
+
+		vehicle->SetCustomCarData(custom);
+	}
+	else
+	{
+		sCustomCar* custom = vehicle->GetCustomCarData();
+
+		// add nitro part - sCustomCar::AddPart()
+		((void(__thiscall*)(sCustomCar*, int, int))0x57ccfe)(custom, group, part);
+
+		vehicle->SetCustomCarData(custom);
+	}
+
+	return 0;
 }
 
 int lua_GetVehiclePointer(lua_State* L)

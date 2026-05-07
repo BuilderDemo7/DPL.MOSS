@@ -9,7 +9,7 @@ CFontManager* CFontManager::GetInstance()
 
 // signature speculation, which was f@#$ed up by Visual Studio 2005 or something...
 // __stdcall MAv2 Print__12CFontManagerGQ27hamstert8CAutoPtr2Z9IViewportZiRC9FontSpecsPCUse(CFontManager *manager, MAv2 *retStorage, CPCViewport *piView, FontSpecs *spec, char *szFormat, va_list args, ...)
-void __cdecl CFontManager::Print(AutoPtr<CPCViewport, int> piView, FontSpecs &spec, char *szFormat, ...)
+void __cdecl CFontManager::Print(AutoPtr<CPCViewport, int> piView, FontSpecs &spec, wchar_t *szFormat, ...)
 {
 	//char args_buffer[24];
 	//memset(&args_buffer, 0, 24);
@@ -20,7 +20,7 @@ void __cdecl CFontManager::Print(AutoPtr<CPCViewport, int> piView, FontSpecs &sp
 	char mav2_buffer[24];
 	memset(&mav2_buffer, 0, 24);
 
-	((void(__cdecl*)(CFontManager*, void*, AutoPtr<CPCViewport, int>, FontSpecs*, char*, va_list))0x56ddef)(this, &mav2_buffer, piView, &spec, szFormat, args);
+	((void(__cdecl*)(CFontManager*, void*, AutoPtr<CPCViewport, int>, FontSpecs*, wchar_t*, va_list))0x56ddef)(this, &mav2_buffer, piView, &spec, szFormat, args);
 
 	/*
 	_asm

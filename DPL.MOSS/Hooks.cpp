@@ -170,7 +170,7 @@ void __declspec(naked) CLifeSystem__Step__Hook()
 
 void __declspec(naked) visuals_draw__DrawMission__Hook()
 {
-	static int jumpback_0x55d909 = 0x55d909;
+	static int jumpback_0x55d933 = 0x55d933;
 
 	// Register save
 	static int org_eax = 0;
@@ -213,7 +213,7 @@ void __declspec(naked) visuals_draw__DrawMission__Hook()
 
 	// Jump back
 	_asm {
-		jmp jumpback_0x55d909
+		jmp jumpback_0x55d933
 	}
 }
 

@@ -7,5 +7,5 @@ CInGameMovie* GetInGameMovie()
 
 void CInGameMovie::PlayMovie(const char* szFileName, bool loop, bool pauseAtEnd)
 {
-	((void* (__thiscall*)(CInGameMovie*, const char*, bool, bool))0x4BCF65)(this, szFileName, loop, pauseAtEnd);
+	((void* (__thiscall*)(CInGameMovie*, const char*, bool, bool))0x45a1ac)(this, szFileName, loop, pauseAtEnd);
 }

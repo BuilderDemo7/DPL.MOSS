@@ -20,6 +20,9 @@
 #include "..\dpl\Factory.h"
 #include "..\dpl\MathFuncs.h"
 #include "..\dpl\CPlaylist.h"
+#include "..\dpl\LifeEnvironment.h"
+
+#include <iostream>
 
 int lua_EndAllLifeEvents(lua_State* L)
 {
@@ -211,6 +214,48 @@ int lua_GetCharacterInstances(lua_State* L)
 	return 1; // return the table
 }
 
+int lua_SetSpoolCentre(lua_State* L)
+{
+	float x = luaL_checknumber(L, 1);
+	float z = luaL_checknumber(L, 2);
+
+	CLifeSystem* lsys = CLifeSystem::GetInstance();
+	if (lsys != NULL)
+	{
+		lsys->SetSpoolCentre(x, z);
+	}
+	return 0;
+}
+
+int lua_ParkVehicle(lua_State* L)
+{
+	CVehicle* vehicle = *(CVehicle**)luaL_checkudata(L, 1, g_VehicleMetaName);
+	if (vehicle != NULL)
+	{
+		// ParkVehicle__FGQ27hamstert8CAutoPtr2Z8IVehicleZi
+		((void(__stdcall*)(CVehicle*))0x460be6)(vehicle);
+	}
+	return 0;
+}
+
+int lua_GetWorldTime(lua_State* L)
+{
+	float& timeHour = *(float*)((int)GetEnvironment() + 272);
+	lua_pushnumber(L, timeHour / 3600.0f);
+
+	return 1;
+}
+
+int lua_SetWorldTime(lua_State* L)
+{
+	float newHour = luaL_checknumber(L, 1);
+
+	float& timeHour = *(float*)((int)GetEnvironment() + 272);
+	timeHour = newHour * 3600.0f;
+
+	return 0;
+}
+
 int lua_FindClosestVehicleForEntry(lua_State* L)
 {
 	int nargs = lua_gettop(L); // number of arguments
@@ -261,23 +306,55 @@ int lua_DrawText(lua_State* L)
 	CPCViewport* genVP = CPCViewport::GetSimulationViewport();
 	FontSpecs specs = FontSpecs();
 
-	const char* text = luaL_checkstring(L, 1);
+	size_t text_size = 0;
+	const char* text = luaL_checklstring(L, 1, &text_size);
 	float x = lua_tonumber(L, 2);
 	float y = lua_tonumber(L, 3);
-	int justifyText = luaL_optinteger(L, 4, 0); // justify left
-	float sx = luaL_optnumber(L, 3, 1.0f);
-	float sy = luaL_optnumber(L, 4, 1.0f);
+	int justifyText = luaL_optinteger(L, 4, 2); // justify centered
+	float sx = luaL_optnumber(L, 5, 1.0f);
+	float sy = luaL_optnumber(L, 6, 1.0f);
 
 	// color, 0 - 1.0
-	float r = luaL_optnumber(L, 5, 1.0f);
-	float g = luaL_optnumber(L, 6, 1.0f);
-	float b = luaL_optnumber(L, 7, 1.0f);
-	float a = luaL_optnumber(L, 8, 1.0f);
+	float r = luaL_optnumber(L, 7, 1.0f);
+	float g = luaL_optnumber(L, 8, 1.0f);
+	float b = luaL_optnumber(L, 9, 1.0f);
+	float a = luaL_optnumber(L, 10, 1.0f);
 
-	float spacing = luaL_optnumber(L, 9, 0.0f);
+	float spacing = luaL_optnumber(L, 11, 1.0f);
+	float w = luaL_optnumber(L, 12, 1.0f);
+
+	char* resultText = (char*)text;
+	char utf16Conv[512];
+	bool isUtf16 = false;
+
+	for (int i = 0; i < text_size; i++)
+	{
+		if (resultText[i] > 0x7f)
+		{
+			isUtf16 = true;
+		}
+	}
+
+	// utf-8 to utf-16
+	if (!isUtf16)
+	{
+		memset((void*)&utf16Conv, 0, sizeof(utf16Conv));
+		for (int i = 0; i < text_size; i++)
+		{
+			utf16Conv[i * sizeof(wchar_t)] = resultText[i];
+		}
+
+		// zero-terminated string
+		//utf16Conv[(text_size * 2)] = 0x0; 
+		//utf16Conv[(text_size * 2) - 1] = 0x0; 
+		//utf16Conv[(text_size * 2) + 1] = 0x0; 
+
+		resultText = (char*)&utf16Conv;
+	}
 
 	specs.x = x;
 	specs.y = y;
+	specs.w = w;
 	specs.xScale = sx;
 	specs.yScale = sy;
 
@@ -289,6 +366,8 @@ int lua_DrawText(lua_State* L)
 	specs.justify = (EJustify)justifyText;
 	specs.spacing = spacing;
 
+	specs.textType = 0;
+
 	if (genVP != NULL)
 	{
 		CFontManager* fman = CFontManager::GetInstance();
@@ -297,7 +376,7 @@ int lua_DrawText(lua_State* L)
 			AutoPtr<CPCViewport, int> aGenVP = AutoPtr<CPCViewport, int>();
 			aGenVP.m_pPointer = genVP;
 
-			fman->Print(aGenVP, specs, const_cast<char*>(text));
+			fman->Print(aGenVP, specs, (wchar_t*)resultText);
 		}
 	}
 

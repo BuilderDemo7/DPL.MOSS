@@ -49,6 +49,14 @@ int lua_CharacterIndex(lua_State* L)
 		lua_pushcfunction(L, lua_SetCharacterAngle);
 		return 1;
 	}
+	else if (strcmp(key, "SetVelocity") == 0) {
+		lua_pushcfunction(L, lua_SetCharacterVelocity);
+		return 1;
+	}
+	else if (strcmp(key, "GetVelocity") == 0) {
+		lua_pushcfunction(L, lua_GetCharacterVelocity);
+		return 1;
+	}
 	else if (strcmp(key, "GetPointer") == 0) {
 		lua_pushcfunction(L, lua_GetCharacterPointer);
 		return 1;
@@ -183,6 +191,64 @@ int lua_GetCharacterPosition(lua_State* L)
 	vecRes->X = pos.X;
 	vecRes->Y = pos.Y;
 	vecRes->Z = pos.Z;
+
+	luaL_getmetatable(L, g_LuaVectorMetaTable);
+	lua_setmetatable(L, -2);
+
+	return 1; // number of return(s)
+}
+
+int lua_SetCharacterVelocity(lua_State* L)
+{
+	CCharacter* character = *(CCharacter**)luaL_checkudata(L, 1, g_CharacterMetaName); // param 1
+
+	int nargs = lua_gettop(L) - 1; // number of arguments after 'self'
+
+	float x, y, z;
+
+	if (nargs == 1) {
+		// Single argument: expect a Vector
+		Lua_Vector* vec = *(Lua_Vector**)luaL_checkudata(L, 2, g_LuaVectorMetaTable);
+		x = vec->X;
+		y = vec->Y;
+		z = vec->Z;
+	}
+	else if (nargs == 3) {
+		// Three numbers
+		x = (float)luaL_checknumber(L, 2);
+		y = (float)luaL_checknumber(L, 3);
+		z = (float)luaL_checknumber(L, 4);
+	}
+	else {
+		return luaL_error(L, "Bad argument #1 - Expected 1 Vector or 3 numbers");
+	}
+
+	Vector4 pos = Vector4(x, y, z, 1);
+	character->SetVelocity(&pos);
+
+	return 0;  // number of return(s)
+}
+
+int lua_GetCharacterVelocity(lua_State* L)
+{
+	CCharacter* character = *(CCharacter**)luaL_checkudata(L, 1, g_CharacterMetaName); // param 1
+
+	// Allocate Lua-managed memory for the struct directly
+	void** udata = (void**)lua_newuserdata(L, sizeof(void*));
+	*udata = new Lua_Vector();
+
+	Lua_Vector* vecRes = *(Lua_Vector**)udata;
+
+	Vector4 vel = Vector4();
+	Vector4* velGet = character->GetVelocity();
+	vel.X = velGet->X;
+	vel.Y = velGet->Y;
+	vel.Z = velGet->Z;
+	vel.W = velGet->W;
+
+	vecRes->X = vel.X;
+	vecRes->Y = vel.Y;
+	vecRes->Z = vel.Z;
 
 	luaL_getmetatable(L, g_LuaVectorMetaTable);
 	lua_setmetatable(L, -2);

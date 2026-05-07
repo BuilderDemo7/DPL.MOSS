@@ -20,3 +20,27 @@ Vector4 CLifeInstance_Vehicle::GetPosition()
 
 	return position(gameStepIndex);
 }
+
+void CLifeInstance_Vehicle::SetSpoolPosition(Vector4* pos)
+{
+	// this->m_SpoolHandler->m_ref->list
+	//void* spoolHandler = (void*)((int)this + 0x5C);
+	//void* spoolHandler_dependencyList = *(void**)((int)spoolHandler + 0x4);
+
+	void* spoolHandler_dependencyList = *(void**)((int)this + 0x60);
+
+	if (spoolHandler_dependencyList == NULL)
+		return;
+
+	Vector4* positionalStuff_pos = (Vector4*)((int)spoolHandler_dependencyList + 0xA0);
+
+	positionalStuff_pos->X = pos->X;
+	positionalStuff_pos->Y = pos->Y;
+	positionalStuff_pos->Z = pos->Z;
+	positionalStuff_pos->W = pos->W;
+}
+
+CSpoolableMissionObject* CLifeInstance_Vehicle::GetSpoolHandler()
+{
+	return (CSpoolableMissionObject*)((int)this + 0x5C);
+}

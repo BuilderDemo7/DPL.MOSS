@@ -13,6 +13,7 @@ class CVehicleManager;
 
 #define _OLD_TIMES_GETVTYPE
 #define PROPER_MATRIX
+#define CALL_SETCUSTOMCAR
 
 // Applied to driving type and light type? (shader and simple)
 enum eVehicleDrivingType
@@ -82,11 +83,14 @@ struct SVehicleManipulationPacket {
 	bool bBrakeIsPressed;
 };
 
+#pragma pack(push, 1)
 struct sRGBtint {
 	unsigned char rgb[3];
 };
+#pragma pack(pop)
 
 // Car customization data
+#pragma pack(push, 1)
 struct sCustomCar {
 	int version;
 	float tunables[6];
@@ -94,18 +98,20 @@ struct sCustomCar {
 	unsigned int KitParts;
 	struct sRGBtint panelcolour[20];
 	unsigned char panelversion[20];
-	int wheelversion;
-	int paintjob;
-	struct sRGBtint basetint;
 	uint8_t pad;
+	int wheelversion;
+	struct sRGBtint basetint;
+	int paintjob;
 	uint8_t field10_0x7a; // undefined
 	uint8_t field11_0x7b; // undefined
 };
+#pragma pack(pop)
 
 struct sValue {
 	unsigned int data;
 };
 
+// m_TweakVals[eVPropID index]
 struct cVehicleProperties {
 	sValue m_TweakVals[293];
 };
@@ -269,9 +275,16 @@ public:
 	sCustomCar* GetCustomCarData();
 	void SetCustomCarData(sCustomCar *pChav, cVehicleProperties *pProps = NULL, void *pBuffer = NULL); // sometimes required before using GetCustomization()
 
+	cVehicleProperties* GetVehicleProperties();
+
 	Matrix* GetMatrix(Matrix* mat);
 
+	AutoPtr<IHandlingInternal, int> GetHandling();
+
 	float GetRPM();
+	float IsSkidding(bool leftWheel);
+
+	int GetGear();
 
 	PHobject* GetPhysicsObject();
 

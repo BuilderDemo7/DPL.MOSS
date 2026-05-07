@@ -223,6 +223,7 @@
     <ClInclude Include="dpl\eNodeFireWire.h" />
     <ClInclude Include="dpl\ePartSubType.h" />
     <ClInclude Include="dpl\EVehicleDoor.h" />
+    <ClInclude Include="dpl\eVPropId.h" />
     <ClInclude Include="dpl\eWeaponAnimType.h" />
     <ClInclude Include="dpl\EWeapons.h" />
     <ClInclude Include="dpl\Factory.h" />
@@ -325,6 +326,7 @@
     <ClCompile Include="dpl\CPCViewport.cpp" />
     <ClCompile Include="dpl\CPlayerDriverBehaviour.cpp" />
     <ClCompile Include="dpl\CPlaylist.cpp" />
+    <ClCompile Include="dpl\CSpoolableMissionObject.cpp" />
     <ClCompile Include="dpl\CTargetManager.cpp" />
     <ClCompile Include="dpl\CVehicleManager.cpp" />
     <ClCompile Include="dpl\CWeapon.cpp" />

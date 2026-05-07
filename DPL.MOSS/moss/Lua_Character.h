@@ -41,3 +41,6 @@ int lua_CharacterGetHealth(lua_State* L);
 
 int lua_CharacterSwapSkin(lua_State* L);
 int lua_CharacterWalk(lua_State* L);
+
+int lua_SetCharacterVelocity(lua_State* L);
+int lua_GetCharacterVelocity(lua_State* L);

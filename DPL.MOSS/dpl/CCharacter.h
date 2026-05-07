@@ -26,7 +26,9 @@ public:
 	int GetCharacterType();
 
 	void GetPosition(Vector4* pos);
+
 	Vector4* GetVelocity();
+	void SetVelocity(Vector4* vel);
 
 	void SetArmour(float armour);
 

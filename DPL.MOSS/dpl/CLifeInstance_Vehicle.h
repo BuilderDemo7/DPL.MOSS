@@ -3,6 +3,7 @@
 #include "Matrix.h"
 #include "Vector4.h"
 #include "Vehicle.h"
+#include "CSpoolableMissionObject.h"
 
 class CLifeInstance_Vehicle
 {
@@ -14,6 +15,10 @@ public:
 
 	Vector4 position(unsigned int gameStepIndex);
 	Vector4 GetPosition();
+
+	void SetSpoolPosition(Vector4* pos);
+
+	CSpoolableMissionObject* GetSpoolHandler();
 
 	// vtable + 0x9c -> position()
 };

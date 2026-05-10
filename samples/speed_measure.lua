@@ -5,15 +5,15 @@
 --=====================================
 
 local gameStarted = false
-local gear = 0
-local rpm = 0
-local speed = 0
-local speedMPH = 0
-local speedKPH = 0
+gear = 0
+rpm = 0
+speed = 0
+speedMPH = 0
+speedKPH = 0
 local inCar = false
 
 local textX = 0.005
-local textY = 0.35
+local textY = 0.3
 local textSize = 0.75
 local digitMeasurement = 4 -- 0.0000, increase for higher precision for math calculations!!!!!
 

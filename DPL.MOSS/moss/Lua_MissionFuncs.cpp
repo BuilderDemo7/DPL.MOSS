@@ -21,6 +21,7 @@
 #include "..\dpl\MathFuncs.h"
 #include "..\dpl\CPlaylist.h"
 #include "..\dpl\LifeEnvironment.h"
+#include "..\dpl\AIManager.h"
 
 #include <iostream>
 
@@ -47,6 +48,28 @@ int lua_GetEra(lua_State* L)
 	lua_pushinteger(L, era);
 
 	return 1;
+}
+
+int lua_SetVehicleDensity(lua_State* L)
+{
+	float density = luaL_checknumber(L, 1);
+	int vehicleDensityType = luaL_optinteger(L, 2, -1);
+
+	AIManager* aiMan = AIManager::GetInstance();
+	if (aiMan != NULL)
+	{
+		if (vehicleDensityType != -1)
+			aiMan->SetVehicleDensity((AIManagerVehicleTypeEnum)vehicleDensityType, density);
+		else
+		{
+			for (int i = 0; i < AIManagerVehicleTypeEnum::NumberOf; i++)
+			{
+				aiMan->SetVehicleDensity((AIManagerVehicleTypeEnum)i, density);
+			}
+		}
+	}
+
+	return 0;
 }
 
 int lua_SetGameDifficulty(lua_State* L)
@@ -510,7 +533,7 @@ int lua_ToggleIGCS(lua_State* L)
 		if (lfs)
 		{
 			CLifePlayer* player = lfs->GetPlayer();
-			player->m_bEnabled = false;
+			player->m_bEnabled = true;
 
 			// re-enable HUD
 			void* Singleton_GameOverlayManager = *(void**)0x70c71c;

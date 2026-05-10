@@ -240,3 +240,21 @@ int lua_castMapItem(lua_State* L)
 
 	return 1;
 }
+
+int lua_castmetatable(lua_State* L)
+{
+	int ptr = luaL_checkinteger(L, 1);
+	const char* name = luaL_checkstring(L, 2);;
+
+	void* castData = (void*)(ptr);
+
+	// allocate userdata to hold the pointer
+	void** udata = (void**)lua_newuserdata(L, sizeof(void*));
+	*udata = castData;
+
+	// attach the vehicle metatable
+	luaL_getmetatable(L, name);
+	lua_setmetatable(L, -2);
+
+	return 1;
+}

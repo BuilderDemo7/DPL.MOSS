@@ -56,6 +56,20 @@ CVehicle* CVehicle::GetVehiclePointer()
 	return NULL;
 }
 
+CVehicle* CVehicle::GetOverrideVehicle()
+{
+	int vehicle_vtable = *(int*)(this->GetPointer());
+
+	if (vehicle_vtable != 0x653170) // for tow trucks, truck, rig trailer and war tank
+	{
+		return *(CVehicle**)(this + 0x2c);
+	}
+	else
+	{
+		return this->m_piOverride.m_pPointer;
+	}
+}
+
 VehicleHandlingType CVehicle::GetVehicleHandlingType()
 {
 	if (this->GetPointer() == NULL)
@@ -779,18 +793,21 @@ sCustomCar* CVehicle::GetCustomCarData()
 // 0x461382 <- also called here
 void CVehicle::SetCustomCarData(sCustomCar *pChav, cVehicleProperties *pProps, void *pBuffer) // SetCustomCarData__8CVehicleP10sCustomCarPC18cVehiclePropertiesPv(CVehicle *this,sCustomCar *pChav,cVehicleProperties *pProps,void *pBuffer)
 {
+	CVehicle* host = this->GetOverrideVehicle();
+
 #ifdef CALL_SETCUSTOMCAR
+
 	cVehicleProperties* cProps = pProps;
 	void* dmgBuffer = pBuffer;
 	if (dmgBuffer == NULL)
-		dmgBuffer = *(void**)((int)this + 0x5a8);
+		dmgBuffer = *(void**)((int)host + 0x5a8);
 	if (cProps == NULL)
-		cProps = *(cVehicleProperties**)((int)this + 0x7c);
+		cProps = GetVehicleProperties();
 
-	((void(__thiscall*)(CVehicle*, sCustomCar*, cVehicleProperties*, void*))*(int*)(GetVTableAddress() + 0x28))(this, pChav, cProps, dmgBuffer);
+	((void(__thiscall*)(CVehicle*, sCustomCar*, cVehicleProperties*, void*))*(int*)(GetVTableAddress() + 0x28))(host, pChav, cProps, dmgBuffer);
 	//((void(__thiscall*)(CVehicle*, sCustomCar*, cVehicleProperties*, void*))0x5AE726)(this, pChav, pProps, pBuffer);
 #else
-	*(sCustomCar**)(this->GetPointer() + 0x5A4) = pChav;
+	*(sCustomCar**)(host->GetPointer() + 0x5A4) = pChav;
 #endif
 }
 

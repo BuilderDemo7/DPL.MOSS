@@ -21,6 +21,7 @@
 #include "Lua_PointActor.h"
 #include "Lua_TestVolume.h"
 #include "Lua_Camera.h"
+#include "Lua_Audio.h"
 
 // funcs
 #include "Lua_MissionFuncs.h"
@@ -31,6 +32,7 @@
 
 // DPL
 #include "..\dpl\CFontManager.h"
+#include "..\dpl\AIManager.h"
 
 bool g_bLuaScriptsLoaded = false;
 bool g_bLuaScriptsStarted = false;
@@ -62,6 +64,8 @@ void Init_LuaScripts()
 	Init_Lua_MetaTables();
 	Init_Lua_Constants();
 	Init_Lua_Funcs();
+
+	memset(g_aCustomPlayAudios, 0, sizeof(g_aCustomPlayAudios));
 
 	// Load all the files in the folder
 	std::string folderPath = LUA_SCRIPTS_FOLDER;
@@ -318,6 +322,17 @@ void Step_Lua()
 		}
 	}
 
+	// update CLifeNode_PlayAudio hack!
+	for (int i = 0; i < 102; i++)
+	{
+		if (g_aCustomPlayAudios[i] != NULL)
+		{
+			bool enabled;
+			eNodeFireWire fw;
+
+			((CLifeNode*)g_aCustomPlayAudios[i])->OnUpdate(&enabled, &fw);
+		}
+	}
 }
 
 void Close_Lua()
@@ -597,6 +612,18 @@ void Init_Lua_Constants()
 	lua_pushinteger(L, EPrimitiveType::Sphere); lua_setglobal(L, "EPrimitiveType_Sphere");
 	lua_pushinteger(L, EPrimitiveType::Plane); lua_setglobal(L, "EPrimitiveType_Plane");
 
+	// AIManagerVehicleTypeEnum
+	lua_pushinteger(L, AIManagerVehicleTypeEnum::Civilian); lua_setglobal(L, "AIManagerVehicleTypeEnum_Civilian");
+	lua_pushinteger(L, AIManagerVehicleTypeEnum::CivilianParked); lua_setglobal(L, "AIManagerVehicleTypeEnum_CivilianParked");
+	lua_pushinteger(L, AIManagerVehicleTypeEnum::CivilianParkedAttractedCar); lua_setglobal(L, "AIManagerVehicleTypeEnum_CivilianParkedAttractedCar");
+	lua_pushinteger(L, AIManagerVehicleTypeEnum::CivilianParkedAttractedBus); lua_setglobal(L, "AIManagerVehicleTypeEnum_CivilianParkedAttractedBus");
+	lua_pushinteger(L, AIManagerVehicleTypeEnum::CivilianParkedAttractedBoat); lua_setglobal(L, "AIManagerVehicleTypeEnum_CivilianParkedAttractedBoat");
+	lua_pushinteger(L, AIManagerVehicleTypeEnum::CivilianParkedAttractedBike); lua_setglobal(L, "AIManagerVehicleTypeEnum_CivilianParkedAttractedBike");
+	lua_pushinteger(L, AIManagerVehicleTypeEnum::CivilianParkedAttractedLorry); lua_setglobal(L, "AIManagerVehicleTypeEnum_CivilianParkedAttractedLorry");
+	lua_pushinteger(L, AIManagerVehicleTypeEnum::CivilianParkedAttractedTaxi); lua_setglobal(L, "AIManagerVehicleTypeEnum_CivilianParkedAttractedTaxi");
+	lua_pushinteger(L, AIManagerVehicleTypeEnum::CivilianParkedAttractedGoKart); lua_setglobal(L, "AIManagerVehicleTypeEnum_CivilianParkedAttractedGoKart");
+	lua_pushinteger(L, AIManagerVehicleTypeEnum::NumberOf); lua_setglobal(L, "AIManagerVehicleTypeEnum_NumberOf");
+
 	// alphanumerics
 	lua_pushinteger(L, '0');
 	lua_setglobal(L, "VK_0");
@@ -757,6 +784,11 @@ void Init_Lua_Funcs()
 	lua_register(L, "RemoveChaseCarCharacterType", lua_RemoveChaseCarCharacterType); // void RemoveChaseCarCharacterType(int skinID, [ AIFelonySystemPatrolCarTypeEnum patrolType = E_PATROLCARTYPE_COP)
 	lua_register(L, "SetChaseCarPatrolDensity", lua_SetChaseCarPatrolDensity); // void SetChaseCarPatrolDensity(float density, [ AIFelonySystemPatrolCarTypeEnum patrolType = E_PATROLCARTYPE_COP)
 
+	lua_register(L, "GetPlaylistFileNames", lua_GetPlaylistFileNames); // { string } GetPlaylistFileNames()
+	lua_register(L, "GetPlaylistOrder", lua_GetPlaylistOrder); // { int } GetPlaylistOrder()
+
+	lua_register(L, "SetVehicleDensity", lua_SetVehicleDensity); // void SetVehicleDensity(float density, [ AIManagerVehicleTypeEnum vehicleDensityType = -1)
+
 	lua_register(L, "CreateVehicleInstance", lua_CreateVehicle); // Vehicle CreateVehicleInstance(int model, float x, float y, float z, [ float angle = 0.0)
 	lua_register(L, "CreateVehicle", lua_CreateVehicleActor); // Vehicle_Actor CreateVehicle(int model, float x, float y, float z, [ float angle = 0.0, bool startCreated = true, int tintValue = 1, float initialSpeed = 0.0, float initialFelony = 0.0, impactSoftness = 1.0, explosionSoftness = 1.0, bulletSoftness = 1.0, impactFragility = 1.0, bool useRandomTint)
 	lua_register(L, "DestroyVehicleInstance", lua_DestroyVehicle); // void DestroyVehicleInstance(Vehicle vehicle)
@@ -767,6 +799,8 @@ void Init_Lua_Funcs()
 	lua_register(L, "LaunchVEdit", lua_LaunchVEdit); // void LaunchVEdit()
 
 	lua_register(L, "CreateCharacter", lua_CreateCharacterActor); // Character_Actor CreateCharacter(int skin, float x, float y, float z, [ float angle = 0.0, bool startCreated = true, EWeapons weapon, float initialHealth = 1.0, float initialFelony = 0.0, Vehicle_Actor initialVehicle = nil, int initialVehicleSeat = 0, bool addToFelonyManager = false, bool doNotUseIdleAnims, bool isPlayer = false)
+
+	lua_register(L, "CreateAudio", lua_CreateAudio); // Audio CreateAudio(int bankId, int sampleId, float volume = 1.0, bool vocal = false, LifeActor attachTo = nil)
 
 	lua_register(L, "SetMusicTrack", lua_SetMusicTrack); // void SetMusicTrack(int trackId);
 	lua_register(L, "GetMileometer", lua_GetMileometer); // float GetMileometer();
@@ -833,6 +867,7 @@ void Init_Lua_Funcs()
 	lua_register(L, "castVehicle", lua_castVehicle); // Vehicle castVehicle(intptr_t address) 
 	lua_register(L, "castHelicopter", lua_castHelicopter); // Helicopter castHelicopter(intptr_t address) 
 	lua_register(L, "castMapItem", lua_castMapItem); // MapItem castMapItem(intptr_t address) 
+	lua_register(L, "castmetatable", lua_castmetatable); // userdata castmetatable(intptr_t address, string metatableName) 
 
 	// math space stuff (outside of vector)
 	lua_register(L, "GetDistanceBetweenPoints2D", lua_GetDistanceBetweenPoints2D); // float GetDistanceBetweenPoints2D(float x1, float y1, float x2, float y2)
@@ -887,9 +922,10 @@ void Init_Lua_MetaTables()
 	Init_Lua_MetaTable_PointActor();
 	Init_Lua_MetaTable_TestVolume();
 	Init_Lua_MetaTable_Camera();
+	Init_Lua_MetaTable_Audio();
+	
 	Init_Lua_MetaTable_LifeActor();
 	Init_Lua_MetaTable_LifeInstance();
-	// TODO: vehicle (object), life system, vehicle manager, maybe do gadgets (props, etc.)
 
 	// extern
 	Init_Lua_MetaTable_Vector(L);

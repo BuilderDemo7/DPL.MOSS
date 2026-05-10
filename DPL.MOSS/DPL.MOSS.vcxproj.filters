@@ -411,6 +411,18 @@
     <ClInclude Include="dpl\eVPropId.h">
       <Filter>Header files\dpl</Filter>
     </ClInclude>
+    <ClInclude Include="dpl\COneTimeSpooledSound.h">
+      <Filter>Header files\dpl</Filter>
+    </ClInclude>
+    <ClInclude Include="dpl\CLifeNode_PlayAudio.h">
+      <Filter>Header files\dpl</Filter>
+    </ClInclude>
+    <ClInclude Include="dpl\SAudioClipProperty.h">
+      <Filter>Header files\dpl</Filter>
+    </ClInclude>
+    <ClInclude Include="moss\Lua_Audio.h">
+      <Filter>Header files\MOSS</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -688,6 +700,15 @@
     </ClCompile>
     <ClCompile Include="dpl\CSpoolableMissionObject.cpp">
       <Filter>Source files\dpl</Filter>
+    </ClCompile>
+    <ClCompile Include="dpl\COneTimeSpooledSound.cpp">
+      <Filter>Source files\dpl</Filter>
+    </ClCompile>
+    <ClCompile Include="dpl\CLifeNode_PlayAudio.cpp">
+      <Filter>Source files\dpl</Filter>
+    </ClCompile>
+    <ClCompile Include="moss\Lua_Audio.cpp">
+      <Filter>Source files\MOSS</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

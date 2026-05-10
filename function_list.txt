@@ -48,6 +48,11 @@ void SetWorldTime(float newHour)
 
 void ParkVehicle(Vehicle vehicle)
 
+{ string } GetPlaylistFileNames()
+{ int } GetPlaylistOrder()
+
+void SetVehicleDensity(float density, [ AIManagerVehicleTypeEnum vehicleDensityType = -1)
+
 # HUD
 
 void ActivatePager()
@@ -82,7 +87,7 @@ Point_Actor CreatePoint(Vector position, [ Quaternion rotation = Quaternion(0, 0
 * TestVolume
 TestVolume CreateTestVolume(Vector position, [ Quaternion rotation = Quaternion(0, 0, 0, 0), EPrimitiveType primType = EPrimitiveType_Cylinder, float widthOrRadius = 2.5, float length = 0.0, height = 5.0, LifeActor attachTo = nil)
 
-# Camera
+# Camera Functions
 
 void SetCameraPosition(Vector pos) # doesn't work quite right
 Vector GetCameraPosition()
@@ -94,6 +99,7 @@ void ToggleFreeCam(bool status, [ int gamepadId = 0)
 # Music / Sounds
 
 void SetMusicTrack(int trackId)
+Audio CreateAudio(int bankId, int sampleId, float volume = 1.0, bool vocal = false, LifeActor attachTo = nil)
 
 # Profile Settings
 
@@ -278,6 +284,9 @@ void Vehicle:MakeDynamic()
 float Vehicle:GetNitro() # from 0.0 to 1.0, e.g. 0.1 (10% nitro), 0.5 (50% nitro), etc.
 void Vehicle:SetNitro(float amount)
 void Vehicle:ResetCustomData()
+void Vehicle:AddCustomDataPart(int group, int part)
+void Vehicle:SetVehicleProperty(int propertyId, number newValue, string type ["float", "int"])
+number Vehicle:GetVehicleProperty(int propertyId, string type ["float", "int"])
 void Vehicle:Damage(float damageLevel, [ ePartSubType part = -1) # part -1 means most of the parts will be damaged
 float Vehicle:GetDamage()
 void Vehicle:SetDamage(float amount)
@@ -308,6 +317,7 @@ Vector Vehicle_Actor:GetForward() : Vector Vehicle_Actor:GetForwardVector()
 Vector Vehicle_Actor:GetRight() : Vector Vehicle_Actor:GetRightVector()
 void Vehicle_Actor:AddObjectiveIcon(ObjectiveIconDisplayType displayType, [ ObjVisibility_MinimapAndModel visibility = ObjVisibility_MinimapAndModel, bool displayMinimapArrow = false, bool displayAsCop = false, float additionalHeightOffset = 0.0, int lifeEventType = 0)
 void Vehicle_Actor:RemoveObjectiveIcon(ObjectiveIconDisplayType displayType, [ ObjVisibility_MinimapAndModel visibility = ObjVisibility_MinimapAndModel, bool displayMinimapArrow = false, bool displayAsCop = false, float additionalHeightOffset = 0.0, int lifeEventType = 0)
+int Vehicle_Actor:hamsterFactoryType()
 
 # Character_Actor
 
@@ -328,6 +338,7 @@ void Character_Actor:ChaseTarget(LifeActor target, [ float speed = 30.0, float a
 void Character_Actor:StopChasingTarget(LifeActor target)
 void Character_Actor:AddObjectiveIcon(ObjectiveIconDisplayType displayType, [ ObjVisibility_MinimapAndModel visibility = ObjVisibility_MinimapAndModel, bool displayMinimapArrow = false, bool displayAsCop = false, float additionalHeightOffset = 0.0, int lifeEventType = 0)
 void Character_Actor:RemoveObjectiveIcon(ObjectiveIconDisplayType displayType, [ ObjVisibility_MinimapAndModel visibility = ObjVisibility_MinimapAndModel, bool displayMinimapArrow = false, bool displayAsCop = false, float additionalHeightOffset = 0.0, int lifeEventType = 0)
+int Character_Actor:hamsterFactoryType()
 
 # Point_Actor
 
@@ -342,6 +353,7 @@ void Point_Actor:SetHeading(float heading) : void Point_Actor:SetAngle(float ang
 ??? Point_Actor:GetVelocity(???) # W.I.P DO NOT USE
 ??? Point_Actor:GetForwardVector(???) # W.I.P DO NOT USE
 ??? Point_Actor:GetRightVector(???) # W.I.P DO NOT USE
+int Point_Actor:hamsterFactoryType()
 void Point_Actor:AddObjectiveIcon(ObjectiveIconDisplayType displayType, [ ObjVisibility_MinimapAndModel visibility = ObjVisibility_MinimapAndModel, bool displayMinimapArrow = false, bool displayAsCop = false, float additionalHeightOffset = 0.0, int lifeEventType = 0)
 void Point_Actor:RemoveObjectiveIcon(ObjectiveIconDisplayType displayType, [ ObjVisibility_MinimapAndModel visibility = ObjVisibility_MinimapAndModel, bool displayMinimapArrow = false, bool displayAsCop = false, float additionalHeightOffset = 0.0, int lifeEventType = 0)
 
@@ -410,7 +422,7 @@ void Prop:SetPosition(Vector pos)
 Vector Prop:GetPosition()
 void Prop:SetRotation(Quaternion rotation)
 Quaternion Prop:GetRotation()
-intptr_t Prop:GetPointer()
+intptr_t Prop:GetPointer() # CLifeActor_Prop*
 void Prop:Create() : void Prop:Instantiate()
 void Prop:Destroy() : void Prop:Delete()
 int Prop:GetModelHandle()
@@ -421,14 +433,42 @@ void Prop:SetHeading(float heading) : void Prop:SetAngle(float angle) # will use
 ??? Prop:GetVelocity(???) # W.I.P DO NOT USE
 ??? Prop:GetForwardVector(???) # W.I.P DO NOT USE
 ??? Prop:GetRightVector(???) # W.I.P DO NOT USE
+int Prop:hamsterFactoryType()
 void Prop:SetGadgetType(EGadgetType gadget)
 void Prop:AddObjectiveIcon(ObjectiveIconDisplayType displayType, [ ObjVisibility_MinimapAndModel visibility = ObjVisibility_MinimapAndModel, bool displayMinimapArrow = false, bool displayAsCop = false, float additionalHeightOffset = 0.0, int lifeEventType = 0)
 void Prop:RemoveObjectiveIcon(ObjectiveIconDisplayType displayType, [ ObjVisibility_MinimapAndModel visibility = ObjVisibility_MinimapAndModel, bool displayMinimapArrow = false, bool displayAsCop = false, float additionalHeightOffset = 0.0, int lifeEventType = 0)
 
 # CameraSelect
 
-intptr_t CameraSelect:GetPointer()
+intptr_t CameraSelect:GetPointer() # CLifeNode_CameraSelect*
 void CameraSelect:Activate() : void CameraSelect:Enable()
 void CameraSelect:Deactivate() : void CameraSelect:Disable()
 LifeActor? CameraSelect:GetTarget() # returns nil if no target is defined
 intptr_t CameraSelect:GetTargetPointer()
+
+# Camera
+
+intptr_t Camera:GetPointer() # CLifeActor_Camera*
+LifeActor? Camera:GetAttachedActor()
+intptr_t Camera:GetAttachedActorPointer()
+LifeActor? Camera:GetLookAtActor()
+intptr_t Camera:GetLookAtActorPointer()
+void Camera:SetPosition(Vector position)
+void Camera:SetRotation(Quaternion rotation)
+int Camera:hamsterFactoryType()
+void Camera:AddObjectiveIcon(ObjectiveIconDisplayType displayType, [ ObjVisibility_MinimapAndModel visibility = ObjVisibility_MinimapAndModel, bool displayMinimapArrow = false, bool displayAsCop = false, float additionalHeightOffset = 0.0, int lifeEventType = 0)
+void Camera:RemoveObjectiveIcon(ObjectiveIconDisplayType displayType, [ ObjVisibility_MinimapAndModel visibility = ObjVisibility_MinimapAndModel, bool displayMinimapArrow = false, bool displayAsCop = false, float additionalHeightOffset = 0.0, int lifeEventType = 0)
+
+# Audio
+
+intptr_t Audio:GetPointer() # CLifeNode_PlayAudio*
+void Audio:Play() : void Audio:Enable()
+void Audio:Stop() : void Audio:Disable()
+LifeActor? Audio:GetAttachedActor() # returns nil if not defined
+intptr_t Audio:GetAttachedActorPointer()
+void Audio:SetBankID(int bankId)
+int Audio:GetBankID()
+void Audio:SetSampleID(int sampleId)
+int Audio:GetSampleID()
+void Audio:SetVolume(float volume)
+float Audio:GetVolume()

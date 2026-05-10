@@ -132,6 +132,18 @@ int lua_VehicleIndex(lua_State* L)
 		lua_pushcfunction(L, lua_ResetVehicleCustomData);
 		return 1;
 	}
+	else if (strcmp(key, "AddCustomDataPart") == 0) {
+		lua_pushcfunction(L, lua_VehicleAddCustomDataPart);
+		return 1;
+	}
+	else if (strcmp(key, "SetVehicleProperty") == 0) {
+	lua_pushcfunction(L, lua_SetVehicleProperty);
+	return 1;
+	}
+	else if (strcmp(key, "GetVehicleProperty") == 0) {
+		lua_pushcfunction(L, lua_GetVehicleProperty);
+		return 1;
+	}
 	else if (strcmp(key, "Damage") == 0) {
 		lua_pushcfunction(L, lua_DamageVehicle);
 		return 1;
@@ -180,6 +192,70 @@ int lua_VehicleIndex(lua_State* L)
 		lua_pushnil(L);
 	}
 
+	return 1;
+}
+
+int lua_SetVehicleProperty(lua_State* L)
+{
+	CVehicle* vehicle = *(CVehicle**)luaL_checkudata(L, 1, g_VehicleMetaName); // param 1
+	cVehicleProperties* properties = NULL;
+	if (vehicle->GetVehicleProperties() != NULL)
+		properties = vehicle->GetVehicleProperties();
+	else
+	{
+		properties = new cVehicleProperties();
+		//memset(&properties, 0, sizeof(cVehicleProperties));
+	}
+
+	int propId = luaL_checkinteger(L, 2);
+	double propNum = luaL_checknumber(L, 3);
+	const char* type = luaL_checkstring(L, 4);
+
+	if (strcmp(type, "float") == 0)
+	{
+		*(float*)(&properties->m_TweakVals[propId].data) = (float)propNum;
+	}
+	else if (strcmp(type, "double") == 0)
+	{
+		*(double*)(&properties->m_TweakVals[propId].data) = (double)propNum;
+	}
+	else if (strcmp(type, "int") == 0)
+	{
+		*(int*)(&properties->m_TweakVals[propId].data) = (int)propNum;
+	}
+
+	return 0;
+}
+
+int lua_GetVehicleProperty(lua_State* L)
+{
+	CVehicle* vehicle = *(CVehicle**)luaL_checkudata(L, 1, g_VehicleMetaName); // param 1
+	cVehicleProperties* properties = NULL;
+	if (vehicle->GetVehicleProperties() != NULL)
+		properties = vehicle->GetVehicleProperties();
+	else
+		properties = new cVehicleProperties();
+
+	int propId = luaL_checkinteger(L, 2);
+	const char* type = luaL_checkstring(L, 3);
+
+	if (strcmp(type, "float") == 0)
+	{
+		lua_pushnumber(L, *(float*)(&properties->m_TweakVals[propId].data));
+		return 1;
+	}
+	else if (strcmp(type, "double") == 0)
+	{
+		lua_pushnumber(L, *(double*)(&properties->m_TweakVals[propId].data));
+		return 1;
+	}
+	else if (strcmp(type, "int") == 0)
+	{
+		lua_pushinteger(L, *(int*)(&properties->m_TweakVals[propId].data));
+		return 1;
+	}
+
+	lua_pushnil(L);
 	return 1;
 }
 
@@ -330,6 +406,7 @@ int lua_SetVehicleNitro(lua_State* L)
 		custom->nitro = nitro;
 
 		vehicle->SetCustomCarData(custom);
+		vehicle->SetColor(rgb.X, rgb.Y, rgb.Z);
 	}
 	else
 	{
@@ -341,7 +418,7 @@ int lua_SetVehicleNitro(lua_State* L)
 		
 		custom->nitro = nitro;
 
-		vehicle->SetCustomCarData(custom);
+		//vehicle->SetCustomCarData(custom);
 	}
 
 	return 0;
@@ -406,19 +483,20 @@ int lua_VehicleAddCustomDataPart(lua_State* L)
 		rgbTint.rgb[2] = (char)(rgb.Z * 255.0f);
 		custom->basetint = rgbTint;
 
-		// add nitro part - sCustomCar::AddPart()
+		// sCustomCar::AddPart()
 		((void(__thiscall*)(sCustomCar*, int, int))0x57ccfe)(custom, group, part);
 
 		vehicle->SetCustomCarData(custom);
+		vehicle->SetColor(rgb.X, rgb.Y, rgb.Z);
 	}
 	else
 	{
 		sCustomCar* custom = vehicle->GetCustomCarData();
 
-		// add nitro part - sCustomCar::AddPart()
+		// sCustomCar::AddPart()
 		((void(__thiscall*)(sCustomCar*, int, int))0x57ccfe)(custom, group, part);
 
-		vehicle->SetCustomCarData(custom);
+		//vehicle->SetCustomCarData(custom);
 	}
 
 	return 0;
@@ -933,7 +1011,7 @@ int lua_SendVehicleManipulationPacket(lua_State* L)
 
 	SVehicleManipulationPacket packet;
 	float thrust, steerAngle, burnout, hornVol, leanFB;
-	bool nitro, handbrake, action1, brakeIsPressed;
+	bool nitro, handbrake, action1, brakeIsPressed = false;
 
 	thrust = (int)luaL_checknumber(L, 2);
 	steerAngle = (int)luaL_checknumber(L, 3);

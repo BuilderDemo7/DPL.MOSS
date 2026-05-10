@@ -1,4 +1,6 @@
 #include "Lua_ResourceManager.h"
+#include "..\dpl\CLifeSystem.h"
+#include "..\dpl\Vector.h"
 
 int lua_SetEntityPriority(lua_State* L)
 {
@@ -24,10 +26,15 @@ int lua_RequestEntity(lua_State* L)
 	auto rman = SpoolableResourceManager::GetInstance();
 	if (rman != NULL)
 	{
-		char in_mav2buffer[12];
-		memset(&in_mav2buffer, 0, 12);
+		Vector mav2_pos = Vector();
+		Vector4 playerPos = Vector4();
+		if (CLifeSystem::GetInstance() != NULL)
+			CLifeSystem::GetInstance()->GetPlayer()->GetDriverBehaviour()->GetCharacter()->GetPosition(&playerPos);
+		
+		mav2_pos.X = playerPos.X;
+		mav2_pos.Y = playerPos.Z;
 
-		rman->RequestEntity(pkg, entity, (int)&in_mav2buffer, priority);
+		rman->RequestEntity(pkg, entity, (int)&mav2_pos, priority);
 	}
 
 	return 0;

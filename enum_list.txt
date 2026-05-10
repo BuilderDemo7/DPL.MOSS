@@ -211,3 +211,24 @@ enum EPrimitiveType
 	EPrimitiveType_Sphere = 0x3,
 	EPrimitiveType_Plane = 0x4
 };
+
+enum EJustify {
+	EJustify_Left = 0,
+	EJustify_Right = 1,
+	EJustify_Centered = 2,
+	EJustify_SizeOf = 2147483647
+};
+
+enum AIManagerVehicleTypeEnum
+{
+	AIManagerVehicleTypeEnum_Civilian = 0,
+	AIManagerVehicleTypeEnum_CivilianParked = 1,
+	AIManagerVehicleTypeEnum_CivilianParkedAttractedCar = 2,
+	AIManagerVehicleTypeEnum_CivilianParkedAttractedBus = 3,
+	AIManagerVehicleTypeEnum_CivilianParkedAttractedBoat = 4,
+	AIManagerVehicleTypeEnum_CivilianParkedAttractedBike = 5,
+	AIManagerVehicleTypeEnum_CivilianParkedAttractedLorry = 6,
+	AIManagerVehicleTypeEnum_CivilianParkedAttractedTaxi = 7,
+	AIManagerVehicleTypeEnum_CivilianParkedAttractedGoKart = 8,
+	AIManagerVehicleTypeEnum_NumberOf = 9
+};

@@ -17,3 +17,11 @@ void CLifeNode::OnDisable()
 {
 	((void(__thiscall*)(CLifeNode*))*(int*)(GetVTableAddress() + 0x38))(this);
 }
+
+void CLifeNode::OnUpdate(bool* enabled, eNodeFireWire* wireToFire)
+{
+	// DEBUG
+	int addr1 = GetVTableAddress();
+	int fptr = *(int*)(addr1 + 0x40);
+	((void(__thiscall*)(CLifeNode*, bool*, eNodeFireWire*))fptr)(this, enabled, wireToFire);
+}

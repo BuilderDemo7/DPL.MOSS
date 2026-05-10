@@ -78,3 +78,5 @@ int lua_FindClosestVehicleForEntry(lua_State* L);
 int lua_GetCameraPosition(lua_State* L);
 int lua_GetCameraForwardVector(lua_State* L);
 int lua_GetCameraRightVector(lua_State* L);
+
+int lua_SetVehicleDensity(lua_State* L);

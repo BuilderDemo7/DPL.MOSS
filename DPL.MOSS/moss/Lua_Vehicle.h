@@ -63,3 +63,6 @@ int lua_DamageVehicle(lua_State* L);
 
 int lua_GetVehicleRPM(lua_State* L);
 int lua_GetVehicleGear(lua_State* L);
+
+int lua_SetVehicleProperty(lua_State* L);
+int lua_GetVehicleProperty(lua_State* L);

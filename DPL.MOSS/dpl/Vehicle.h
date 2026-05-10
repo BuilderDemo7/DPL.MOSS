@@ -108,7 +108,7 @@ struct sCustomCar {
 #pragma pack(pop)
 
 struct sValue {
-	unsigned int data;
+	unsigned int data; // usually a float
 };
 
 // m_TweakVals[eVPropID index]
@@ -280,6 +280,7 @@ public:
 	Matrix* GetMatrix(Matrix* mat);
 
 	AutoPtr<IHandlingInternal, int> GetHandling();
+	CVehicle* GetOverrideVehicle();
 
 	float GetRPM();
 	float IsSkidding(bool leftWheel);

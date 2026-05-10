@@ -136,11 +136,11 @@ int lua_VehicleIndex(lua_State* L)
 		lua_pushcfunction(L, lua_VehicleAddCustomDataPart);
 		return 1;
 	}
-	else if (strcmp(key, "SetVehicleProperty") == 0) {
+	else if (strcmp(key, "SetProperty") == 0) {
 	lua_pushcfunction(L, lua_SetVehicleProperty);
 	return 1;
 	}
-	else if (strcmp(key, "GetVehicleProperty") == 0) {
+	else if (strcmp(key, "GetProperty") == 0) {
 		lua_pushcfunction(L, lua_GetVehicleProperty);
 		return 1;
 	}

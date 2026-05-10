@@ -285,8 +285,8 @@ float Vehicle:GetNitro() # from 0.0 to 1.0, e.g. 0.1 (10% nitro), 0.5 (50% nitro
 void Vehicle:SetNitro(float amount)
 void Vehicle:ResetCustomData()
 void Vehicle:AddCustomDataPart(int group, int part)
-void Vehicle:SetVehicleProperty(int propertyId, number newValue, string type ["float", "int"])
-number Vehicle:GetVehicleProperty(int propertyId, string type ["float", "int"])
+void Vehicle:SetProperty(int propertyId, number newValue, string type ["float", "int"])
+number Vehicle:GetProperty(int propertyId, string type ["float", "int"])
 void Vehicle:Damage(float damageLevel, [ ePartSubType part = -1) # part -1 means most of the parts will be damaged
 float Vehicle:GetDamage()
 void Vehicle:SetDamage(float amount)

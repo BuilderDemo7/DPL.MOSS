@@ -423,6 +423,9 @@
     <ClInclude Include="moss\Lua_Audio.h">
       <Filter>Header files\MOSS</Filter>
     </ClInclude>
+    <ClInclude Include="moss\Lua_Viewport.h">
+      <Filter>Header files\MOSS</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -708,6 +711,9 @@
       <Filter>Source files\dpl</Filter>
     </ClCompile>
     <ClCompile Include="moss\Lua_Audio.cpp">
+      <Filter>Source files\MOSS</Filter>
+    </ClCompile>
+    <ClCompile Include="moss\Lua_Viewport.cpp">
       <Filter>Source files\MOSS</Filter>
     </ClCompile>
   </ItemGroup>

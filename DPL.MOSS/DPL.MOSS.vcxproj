@@ -290,6 +290,7 @@
     <ClInclude Include="moss\Lua_Vehicle.h" />
     <ClInclude Include="moss\Lua_VehicleActor.h" />
     <ClInclude Include="moss\Lua_VehicleInstance.h" />
+    <ClInclude Include="moss\Lua_Viewport.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="utils\MemoryMgr.h" />
@@ -388,6 +389,7 @@
     <ClCompile Include="moss\Lua_Vehicle.cpp" />
     <ClCompile Include="moss\Lua_VehicleActor.cpp" />
     <ClCompile Include="moss\Lua_VehicleInstance.cpp" />
+    <ClCompile Include="moss\Lua_Viewport.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

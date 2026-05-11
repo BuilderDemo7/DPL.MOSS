@@ -82,6 +82,8 @@ int lua_CameraIndex(lua_State* L)
 	else {
 		lua_pushnil(L);
 	}
+
+	return 1;
 }
 
 int lua_SetCameraActorPosition(lua_State* L)

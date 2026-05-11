@@ -5,13 +5,6 @@ struct PI_MATERIAL_HANDLE {
 	int handle_m;
 };
 
-struct SSpriteInstance {
-	unsigned int numSprites;
-	struct PI_MATERIAL_HANDLE materialID;
-	struct Sprite *sprites;
-	int whichSubstance;
-};
-
 struct Sprite {
 	Vector4 colour;
 	float positionX;
@@ -22,4 +15,11 @@ struct Sprite {
 	float topLeftV;
 	float bottomRightU;
 	float bottomRightV;
+};
+
+struct SSpriteInstance {
+	unsigned int numSprites;
+	PI_MATERIAL_HANDLE materialID;
+	Sprite *sprites;
+	int whichSubstance;
 };

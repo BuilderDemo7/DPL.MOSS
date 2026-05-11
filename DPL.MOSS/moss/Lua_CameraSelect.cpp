@@ -45,6 +45,8 @@ int lua_CameraSelectIndex(lua_State* L)
 	else {
 		lua_pushnil(L);
 	}
+
+	return 1;
 }
 
 int lua_GetCameraSelectTarget(lua_State* L)

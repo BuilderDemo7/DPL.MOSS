@@ -70,6 +70,8 @@ int lua_AudioIndex(lua_State* L)
 	else {
 		lua_pushnil(L);
 	}
+
+	return 1;
 }
 
 void Add_AudioPlay(CLifeNode_PlayAudio* item)

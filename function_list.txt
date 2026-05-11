@@ -53,6 +53,8 @@ void ParkVehicle(Vehicle vehicle)
 
 void SetVehicleDensity(float density, [ AIManagerVehicleTypeEnum vehicleDensityType = -1)
 
+Viewport GetGameViewport()
+
 # HUD
 
 void ActivatePager()
@@ -472,3 +474,15 @@ void Audio:SetSampleID(int sampleId)
 int Audio:GetSampleID()
 void Audio:SetVolume(float volume)
 float Audio:GetVolume()
+
+# Viewport
+intptr_t Viewport:GetPointer() # CPCViewport*
+void Viewport:SetAspectRatio(float aspectRatio)
+float Viewport:GetAspectRatio()
+void Viewport:SetWidth(float width)
+float Viewport:GetWidth()
+void Viewport:SetHeight(float height)
+float Viewport:GetHeight()
+void Viewport:SetWidth(float width)
+float Viewport:SetPosition(float fX, float fY) : float Viewport:SetViewportPosition(float fX, float fY)
+void Viewport:AddSpriteInstance(int materialId, float x, float y, float sx, float sy, [ int whichSubstance = 0, float topLeftU = 0.0, float topLeftV = 0.0, float bottomRightU = 1.0, float bottomRightV = 1.0, float r = 1.0, float g = 1.0, float b = 1.0, float a = 1.0)

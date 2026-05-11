@@ -22,6 +22,7 @@
 #include "Lua_TestVolume.h"
 #include "Lua_Camera.h"
 #include "Lua_Audio.h"
+#include "Lua_Viewport.h"
 
 // funcs
 #include "Lua_MissionFuncs.h"
@@ -825,6 +826,13 @@ void Init_Lua_Funcs()
 	lua_register(L, "HasPlayerShotRecently", lua_HasPlayerShotRecently); // bool HasPlayerShotRecently()
 	lua_register(L, "AddAllWeaponsForPlayer", lua_AddAllWeaponsForPlayer); // void AddAllWeaponsForPlayer()
 	
+	lua_register(L, "GetGameViewport", lua_GetGameViewport); // Viewport GetGameViewport()
+
+	lua_register(L, "SetGameAspectRatio", lua_SetGameAspectRatio); // void SetGameAspectRatio(float aspectRatio)
+	lua_register(L, "GetGameAspectRatio", lua_GetGameAspectRatio); // float GetGameAspectRatio()
+	lua_register(L, "SetGameFOVFactor", lua_SetGameFOVFactor); // void SetGameFOVFactor(float fovFactor)
+	lua_register(L, "GetGameFOVFactor", lua_GetGameFOVFactor); // float GetGameFOVFactor()
+	
 	lua_register(L, "AddMapItem", lua_AddMapItem); // MapItem AddMapItem(int type, Vector position, float angle) : MapItem AddMapItem(int type, float x, float y, float z, float angle)
 	lua_register(L, "GetMapItems", lua_GetMapItems); // { MapItem } GetMapItems()
 	lua_register(L, "GetMapMarkerActive", lua_GetMapMarkerActive); // bool GetMapMarkerActive()
@@ -923,7 +931,8 @@ void Init_Lua_MetaTables()
 	Init_Lua_MetaTable_TestVolume();
 	Init_Lua_MetaTable_Camera();
 	Init_Lua_MetaTable_Audio();
-	
+	Init_Lua_MetaTable_Viewport();
+
 	Init_Lua_MetaTable_LifeActor();
 	Init_Lua_MetaTable_LifeInstance();
 

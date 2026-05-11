@@ -80,3 +80,10 @@ int lua_GetCameraForwardVector(lua_State* L);
 int lua_GetCameraRightVector(lua_State* L);
 
 int lua_SetVehicleDensity(lua_State* L);
+
+int lua_GetGameViewport(lua_State* L);
+
+int lua_SetGameAspectRatio(lua_State* L);
+int lua_GetGameAspectRatio(lua_State* L);
+int lua_SetGameFOVFactor(lua_State* L);
+int lua_GetGameFOVFactor(lua_State* L);

@@ -2,6 +2,7 @@
 #include "Lua_Character.h"
 #include "Lua_Vehicle.h"
 #include "Lua_CharacterActor.h"
+#include "Lua_Viewport.h"
 
 #include "..\dpl\AIFelonySystemFelonyManager.h"
 #include "..\dpl\CLifeSystemCommentLog.h"
@@ -551,6 +552,62 @@ int lua_ToggleIGCS(lua_State* L)
 	}
 
 	return 0;
+}
+
+int lua_SetGameAspectRatio(lua_State* L)
+{
+	float newAspectRatio = luaL_checknumber(L, 1);
+	
+	*(float*)0x64b238 = newAspectRatio;
+
+	return 0;
+}
+
+int lua_SetGameFOVFactor(lua_State* L)
+{
+	float newFovFactor = luaL_checknumber(L, 1);
+
+	*(float*)0x64b234 = newFovFactor;
+
+	return 0;
+}
+
+int lua_GetGameAspectRatio(lua_State* L)
+{
+	float aspectRatio = *(float*)0x64b238;
+
+	lua_pushnumber(L, aspectRatio);
+
+	return 1;
+}
+
+int lua_GetGameFOVFactor(lua_State* L)
+{
+	float fovFactor = *(float*)0x64b234;
+
+	lua_pushnumber(L, fovFactor);
+
+	return 1;
+}
+
+int lua_GetGameViewport(lua_State* L)
+{
+	if (CPCViewport::GetSimulationViewport() == NULL)
+	{
+		lua_pushnil(L);
+		return 1;
+	}
+
+	// Allocate Lua-managed memory for the struct directly
+	CPCViewport** udata =
+		(CPCViewport**)lua_newuserdata(L, sizeof(CPCViewport*));
+
+	*udata = CPCViewport::GetSimulationViewport();
+
+	luaL_getmetatable(L, g_ViewportMetaName);
+	lua_setmetatable(L, -2);
+
+	return 1;
 }
 
 int lua_EnableCops(lua_State* L)

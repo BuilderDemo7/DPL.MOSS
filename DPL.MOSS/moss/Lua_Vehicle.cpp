@@ -52,6 +52,10 @@ int lua_VehicleIndex(lua_State* L)
 		lua_pushcfunction(L, lua_SetVehicleFelonyLevel);
 		return 1;
 	}
+	else if (strcmp(key, "GetFelony") == 0) {
+		lua_pushcfunction(L, lua_GetVehicleFelonyLevel);
+		return 1;
+	}
 	else if (strcmp(key, "GetType") == 0 || strcmp(key, "GetModel") == 0) {
 		lua_pushcfunction(L, lua_GetVehicleType);
 		return 1;
@@ -524,9 +528,9 @@ int lua_GetVehicleDamage(lua_State* L)
 { 
 	CVehicle* vehicle = *(CVehicle**)luaL_checkudata(L, 1, g_VehicleMetaName); // param 1
 
-	lua_pushinteger(L, vehicle->GetDamage());
+	lua_pushnumber(L, vehicle->QueryVehicleDamage());
 
-	return 0;
+	return 1;
 }
 
 int lua_SetVehicleDamage(lua_State* L)

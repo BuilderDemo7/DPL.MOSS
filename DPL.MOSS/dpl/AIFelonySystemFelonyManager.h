@@ -44,6 +44,7 @@ public:
 	void SetChaseCarPatrolDensity(float inChaseCarPatrolDensity, AIFelonySystemPatrolCarTypeEnum inPatrolCarType);
 
 	void SetChaseCarMaxChasers(int inChaseCarMaxChasers, int inPatrolCarType = 0);
+	float GetVehicleFelonyLevel(CVehicle* pVehicle, int CarType);
 	void SetVehicleFelonyLevel(CVehicle* pVehicle, int CarType, float Value);
 	void SetFelonyLevel(CCharacter* pCharacter, int CarType, float Value);
 	float GetFelonyLevel(CCharacter* pCharacter, int CarType);

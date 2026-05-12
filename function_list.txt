@@ -297,6 +297,7 @@ void Vehicle:Fix() : void Vehicle:Repair()
 void Vehicle:ActivateLamp(ePartSubType lightPart, bool onoff, [ bool forceOverride = false) : void Vehicle:SetLamp(ePartSubType lightPart, bool onoff, [ bool forceOverride = false)
 void Vehicle:ActivateSiren(bool onoff)
 void Vehicle:SetFelony(float felony, [ AIFelonySystemPatrolCarTypeEnum patrolType = E_PATROLCARTYPE_COP)
+float Vehicle:GetFelony([ AIFelonySystemPatrolCarTypeEnum patrolType = E_PATROLCARTYPE_COP)
 void Vehicle:SetPhysicsPriority(int priority)
 int Vehicle:GetPhysicsPriority()
 void Vehicle:SetRenderingPriority(int priority)
@@ -369,11 +370,15 @@ void Vehicle_LifeInstance:SetCreateDamaged(bool createDamaged)
 bool Vehicle_LifeInstance:GetCreateDamaged()
 void Vehicle_LifeInstance:SetFelony(float felony)
 float Vehicle_LifeInstance:GetFelony()
+void Vehicle_LifeInstance:SetPosition(Vector position)
+Vector Vehicle_LifeInstance:GetPosition()
 
 # Character_LifeInstance
 
 Character Character_LifeInstance:GetInstance()
 intptr_t Character_LifeInstance:GetPointer() # CLifeInstance_Character*
+void Character_LifeInstance:SetPosition(Vector position)
+Vector Character_LifeInstance:GetPosition()
 void Character_LifeInstance:UnregisterSpoolHandler() # disable ping-out, useful for players or permanent/constant loaded instances
 
 # Helicopter

@@ -255,6 +255,7 @@ public:
 	void ResetDamage();
 	void SetDamage(float damage);
 	float GetDamage();
+	float QueryVehicleDamage(bool unknown1 = false);
 	void MakeInfiniteMass();
 	void Explode();
 	void Kaboom();

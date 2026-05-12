@@ -30,6 +30,7 @@ int lua_RemoveChaseCarCharacterType(lua_State* L);
 int lua_SetChaseCarPatrolDensity(lua_State* L);
 
 int lua_ActivatePager(lua_State* L);
+int lua_GetVehicleFelonyLevel(lua_State* L);
 int lua_SetVehicleFelonyLevel(lua_State* L);
 int lua_SetFelonyLevel(lua_State* L);
 int lua_GetFelonyLevel(lua_State* L);

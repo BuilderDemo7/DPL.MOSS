@@ -850,6 +850,28 @@ int lua_ActivatePager(lua_State* L)
 	return 0;
 }
 
+int lua_GetVehicleFelonyLevel(lua_State* L)
+{
+	CVehicle* veh = *(CVehicle**)luaL_checkudata(L, 1, g_VehicleMetaName); // param 1
+
+	int patrolSlot = luaL_optinteger(L, 2, 0); // 0 = cops, 1 = goons
+
+	if (veh == NULL)
+		return luaL_error(L, "Bad argument #1 - The target character is nil");
+
+	if (patrolSlot > 1 || patrolSlot < 0)
+		return luaL_error(L, "Bad argument #2 - patrol slot is invalid, it must be between 0 (cops) and 1 (goons)");
+
+	float fel = 0;
+	AIFelonySystemFelonyManagerClass* felonyMan = GetFelonyManager();
+	if (felonyMan)
+		fel = felonyMan->GetVehicleFelonyLevel(veh, patrolSlot);
+
+	lua_pushnumber(L, fel);
+
+	return 1;  // number of return(s)
+}
+
 int lua_SetVehicleFelonyLevel(lua_State* L)
 {
 	CVehicle* veh = *(CVehicle**)luaL_checkudata(L, 1, g_VehicleMetaName); // param 1

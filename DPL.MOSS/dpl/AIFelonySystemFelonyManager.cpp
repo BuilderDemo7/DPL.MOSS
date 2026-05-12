@@ -15,6 +15,11 @@ void AIFelonySystemFelonyManagerClass::SetChaseCarMaxChasers(int inChaseCarMaxCh
 	((void(__thiscall*)(AIFelonySystemFelonyManagerClass*, int, int))0x430783)(this, inChaseCarMaxChasers, inPatrolCarType);
 }
 
+float AIFelonySystemFelonyManagerClass::GetVehicleFelonyLevel(CVehicle* pVehicle, int CarType)
+{
+	return ((float(__thiscall*)(AIFelonySystemFelonyManagerClass*, CVehicle*, int CarType))0x430bce)(this, pVehicle, CarType);
+}
+
 void AIFelonySystemFelonyManagerClass::SetVehicleFelonyLevel(CVehicle* pVehicle, int CarType, float Value)
 {
     ((void(__thiscall*)(AIFelonySystemFelonyManagerClass*, CVehicle*, float, int))0x430FF9)(this, pVehicle, Value, CarType);

@@ -805,9 +805,10 @@ void Init_Lua_Funcs()
 
 	lua_register(L, "SetMusicTrack", lua_SetMusicTrack); // void SetMusicTrack(int trackId);
 	lua_register(L, "GetMileometer", lua_GetMileometer); // float GetMileometer();
-	lua_register(L, "lua_GetMoney", lua_GetMoney); // int GetMoney()
-	lua_register(L, "lua_SetMoney", lua_SetMoney); // void SetMoney(int amount)
+	lua_register(L, "GetMoney", lua_GetMoney); // int GetMoney()
+	lua_register(L, "SetMoney", lua_SetMoney); // void SetMoney(int amount)
 
+	lua_register(L, "GetVehicleFelonyLevel", lua_GetVehicleFelonyLevel); // float GetFelonyLevel(Vehicle vehicle, [ AIFelonySystemPatrolCarTypeEnum patrolType = E_PATROLCARTYPE_COP)
 	lua_register(L, "SetVehicleFelonyLevel", lua_SetVehicleFelonyLevel); // void SetVehicleFelonyLevel(Vehicle vehicle, float felony, [ AIFelonySystemPatrolCarTypeEnum patrolType = E_PATROLCARTYPE_COP)
 	lua_register(L, "SetFelonyLevel", lua_SetFelonyLevel); // void SetFelonyLevel(Character character, float felony, [ AIFelonySystemPatrolCarTypeEnum patrolType = E_PATROLCARTYPE_COP)
 	lua_register(L, "GetFelonyLevel", lua_GetFelonyLevel); // float GetFelonyLevel(Character character, [ AIFelonySystemPatrolCarTypeEnum patrolType = E_PATROLCARTYPE_COP)

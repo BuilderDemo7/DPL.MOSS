@@ -530,7 +530,8 @@ CVehicle::GetVehicleType()
 ////		//printf("0x%p -> Vehicle Hierachy of 0x%p\n", hierachy, this);
 ////#endif
 ////	return (int*)(hierachy + 0x14);
-	int specification = *(int*)(this->GetPointer() + 0x30);
+	CVehicle* host = GetOverrideVehicle();
+	int specification = *(int*)(host->GetPointer() + 0x30);
 	if (specification == NULL)
 		GetVehicleType_RETURN_INVALID_VEHICLE_TYPE:
 	return (int*)gInvalidVehicleType;
@@ -814,6 +815,11 @@ void CVehicle::SetCustomCarData(sCustomCar *pChav, cVehicleProperties *pProps, v
 cVehicleProperties* CVehicle::GetVehicleProperties()
 {
 	return ((cVehicleProperties*(__thiscall*)(CVehicle*))*(int*)(GetVTableAddress() + 0x30))(this);
+}
+
+float CVehicle::QueryVehicleDamage(bool unknown1)
+{
+	return ((float(__thiscall*)(CVehicle*, bool))*(int*)(GetVTableAddress() + 0x88))(this, unknown1);
 }
 
 float CVehicle::GetThrottle()

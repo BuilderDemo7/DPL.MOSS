@@ -34,6 +34,7 @@ void draw_targets() # called every frame the target manager is drawn (e.g. objec
 
 Character GetPlayerCharacter()
 Character_Actor GetPlayerActor()
+void ClearMessages() # clear mission comments
 void ShowMissionComment(float duration, string message)
 void EndAllLifeEvents() # exclude all missions!
 void LaunchVEdit() # launches the garage menu
@@ -54,6 +55,11 @@ void ParkVehicle(Vehicle vehicle)
 void SetVehicleDensity(float density, [ AIManagerVehicleTypeEnum vehicleDensityType = -1)
 
 Viewport GetGameViewport()
+
+Vector GetClosestCharacterSnapLocationAt(Vector atPosition, [ float radius = 400.0)
+Vector GetNearestAttractorPositionAt(Vector atPosition, int attractorType, [ float radius = 400.0)
+
+int GetModelHandleFromGadget(EGadgetType gadget)
 
 # HUD
 
@@ -81,13 +87,16 @@ CameraSelect CreateCameraSelect(ECameraSelectType cameraType, LifeActor target, 
 Camera CreateCamera(Vector position, [ Quaternion rotation = Quaternion.new(0,0,0,0), LifeActor attachTo = nil, LifeActor lookAt = nil)
 
 * Character Actor
-Character_Actor CreateCharacter(int skin, float x, float y, float z, [ float angle = 0.0, bool startCreated = true, EWeapons weapon, float initialHealth = 1.0, float initialFelony = 0.0, Vehicle_Actor initialVehicle = nil, int initialVehicleSeat = 0, bool addToFelonyManager = false, bool doNotUseIdleAnims = false, bool isPlayer = false, bool ignorePlayerRegister = false, bool keepSkin = false, int playerNumber = 0)
+Character_Actor CreateCharacter(int skin, float x, float y, float z, [ float angle = 0.0, bool startCreated = true, EWeapons weapon, float initialHealth = 1.0, float initialFelony = 0.0, Vehicle_Actor initialVehicle = nil, int initialVehicleSeat = 0, float vulnerability = 1.0, bool addToFelonyManager = false, bool doNotUseIdleAnims = false, bool isPlayer = false, bool ignorePlayerRegister = false, bool keepSkin = false, int playerNumber = 0)
 
 * Point_Actor
 Point_Actor CreatePoint(Vector position, [ Quaternion rotation = Quaternion(0, 0, 0, 0)) # useful for marking points to be used as a target/objective icon
 
 * TestVolume
 TestVolume CreateTestVolume(Vector position, [ Quaternion rotation = Quaternion(0, 0, 0, 0), EPrimitiveType primType = EPrimitiveType_Cylinder, float widthOrRadius = 2.5, float length = 0.0, height = 5.0, LifeActor attachTo = nil)
+
+* AICharacterAttack
+AICharacterAttack CreateCharacterAttackAI(LifeActor attackee, [ LifeActor attacker = nil, float accuracy = 1.0)
 
 # Camera Functions
 
@@ -195,6 +204,7 @@ MapItem castMapItem(intptr_t address)
 # Input
 
 int GetAsyncKeyState(int keycode) # gets key state (Windows messaging)
+bool WasKeyPressedOnce(int keycode) # (Windows messaging)
 float: value, bool: debounce GetInputInfo(EInputAction action) # gets input directly from the game's input manager
 
 # Misc
@@ -245,6 +255,7 @@ float Character:GetAngle() : float Character:GetHeading() # returned in radians,
 void Character:SetAngle(float radAngle) : float Character:SetHeading(float radHeading) # will use radians
 intptr_t Character:GetPointer() # CCharacter*
 Vehicle Character:GetVehicle()
+Vehicle Character:GetEnteringVehicle()
 void Character:TeleportIntoVehicle(Vehicle target, int seat)
 bool Character:GetCanExitVehicle() 
 void Character:SetCanExitVehicle(bool status)
@@ -253,15 +264,22 @@ void Character:SetFelony(float felony, [ AIFelonySystemPatrolCarTypeEnum patrolT
 float Character:GetFelony([ AIFelonySystemPatrolCarTypeEnum patrolType = E_PATROLCARTYPE_COP)
 Vector Character:GetForward() : Vector Character:GetForwardVector()
 Vector Character:GetRight() : Vector Character:GetRightVector()
-??? Character:PlayMissionAnimation(???) # W.I.P, DO NOT USE
+void Character:PlayMissionAnimation(string animationName, [ bool startImmediately = true)
+void Character:PlayMissionAnimationByID(int animationId, [ bool startImmediately = true)
+void Character:PlayMissionAnimationByHash(int animHash, [ bool startImmediately = true)
 void Character:EnterVehicle(Vehicle vehicle, int seat, bool hijack);
 void Character:ExitVehicle()
 void Character:EjectFromVehicle()
 void Character:SetArrested()
 void Character:SetHealth(float health) # from 0 to 1, e.g. 0.5, 0.6, etc.
 float Character:GetHealth()
-??? Character:SwapSkin(???) # W.I.P, DO NOT USE
+void Character:SwapSkin(int newSkin, [ int animTypeFromSkin = newSkin) # animTypeFromSkin = a skin ID to base off the aimation type
 void Character:Walk(Vector velocity, [ bool strafe = false, bool scared = false, float w = 1.0)
+Character_LifeInstance Character:PromoteToLifeInstance()
+void Character:SetModel(int model) : void Character:SetSkin(int skin)
+int Character:GetModel() : int Character:GetSkin()
+void Character:SetAnimType(int animType) # sort of a walking style, etc.
+int Character:GetAnimType()
 
 # Vehicle
 
@@ -380,6 +398,7 @@ intptr_t Character_LifeInstance:GetPointer() # CLifeInstance_Character*
 void Character_LifeInstance:SetPosition(Vector position)
 Vector Character_LifeInstance:GetPosition()
 void Character_LifeInstance:UnregisterSpoolHandler() # disable ping-out, useful for players or permanent/constant loaded instances
+Character_Actor Character_LifeInstance:PromoteToLifeActor()
 
 # Helicopter
 
@@ -481,6 +500,7 @@ void Audio:SetVolume(float volume)
 float Audio:GetVolume()
 
 # Viewport
+
 intptr_t Viewport:GetPointer() # CPCViewport*
 void Viewport:SetAspectRatio(float aspectRatio)
 float Viewport:GetAspectRatio()
@@ -491,3 +511,15 @@ float Viewport:GetHeight()
 void Viewport:SetWidth(float width)
 float Viewport:SetPosition(float fX, float fY) : float Viewport:SetViewportPosition(float fX, float fY)
 void Viewport:AddSpriteInstance(int materialId, float x, float y, float sx, float sy, [ int whichSubstance = 0, float topLeftU = 0.0, float topLeftV = 0.0, float bottomRightU = 1.0, float bottomRightV = 1.0, float r = 1.0, float g = 1.0, float b = 1.0, float a = 1.0)
+void Viewport:AddStaticInstance(int modelHandle, ELodType modelLOD, Vector rightVec, Vector upVec, Vector forwardVec, Vector position, [ float alpha = 1.0, int whichSubstance = 0, int roomMask = 1, float r = 1.0, float g = 1.0, float b = 1.0)
+
+# AICharacterAttack
+intptr_t AICharacterAttack:GetPointer() # Life::Node::Character::Attack::Class*
+void AICharacterAttack:Activate() : void AICharacterAttack:Enable()
+void AICharacterAttack:Deactivate() : void AICharacterAttack:Disable()
+LifeActor? AICharacterAttack:GetAttackee()
+intptr_t AICharacterAttack:GetAttackeePointer()
+LifeActor? AICharacterAttack:GetAttacker()
+intptr_t AICharacterAttack:GetAttackerPointer()
+void AICharacterAttack:SetAttackee(LifeActor newAttackee)
+void AICharacterAttack:SetAttacker(LifeActor newAttacker = nil)

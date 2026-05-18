@@ -1,4 +1,5 @@
 #include "Lua_CharacterInstance.h"
+#include "Lua_CharacterActor.h"
 
 const char* g_CharacterInstanceMetaName = "Character_LifeInstance";
 
@@ -38,6 +39,10 @@ int lua_CharacterInstanceIndex(lua_State* L)
 	}
 	else if (strcmp(key, "UnregisterSpoolHandler") == 0) {
 		lua_pushcfunction(L, lua_UnregisterCharacterInstanceSpoolHandler);
+		return 1;
+	}
+	else if (strcmp(key, "PromoteToLifeActor") == 0) {
+		lua_pushcfunction(L, lua_PromoteCharacterInstanceToLifeActor);
 		return 1;
 	}
 	else {
@@ -148,5 +153,31 @@ int lua_GetCharacterInstancePointer(lua_State* L)
 
 	lua_pushinteger(L, (int)icharacter);
 
+	return 1;
+}
+
+int lua_PromoteCharacterInstanceToLifeActor(lua_State* L)
+{
+	CLifeInstance_Character* icharacter = *(CLifeInstance_Character**)luaL_checkudata(L, 1, g_CharacterInstanceMetaName);
+
+
+	CLifeActor_Character* aChara = (CLifeActor_Character*)hamster::CreateObject(EFactoryType_LifeActor_Character);
+
+	if (aChara != NULL)
+	{
+		aChara->InitialiseFromLifeCharacter(icharacter);
+
+		// allocate userdata to hold the pointer
+		CLifeActor_Character** udata = (CLifeActor_Character**)lua_newuserdata(L, sizeof(CLifeInstance_Character*));
+		*udata = aChara;
+
+		// attach the vehicle metatable
+		luaL_getmetatable(L, g_CharacterActorMetaName);
+		lua_setmetatable(L, -2);
+
+		return 1;
+	}
+
+	lua_pushnil(L);
 	return 1;
 }

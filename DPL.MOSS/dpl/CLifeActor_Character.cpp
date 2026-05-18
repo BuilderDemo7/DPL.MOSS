@@ -19,6 +19,7 @@ void CLifeActor_Character::CustomInitialise(ECharacterType skin, Matrix matrix, 
 
 	m_fFelony = felony;
 	m_health = initialHealth;
+	m_fVulnerability = 1.0f;
 	if (m_health < 0.0f) // < 0 hp
 		m_health = 0.0f;
 	if (m_health > 1.5f) // > 150 hp
@@ -150,6 +151,77 @@ void CLifeActor_Character::CustomInitialise(ECharacterType skin, Matrix matrix, 
 
 	// CLifeEntityManager->RegisterUpdate()
 	((void(__thiscall*)(void*, void**))0x483bc8)(*(void**)(0x70c7bc), &m_pEntity);
+}
+
+void CLifeActor_Character::InitialiseFromLifeCharacter(CLifeInstance_Character* pLCharacter, CLifeEventData* pEventData)
+{
+	CLifeEventData* pActualEventData = pEventData;
+
+	if (pActualEventData == NULL)
+	{
+		AutoPtr<CLifeEventData, int> data = CLifeEventDataManager::GetInstance()->GetLifeEventData(0);
+
+		// 'data' only stored once in the stack, also we have to do this 
+		pActualEventData = data.m_pPointer;
+	}
+
+	m_pOwner = pActualEventData;
+
+	m_bAddToFelonyManager = false;
+	m_bDoNotUseIdleAnims = false;
+
+	m_ePlayerNumber = 0xefcdab0;
+	m_bPlayer = false;
+	m_originalSeat = 0;
+	m_skin = pLCharacter->m_skin;
+
+	m_vehiclePtr = NULL;
+	m_targetPosition = Vector4(0, 0, 0, 1);
+
+	// unknown
+	field0x5b0 = 4;
+	field0x5b4 = 2;
+
+	m_positionChangePerGameStep = Vector4(0, 0, 0, 0);
+	m_headingChangePerGameStep = 0;
+	m_constrainPositionChange = false;
+
+	m_crouch = false;
+	m_cowerIfCrouched = false;
+	m_strafeAndWeaponDrawn = false;
+	m_shootIfWeaponDrawn = false;
+	m_melee = false;
+	m_weaponDrawn = false;
+	m_targetInaccuracy = 0.0f;
+	m_arrested = false;
+	m_health = 1.0f;
+
+	m_bCreateFromStart = false;
+
+	Vector4 pos = pLCharacter->GetPosition();
+	m_initialPosition = pos;
+	m_initialHeading = 0.0f;
+
+	m_matrix.pos.X = m_initialPosition.X;
+	m_matrix.pos.Y = m_initialPosition.Y;
+	m_matrix.pos.Z = m_initialPosition.Z;
+	m_matrix.right.X = 1.0f;
+	m_matrix.up.Y = 1.0f;
+	m_matrix.forward.Z = 1.0f;
+
+	m_piCharacterInstance = pLCharacter;
+
+	m_weapon = m_piCharacterInstance->m_weapon;
+
+	m_created = true;
+
+	//if (this == NULL)
+	//{
+	//	m_pEntity = NULL;
+	//}
+
+	// CLifeEntityManager->RegisterUpdate()
+	//((void(__thiscall*)(void*, void**))0x483bc8)(*(void**)(0x70c7bc), &m_pEntity);
 }
 
 Vector4 CLifeActor_Character::position(unsigned int gameStepIndex)

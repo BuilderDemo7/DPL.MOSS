@@ -16,6 +16,7 @@ int lua_GetCharacterAngle(lua_State* L);
 int lua_SetCharacterAngle(lua_State* L);
 
 int lua_GetCharacterVehicle(lua_State* L);
+int lua_GetCharacterEnteringVehicle(lua_State* L);
 int lua_TeleportCharacterIntoVehicle(lua_State* L);
 
 int lua_GetCharacterPointer(lua_State* L); // get-only
@@ -25,6 +26,9 @@ int lua_SetCharacterCanExitVehicle(lua_State* L);
 
 int lua_CharacterForceIdleMode(lua_State* L);
 int lua_CharacterPlayMissionAnimation(lua_State* L);
+int lua_CharacterPlayMissionAnimationByID(lua_State* L);
+int lua_CharacterPlayMissionAnimationByHash(lua_State* L);
+
 int lua_CharacterKillMissionAnimations(lua_State* L);
 
 int lua_CharacterEnterVehicle(lua_State* L);
@@ -44,3 +48,16 @@ int lua_CharacterWalk(lua_State* L);
 
 int lua_SetCharacterVelocity(lua_State* L);
 int lua_GetCharacterVelocity(lua_State* L);
+
+int lua_PromoteCharacterToLifeInstance(lua_State* L);
+
+int lua_DestroyCharacter(lua_State* L);
+
+int lua_CharacterSetAlpha(lua_State* L);
+int lua_CharacterGetAlpha(lua_State* L);
+
+int lua_CharacterSetModel(lua_State* L);
+int lua_CharacterGetModel(lua_State* L);
+
+int lua_CharacterSetAnimType(lua_State* L);
+int lua_CharacterGetAnimType(lua_State* L);

@@ -426,6 +426,27 @@
     <ClInclude Include="moss\Lua_Viewport.h">
       <Filter>Header files\MOSS</Filter>
     </ClInclude>
+    <ClInclude Include="dpl\AttractorManager.h">
+      <Filter>Header files\dpl</Filter>
+    </ClInclude>
+    <ClInclude Include="dpl\LifeNode_AI_CharacterAttack.h">
+      <Filter>Header files\dpl</Filter>
+    </ClInclude>
+    <ClInclude Include="moss\Lua_AICharacterAttack.h">
+      <Filter>Header files\MOSS</Filter>
+    </ClInclude>
+    <ClInclude Include="dpl\CMovingObject.h">
+      <Filter>Header files\dpl</Filter>
+    </ClInclude>
+    <ClInclude Include="dpl\HAnimLib.h">
+      <Filter>Header files\dpl</Filter>
+    </ClInclude>
+    <ClInclude Include="dpl\HAnimSystem.h">
+      <Filter>Header files\dpl</Filter>
+    </ClInclude>
+    <ClInclude Include="dpl\Animations.h">
+      <Filter>Header files\dpl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -715,6 +736,24 @@
     </ClCompile>
     <ClCompile Include="moss\Lua_Viewport.cpp">
       <Filter>Source files\MOSS</Filter>
+    </ClCompile>
+    <ClCompile Include="dpl\AttractorManager.cpp">
+      <Filter>Source files\dpl</Filter>
+    </ClCompile>
+    <ClCompile Include="dpl\LifeNode_AI_CharacterAttack.cpp">
+      <Filter>Source files\dpl</Filter>
+    </ClCompile>
+    <ClCompile Include="moss\Lua_AICharacterAttack.cpp">
+      <Filter>Source files\MOSS</Filter>
+    </ClCompile>
+    <ClCompile Include="dpl\HAnimSystem.cpp">
+      <Filter>Source files\dpl</Filter>
+    </ClCompile>
+    <ClCompile Include="dpl\HAnimLib.cpp">
+      <Filter>Source files\dpl</Filter>
+    </ClCompile>
+    <ClCompile Include="dpl\Animations.cpp">
+      <Filter>Source files\dpl</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

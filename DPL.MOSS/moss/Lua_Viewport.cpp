@@ -52,6 +52,10 @@ int lua_ViewportIndex(lua_State* L)
 		lua_pushcfunction(L, lua_AddSpriteInstance);
 		return 1;
 	}
+	else if (strcmp(key, "AddStaticInstance") == 0) {
+		lua_pushcfunction(L, lua_ViewportAddStaticInstance);
+		return 1;
+	}
 	else if (strcmp(key, "SetPosition") == 0 || strcmp(key, "SetViewportPosition") == 0) {
 		lua_pushcfunction(L, lua_SetViewportPosition);
 		return 1;
@@ -183,6 +187,59 @@ int lua_AddSpriteInstance(lua_State* L)
 	instance.whichSubstance = whichSubstance;
 
 	vp->AddSpriteInstance(&instance);
+
+	return 0;
+}
+
+int lua_ViewportAddStaticInstance(lua_State* L)
+{
+	CPCViewport* vp = *(CPCViewport**)luaL_checkudata(L, 1, g_ViewportMetaName);
+	int modelHandle = luaL_checkinteger(L, 2);
+	int modelLOD = luaL_checkinteger(L, 3);
+
+	Lua_Vector* matrix1 = *(Lua_Vector**)luaL_checkudata(L, 4, g_LuaVectorMetaTable);
+	Lua_Vector* matrix2 = *(Lua_Vector**)luaL_checkudata(L, 5, g_LuaVectorMetaTable);
+	Lua_Vector* matrix3 = *(Lua_Vector**)luaL_checkudata(L, 6, g_LuaVectorMetaTable);
+	Lua_Vector* matrix4 = *(Lua_Vector**)luaL_checkudata(L, 7, g_LuaVectorMetaTable);
+
+	float alpha = luaL_optnumber(L, 8, 1.0f);
+
+	int whichSubstance = luaL_optinteger(L, 9, 0);
+	int roomMask = luaL_optinteger(L, 10, 1);
+
+	float r = luaL_optnumber(L, 11, 1.0f);
+	float g = luaL_optnumber(L, 12, 1.0f);
+	float b = luaL_optnumber(L, 13, 1.0f);
+
+	SStaticInstance instance = SStaticInstance();
+	instance.distanceFromCamera = 0.0f;
+	instance.whichSubstance = whichSubstance;
+	instance.roomMask = roomMask;
+	instance.mtxWorldTransform = Matrix();
+	instance.hModel = modelHandle;
+	instance.eLOD = (ELodType)modelLOD;
+
+	instance.colour.X = r;
+	instance.colour.Y = g;
+	instance.colour.Z = b;
+
+	instance.mtxWorldTransform.pos.X = matrix4->X;
+	instance.mtxWorldTransform.pos.Y = matrix4->Y;
+	instance.mtxWorldTransform.pos.Z = matrix4->Z;
+
+	instance.mtxWorldTransform.right.X = matrix1->X;
+	instance.mtxWorldTransform.right.Y = matrix1->Y;
+	instance.mtxWorldTransform.right.Z = matrix1->Z;
+
+	instance.mtxWorldTransform.up.X = matrix2->X;
+	instance.mtxWorldTransform.up.Y = matrix2->Y;
+	instance.mtxWorldTransform.up.Z = matrix2->Z;
+
+	instance.mtxWorldTransform.forward.X = matrix3->X;
+	instance.mtxWorldTransform.forward.Y = matrix3->Y;
+	instance.mtxWorldTransform.forward.Z = matrix3->Z;
+
+	vp->AddStaticInstance(&instance);
 
 	return 0;
 }

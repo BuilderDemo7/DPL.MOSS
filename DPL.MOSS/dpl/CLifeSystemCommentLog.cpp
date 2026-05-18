@@ -5,6 +5,11 @@ void CLifeSystemCommentLog::AddMissionComment(LocalisedString localisedString, f
 	((void(__thiscall*)(CLifeSystemCommentLog*, LocalisedString, float, bool))0x472c34)(this, localisedString, fTime, fadeOut);
 }
 
+void CLifeSystemCommentLog::ClearMessages()
+{
+	((void(__thiscall*)(CLifeSystemCommentLog*))0x472759)(this);
+}
+
 void CLifeSystemCommentLog::AddMissionComment(char* comment, float fTime, bool fadeOut)
 {
 	LocalisedString lstr;

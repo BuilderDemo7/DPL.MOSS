@@ -23,6 +23,8 @@
 #include "..\dpl\CPlaylist.h"
 #include "..\dpl\LifeEnvironment.h"
 #include "..\dpl\AIManager.h"
+#include "..\dpl\CGadgetHandler.h"
+#include "..\dpl\AttractorManager.h"
 
 #include <iostream>
 
@@ -407,6 +409,127 @@ int lua_DrawText(lua_State* L)
 	return 0;
 }
 
+int lua_GetClosestCharacterSnapLocationAt(lua_State* L)
+{
+	float x, y, z;
+
+	Lua_Vector* vec = *(Lua_Vector**)luaL_checkudata(L, 1, g_LuaVectorMetaTable);
+	x = vec->X;
+	y = vec->Y;
+	z = vec->Z;
+
+	float radius = luaL_optnumber(L, 2, 400.0f);
+
+	auto attrMan = AttractorManager::GetInstance();
+
+	attractor::Search SnapLocationSearch = attractor::Search();
+	
+	attractor::AccessorObjectBase SnapToAttractorInserter = attractor::AccessorObjectBase();
+	SnapToAttractorInserter.__vtable = (void*)0x649d1c;
+	SnapToAttractorInserter.m_nearest_distSq = 3.4028235e+38; // 0x7f7fffff
+	SnapToAttractorInserter.m_nearest = NULL;
+
+	SnapLocationSearch.m_where.X = x;
+	SnapLocationSearch.m_where.Y = y;
+	SnapLocationSearch.m_where.Z = z;
+	SnapLocationSearch.m_where.W = 1.0f;
+
+	SnapLocationSearch.radius = radius;
+	SnapLocationSearch.m_search_static_structures = true;
+	SnapLocationSearch.m_search_runtime_structures = false;
+	SnapLocationSearch.m_type = EAttractorType_CharacterSnapToLocation;
+
+	attrMan->FindAttractors(SnapLocationSearch, SnapToAttractorInserter);
+	if (SnapToAttractorInserter.m_nearest != NULL)
+	{
+		// Allocate Lua-managed memory for the struct directly
+		void** udata = (void**)lua_newuserdata(L, sizeof(void*));
+		*udata = new Lua_Vector();
+
+		Lua_Vector* vecRes = *(Lua_Vector**)udata;
+
+		Vector4 pos = Vector4();
+		pos = SnapToAttractorInserter.m_nearest->GetPosition();
+
+		vecRes->X = pos.X;
+		vecRes->Y = pos.Y;
+		vecRes->Z = pos.Z;
+
+		luaL_getmetatable(L, g_LuaVectorMetaTable);
+		lua_setmetatable(L, -2);
+		return 1;
+	}
+
+	lua_pushnil(L);
+	return 1;
+}
+
+int lua_GetNearestAttractorPositionAt(lua_State* L)
+{
+	float x, y, z;
+
+	Lua_Vector* vec = *(Lua_Vector**)luaL_checkudata(L, 1, g_LuaVectorMetaTable);
+	x = vec->X;
+	y = vec->Y;
+	z = vec->Z;
+
+	int attractorType = luaL_checkinteger(L, 2);
+
+	float radius = luaL_optnumber(L, 3, 400.0f);
+
+	auto attrMan = AttractorManager::GetInstance();
+
+	attractor::Search SnapLocationSearch = attractor::Search();
+
+	attractor::AccessorObjectBase SnapToAttractorInserter = attractor::AccessorObjectBase();
+	SnapToAttractorInserter.__vtable = (void*)0x649d1c;
+	SnapToAttractorInserter.m_nearest_distSq = 3.4028235e+38; // 0x7f7fffff
+	SnapToAttractorInserter.m_nearest = NULL;
+
+	SnapLocationSearch.m_where.X = x;
+	SnapLocationSearch.m_where.Y = y;
+	SnapLocationSearch.m_where.Z = z;
+	SnapLocationSearch.m_where.W = 1.0f;
+
+	SnapLocationSearch.radius = radius;
+	SnapLocationSearch.m_search_static_structures = true;
+	SnapLocationSearch.m_search_runtime_structures = false;
+	SnapLocationSearch.m_type = (EAttractorType)attractorType;
+
+	attrMan->FindAttractors(SnapLocationSearch, SnapToAttractorInserter);
+	if (SnapToAttractorInserter.m_nearest != NULL)
+	{
+		// Allocate Lua-managed memory for the struct directly
+		void** udata = (void**)lua_newuserdata(L, sizeof(void*));
+		*udata = new Lua_Vector();
+
+		Lua_Vector* vecRes = *(Lua_Vector**)udata;
+
+		Vector4 pos = Vector4();
+		pos = SnapToAttractorInserter.m_nearest->GetPosition();
+
+		vecRes->X = pos.X;
+		vecRes->Y = pos.Y;
+		vecRes->Z = pos.Z;
+
+		luaL_getmetatable(L, g_LuaVectorMetaTable);
+		lua_setmetatable(L, -2);
+		return 1;
+	}
+
+	lua_pushnil(L);
+	return 1;
+}
+
+int lua_GetModelHandleFromGadget(lua_State* L)
+{
+	EGadgetType gdt = (EGadgetType)luaL_checkinteger(L, 1);
+
+	lua_pushinteger(L, CGadgetHandler::GetInstance()->GetGadgetModelHandle(gdt));
+
+	return 1;
+}
+
 bool g_bFreeCamOn = false;
 void* g_pFreeCamPtr = NULL;
 
@@ -493,6 +616,8 @@ int lua_ToggleIGCS(lua_State* L)
 			CLifePlayer* player = lfs->GetPlayer();
 			player->m_bEnabled = false;
 
+			*(bool*)0x6ebfb4 = true; // if can skip cutscene/igcs
+
 			// disable HUD
 			void* Singleton_GameOverlayManager = *(void**)0x70c71c;
 
@@ -535,6 +660,8 @@ int lua_ToggleIGCS(lua_State* L)
 		{
 			CLifePlayer* player = lfs->GetPlayer();
 			player->m_bEnabled = true;
+
+			*(bool*)0x6ebfb4 = false; // if can skip cutscene/igcs
 
 			// re-enable HUD
 			void* Singleton_GameOverlayManager = *(void**)0x70c71c;
@@ -817,6 +944,15 @@ int lua_GetPlayerActor(lua_State* L)
 	lua_setmetatable(L, -2);
 
 	return 1; // number of return(s)
+}
+
+int lua_ClearMessages(lua_State* L)
+{
+	auto clog = GetLifeSystemCommentLog();
+	if (clog != NULL)
+		clog->ClearMessages();
+
+	return 0;
 }
 
 int lua_ShowMissionComment(lua_State* L)

@@ -22,3 +22,4 @@ int lua_GetViewportHeight(lua_State* L);
 int lua_SetViewportPosition(lua_State* L);
 
 int lua_AddSpriteInstance(lua_State* L);
+int lua_ViewportAddStaticInstance(lua_State* L);

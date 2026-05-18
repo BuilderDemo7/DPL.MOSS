@@ -23,7 +23,7 @@ public:
 class CCharacter {
 public:
 
-	int GetCharacterType();
+	//int GetCharacterType();
 
 	void GetPosition(Vector4* pos);
 
@@ -58,6 +58,7 @@ public:
 	void SetPosition(Vector4* pos);
 	void SetModel(int model);
 	void SetAnimType(int type);
+	int GetAnimType();
 
 	int* GetAnimTypePointer();
 	int GetPointer();

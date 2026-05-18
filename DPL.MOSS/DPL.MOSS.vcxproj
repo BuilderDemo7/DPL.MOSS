@@ -167,6 +167,8 @@
     <ClInclude Include="dpl\AIHelicopterClass.h" />
     <ClInclude Include="dpl\AIManager.h" />
     <ClInclude Include="dpl\AmbientSoundManager.h" />
+    <ClInclude Include="dpl\Animations.h" />
+    <ClInclude Include="dpl\AttractorManager.h" />
     <ClInclude Include="dpl\AutoPtr.h" />
     <ClInclude Include="dpl\CCharacter.h" />
     <ClInclude Include="dpl\CCharacterCategoryManager.h" />
@@ -198,6 +200,7 @@
     <ClInclude Include="dpl\CLifeVisuals.h" />
     <ClInclude Include="dpl\CLoadingScreen.h" />
     <ClInclude Include="dpl\CMenuManager.h" />
+    <ClInclude Include="dpl\CMovingObject.h" />
     <ClInclude Include="dpl\COneTimeSpooledSound.h" />
     <ClInclude Include="dpl\CPCViewport.h" />
     <ClInclude Include="dpl\CPlayerDriverBehaviour.h" />
@@ -233,12 +236,15 @@
     <ClInclude Include="dpl\GameOverlayManager.h" />
     <ClInclude Include="dpl\GenericStringManager.h" />
     <ClInclude Include="dpl\HAnimInstance.h" />
+    <ClInclude Include="dpl\HAnimLib.h" />
+    <ClInclude Include="dpl\HAnimSystem.h" />
     <ClInclude Include="dpl\ICamera.h" />
     <ClInclude Include="dpl\InGameMovie.h" />
     <ClInclude Include="dpl\Input.h" />
     <ClInclude Include="dpl\InputManager.h" />
     <ClInclude Include="dpl\LifeEnvironment.h" />
     <ClInclude Include="dpl\LifeInstances.h" />
+    <ClInclude Include="dpl\LifeNode_AI_CharacterAttack.h" />
     <ClInclude Include="dpl\LocalisedString.h" />
     <ClInclude Include="dpl\MathFuncs.h" />
     <ClInclude Include="dpl\Matrix.h" />
@@ -269,6 +275,7 @@
     <ClInclude Include="lua\quaternion_metatable.h" />
     <ClInclude Include="lua\vector_metatable.h" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="moss\Lua_AICharacterAttack.h" />
     <ClInclude Include="moss\Lua_Audio.h" />
     <ClInclude Include="moss\Lua_Camera.h" />
     <ClInclude Include="moss\Lua_CameraSelect.h" />
@@ -300,6 +307,8 @@
     <ClCompile Include="dpl\AIHelicopterClass.cpp" />
     <ClCompile Include="dpl\AIManager.cpp" />
     <ClCompile Include="dpl\AmbientSoundManager.cpp" />
+    <ClCompile Include="dpl\Animations.cpp" />
+    <ClCompile Include="dpl\AttractorManager.cpp" />
     <ClCompile Include="dpl\CCharacter.cpp" />
     <ClCompile Include="dpl\CCharacterCategoryManager.cpp" />
     <ClCompile Include="dpl\CCharacterManager.cpp" />
@@ -344,10 +353,13 @@
     <ClCompile Include="dpl\GameOverlayManager.cpp" />
     <ClCompile Include="dpl\GenericStringManager.cpp" />
     <ClCompile Include="dpl\HAnimInstance.cpp" />
+    <ClCompile Include="dpl\HAnimLib.cpp" />
+    <ClCompile Include="dpl\HAnimSystem.cpp" />
     <ClCompile Include="dpl\InGameMovie.cpp" />
     <ClCompile Include="dpl\InputManager.cpp" />
     <ClCompile Include="dpl\LifeEnvironment.cpp" />
     <ClCompile Include="dpl\LifeInstances.cpp" />
+    <ClCompile Include="dpl\LifeNode_AI_CharacterAttack.cpp" />
     <ClCompile Include="dpl\MathFuncs.cpp" />
     <ClCompile Include="dpl\Matrix.cpp" />
     <ClCompile Include="dpl\Physics.cpp" />
@@ -368,6 +380,7 @@
     <ClCompile Include="lua\quaternion_metatable.cpp" />
     <ClCompile Include="lua\vector_metatable.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="moss\Lua_AICharacterAttack.cpp" />
     <ClCompile Include="moss\Lua_Audio.cpp" />
     <ClCompile Include="moss\Lua_Camera.cpp" />
     <ClCompile Include="moss\Lua_CameraSelect.cpp" />

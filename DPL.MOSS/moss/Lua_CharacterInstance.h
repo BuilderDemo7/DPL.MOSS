@@ -17,3 +17,5 @@ int lua_SetCharacterInstancePosition(lua_State* L);
 int lua_GetCharacterInstancePosition(lua_State* L);
 
 int lua_UnregisterCharacterInstanceSpoolHandler(lua_State* L);
+
+int lua_PromoteCharacterInstanceToLifeActor(lua_State* L);

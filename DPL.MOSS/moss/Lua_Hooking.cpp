@@ -90,13 +90,22 @@ int lua_memfree(lua_State* L)
 	return 0;
 }
 
-// WARNING: the label must be constant and not stored in the stack to prevent data loss
 int lua_GetAsyncKeyState(lua_State* L)
 {
 	int key = (int)luaL_checkinteger(L, 1);  // param 1
 
 	int result = GetAsyncKeyState(key);
 	lua_pushinteger(L, result);
+
+	return 1;  // number of return(s)
+}
+
+int lua_WasKeyPressedOnce(lua_State* L)
+{
+	int key = (int)luaL_checkinteger(L, 1);  // param 1
+
+	int result = GetAsyncKeyState(key) & 0x1;
+	lua_pushboolean(L, result != 0);
 
 	return 1;  // number of return(s)
 }

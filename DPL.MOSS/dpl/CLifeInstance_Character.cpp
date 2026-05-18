@@ -1,4 +1,6 @@
 #include "CLifeInstance_Character.h"
+#include "CWeaponsStore.h"
+#include "CCharacterCategoryManager.h"
 #include <iostream>
 
 CLifeInstance_Character::CLifeInstance_Character()
@@ -25,6 +27,65 @@ Vector4 CLifeInstance_Character::GetPosition()
 	unsigned int gameStepIndex = *(int*)Singleton_Time + 0x4; // Singleton_Time->m_nGameFrame
 
 	return position(gameStepIndex);
+}
+
+// BETA, might crash on some cases..
+void CLifeInstance_Character::InitialiseFromCharacter(CCharacter* pCharacter, bool enableSpooling)
+{
+	if (pCharacter == NULL)
+		return;
+
+	Vector4 pos = Vector4();
+	pCharacter->GetPosition(&pos);
+
+	CWeapon* wep = pCharacter->GetWeapon();
+	if (wep != NULL)
+	{
+		m_weapon.InfiniteAmmo = wep->InfiniteAmmo;
+		m_weapon.CooldownTimer = wep->CooldownTimer;
+		m_weapon.pData = wep->pData;
+		m_weapon.TotalAmmo = wep->TotalAmmo;
+		m_weapon.CooldownTimerTwo = wep->CooldownTimerTwo;
+	}
+	else
+	{
+		auto ws = CWeaponsStore::GetInstance();
+		if (ws)
+		{
+			auto ccm = CCharacterCategoryManager::GetInstance();
+			int era = ccm->GetEra();
+
+			EWeapons wep = eWeapon70_Revolver;
+			if (era != 0)
+				wep = eWeapon00_Beretta;
+
+			CWeaponData* data = ws->weaponData(wep);
+			if (data != NULL)
+			{
+				m_weapon = CWeapon();
+				m_weapon.Initialise(data, 999, true, 0);
+			}
+		}
+	}
+
+	m_initialPosition = pos;
+	m_skin = pCharacter->GetModel();
+	*(int*)(this + 0x60) = m_skin;
+	*(int*)(this + 0x64) = 0xefcdab0; // ePlayerNumber
+
+	CMovingObject* piObj = (CMovingObject*)(this + 0x14);
+
+	if (!enableSpooling)
+		piObj = NULL;
+
+	GetSpoolHandler()->Initialise((CSpoolableMissionObject*)this, piObj, &pos, 0.0f);
+
+	m_piCharacter = pCharacter;
+	m_bOwned = true;
+	m_bCreated = true;
+
+	//if (enableSpooling)
+	//	GetSpoolHandler()->CreateObjects();
 }
 
 void CLifeInstance_Character::SetSpoolPosition(Vector4* pos)

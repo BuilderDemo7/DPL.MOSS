@@ -11,10 +11,11 @@ void CCharacter::Crouch(bool a1, bool a2)
 	((void(__thiscall*)(CCharacter*, bool, bool))0x4E7ADC)(this, a1, a2);
 }
 
-int CCharacter::GetCharacterType()
-{
-	return ((int(__thiscall*)(CCharacter*, CVehicle*))0x4E7990)(this, this->GetVehicle());
-}
+// Walk() for some reason, don't use this!
+//int CCharacter::GetCharacterType()
+//{
+//	return ((int(__thiscall*)(CCharacter*, CVehicle*))0x4E7990)(this, this->GetVehicle());
+//}
 
 void CCharacter::SetArmour(float armour)
 {
@@ -212,6 +213,11 @@ int CCharacter::GetModel()
 void CCharacter::SetAnimType(int type)
 {
 	*(int*)((int)this + 0x63C) = type;
+}
+
+int CCharacter::GetAnimType()
+{
+	return *(int*)((int)this + 0x63C);
 }
 
 int* CCharacter::GetAnimTypePointer()

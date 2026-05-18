@@ -23,6 +23,7 @@
 #include "Lua_Camera.h"
 #include "Lua_Audio.h"
 #include "Lua_Viewport.h"
+#include "Lua_AICharacterAttack.h"
 
 // funcs
 #include "Lua_MissionFuncs.h"
@@ -67,6 +68,7 @@ void Init_LuaScripts()
 	Init_Lua_Funcs();
 
 	memset(g_aCustomPlayAudios, 0, sizeof(g_aCustomPlayAudios));
+	memset(g_aCustomAICharacterAttacks, 0, sizeof(g_aCustomAICharacterAttacks));
 
 	// Load all the files in the folder
 	std::string folderPath = LUA_SCRIPTS_FOLDER;
@@ -332,6 +334,18 @@ void Step_Lua()
 			eNodeFireWire fw;
 
 			((CLifeNode*)g_aCustomPlayAudios[i])->OnUpdate(&enabled, &fw);
+		}
+	}
+
+	// update Life::Node::Character::Attack::Class hack
+	for (int i = 0; i < 102; i++)
+	{
+		if (g_aCustomAICharacterAttacks[i] != NULL)
+		{
+			bool enabled;
+			eNodeFireWire fw;
+
+			((CLifeNode*)g_aCustomAICharacterAttacks[i])->OnUpdate(&enabled, &fw);
 		}
 	}
 }
@@ -613,6 +627,23 @@ void Init_Lua_Constants()
 	lua_pushinteger(L, EPrimitiveType::Sphere); lua_setglobal(L, "EPrimitiveType_Sphere");
 	lua_pushinteger(L, EPrimitiveType::Plane); lua_setglobal(L, "EPrimitiveType_Plane");
 
+	// ELodType
+	lua_pushinteger(L, ELodType::LT_NOSHADOW); lua_setglobal(L, "LT_NOSHADOW");
+	lua_pushinteger(L, ELodType::LT_ZERO); lua_setglobal(L, "LT_ZERO");
+	lua_pushinteger(L, ELodType::LT_LOW); lua_setglobal(L, "LT_LOW");
+	lua_pushinteger(L, ELodType::LT_HIGH); lua_setglobal(L, "LT_HIGH");
+	lua_pushinteger(L, ELodType::LT_1); lua_setglobal(L, "LT_1");
+	lua_pushinteger(L, ELodType::LT_2); lua_setglobal(L, "LT_2");
+	lua_pushinteger(L, ELodType::LT_3); lua_setglobal(L, "LT_3");
+	lua_pushinteger(L, ELodType::LT_SHADOW); lua_setglobal(L, "LT_SHADOW");
+	lua_pushinteger(L, ELodType::LT_FLAGS); lua_setglobal(L, "LT_FLAGS");
+	lua_pushinteger(L, ELodType::LT_ALPHA); lua_setglobal(L, "LT_ALPHA");
+	lua_pushinteger(L, ELodType::LT_NOVISIBILITYTEST); lua_setglobal(L, "LT_NOVISIBILITYTEST");
+	lua_pushinteger(L, ELodType::LT_CROSSFADE); lua_setglobal(L, "LT_CROSSFADE");
+	lua_pushinteger(L, ELodType::LT_NIGHT); lua_setglobal(L, "LT_NIGHT");
+	lua_pushinteger(L, ELodType::LT_LODS); lua_setglobal(L, "LT_LODS");
+	lua_pushinteger(L, ELodType::LT_CAMERADISTANCESET); lua_setglobal(L, "LT_CAMERADISTANCESET");
+
 	// AIManagerVehicleTypeEnum
 	lua_pushinteger(L, AIManagerVehicleTypeEnum::Civilian); lua_setglobal(L, "AIManagerVehicleTypeEnum_Civilian");
 	lua_pushinteger(L, AIManagerVehicleTypeEnum::CivilianParked); lua_setglobal(L, "AIManagerVehicleTypeEnum_CivilianParked");
@@ -769,6 +800,7 @@ void Init_Lua_Funcs()
 	// TODO: fill all the necessary functions
 	lua_register(L, "GetPlayerCharacter", lua_GetPlayerCharacter); // Character GetPlayerCharacter()
 	lua_register(L, "GetPlayerActor", lua_GetPlayerActor); // Character_Actor GetPlayerActor()
+	lua_register(L, "ClearMessages", lua_ClearMessages); // void ClearMessages()
 	lua_register(L, "ShowMissionComment", lua_ShowMissionComment); // void ShowMissionComment(float duration, string message)
 	lua_register(L, "EndAllLifeEvents", lua_EndAllLifeEvents); // void EndAllLifeEvents()
 
@@ -799,7 +831,7 @@ void Init_Lua_Funcs()
 	lua_register(L, "ActivatePager", lua_ActivatePager); // void ActivatePager()
 	lua_register(L, "LaunchVEdit", lua_LaunchVEdit); // void LaunchVEdit()
 
-	lua_register(L, "CreateCharacter", lua_CreateCharacterActor); // Character_Actor CreateCharacter(int skin, float x, float y, float z, [ float angle = 0.0, bool startCreated = true, EWeapons weapon, float initialHealth = 1.0, float initialFelony = 0.0, Vehicle_Actor initialVehicle = nil, int initialVehicleSeat = 0, bool addToFelonyManager = false, bool doNotUseIdleAnims, bool isPlayer = false)
+	lua_register(L, "CreateCharacter", lua_CreateCharacterActor); // Character_Actor CreateCharacter(int skin, float x, float y, float z, [ float angle = 0.0, bool startCreated = true, EWeapons weapon, float initialHealth = 1.0, float initialFelony = 0.0, Vehicle_Actor initialVehicle = nil, int initialVehicleSeat = 0, float vulnerability = 1.0, bool addToFelonyManager = false, bool doNotUseIdleAnims, bool isPlayer = false)
 
 	lua_register(L, "CreateAudio", lua_CreateAudio); // Audio CreateAudio(int bankId, int sampleId, float volume = 1.0, bool vocal = false, LifeActor attachTo = nil)
 
@@ -807,6 +839,8 @@ void Init_Lua_Funcs()
 	lua_register(L, "GetMileometer", lua_GetMileometer); // float GetMileometer();
 	lua_register(L, "GetMoney", lua_GetMoney); // int GetMoney()
 	lua_register(L, "SetMoney", lua_SetMoney); // void SetMoney(int amount)
+
+	lua_register(L, "CreateCharacterAttackAI", lua_CreateCharacterAttackAI); // AICharacterAttack CreateCharacterAttackAI(LifeActor attackee, [ LifeActor attacker = nil, float accuracy = 75.0)
 
 	lua_register(L, "GetVehicleFelonyLevel", lua_GetVehicleFelonyLevel); // float GetFelonyLevel(Vehicle vehicle, [ AIFelonySystemPatrolCarTypeEnum patrolType = E_PATROLCARTYPE_COP)
 	lua_register(L, "SetVehicleFelonyLevel", lua_SetVehicleFelonyLevel); // void SetVehicleFelonyLevel(Vehicle vehicle, float felony, [ AIFelonySystemPatrolCarTypeEnum patrolType = E_PATROLCARTYPE_COP)
@@ -881,9 +915,15 @@ void Init_Lua_Funcs()
 	// math space stuff (outside of vector)
 	lua_register(L, "GetDistanceBetweenPoints2D", lua_GetDistanceBetweenPoints2D); // float GetDistanceBetweenPoints2D(float x1, float y1, float x2, float y2)
 	lua_register(L, "GetDistanceBetweenPoints3D", lua_GetDistanceBetweenPoints3D); // float GetDistanceBetweenPoints2D(float x1, float y1, float z1, float x2, float y2, z2)
+	
+	lua_register(L, "GetClosestCharacterSnapLocationAt", lua_GetClosestCharacterSnapLocationAt); // Vector GetClosestCharacterSnapLocationAt(Vector atPosition, [ float radius = 400.0)
+	lua_register(L, "GetNearestAttractorPositionAt", lua_GetNearestAttractorPositionAt); // Vector GetNearestAttractorPositionAt(Vector atPosition, int attractorType, [ float radius = 400.0)
+
+	lua_register(L, "GetModelHandleFromGadget", lua_GetModelHandleFromGadget); // int GetModelHandleFromGadget(EGadgetType gadget)
 
 	// input
 	lua_register(L, "GetAsyncKeyState", lua_GetAsyncKeyState); // int GetAsyncKeyState(int keycode); 
+	lua_register(L, "WasKeyPressedOnce", lua_WasKeyPressedOnce); // bool WasKeyPressedOnce(int keycode)
 	lua_register(L, "GetInputInfo", lua_GetInputInfo); // float: value, bool: debounce GetInputInfo(EInputAction action);
 
 	// camera
@@ -933,6 +973,7 @@ void Init_Lua_MetaTables()
 	Init_Lua_MetaTable_Camera();
 	Init_Lua_MetaTable_Audio();
 	Init_Lua_MetaTable_Viewport();
+	Init_Lua_MetaTable_AICharacterAttack();
 
 	Init_Lua_MetaTable_LifeActor();
 	Init_Lua_MetaTable_LifeInstance();

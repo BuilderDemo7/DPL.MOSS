@@ -52,6 +52,7 @@ public:
 	void SetSpoolPosition(Vector4* pos);
 
 	CSpoolableMissionObject* GetSpoolHandler();
+	void InitialiseFromCharacter(CCharacter* pCharacter, bool enableSpooling = true);
 
 public:
 	char _pad[0x58];
@@ -59,13 +60,18 @@ public:
 	CCharacter* m_piCharacter;
 	CLifePlayer* m_piPlayer;
 
-	char _pad1[0xA4];
+	char _pad1[0x94];
+
+	bool m_bCreated;
+	bool m_bOwned;
+
+	char _pad2[0xE];
 
 	Vector4 m_initialPosition;
 	Vector4 m_positionChangePerGameStep;
 	bool m_constrainPositionChange;
 
-	char _pad2[0x13];
+	char _pad3[0x13];
 
 	float m_initialHeading;
 	float m_headingChangePerGameStep;
@@ -73,14 +79,14 @@ public:
 	bool m_cowerIfCrouched;
 	bool m_strafeAndWeaponDrawn;
 
-	char _pad3;
+	char _pad4;
 
 	CWeapon m_weapon;
 	bool m_shootIfWeaponDrawn;
 	bool m_melee;
 	bool m_weaponDrawn;
 
-	char _pad4;
+	char _pad5;
 
 	float m_inaccuracy;
 	CLifeInstance_Vehicle* m_vehiclePtr;
@@ -89,12 +95,12 @@ public:
 	Vector4 m_targetPosition;
 	bool m_arrested;
 
-	char _pad5[0x3]; // bool32 padding
+	char _pad6[0x3]; // bool32 padding
 
 	float m_health;
 	short m_skin;
 
-	char _pad6[0x2]; // short32 padding
+	char _pad7[0x2]; // short32 padding
 
 	// vtable + 0xa8 -> position()
 };

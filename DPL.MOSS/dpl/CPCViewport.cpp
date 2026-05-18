@@ -68,6 +68,11 @@ void CPCViewport::AddSpriteInstance(SSpriteInstance* pInstance)
 	((void(__thiscall*)(CPCViewport*, SSpriteInstance*))*(int*)(GetVTableAddress() + 0x40))(this, pInstance);
 }
 
+void CPCViewport::AddStaticInstance(SStaticInstance* pInstance)
+{
+	((void(__thiscall*)(CPCViewport*, SStaticInstance*))*(int*)(GetVTableAddress() + 0x28))(this, pInstance);
+}
+
 void CPCViewport::SetViewportPosition(float fX, float fY)
 {
 	((void(__thiscall*)(CPCViewport*, float, float))*(int*)(GetVTableAddress() + 0x84))(this, fX, fY);

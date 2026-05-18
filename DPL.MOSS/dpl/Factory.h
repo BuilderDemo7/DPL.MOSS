@@ -30,6 +30,8 @@ enum EFactoryType
 
 	EFactoryType_LifeNode_CameraSelect = 0x11f,
 	EFactoryType_LifeNode_PlayAudio = 0xdd,
+	EFactoryType_CharacterAttackLifeNode = 0x94,
+	EFactoryType_VehiclePathMoveLifeNode = 0x9d,
 };
 
 namespace hamster

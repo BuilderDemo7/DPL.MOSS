@@ -6,6 +6,7 @@ extern void* g_pFreeCamPtr;
 
 int lua_GetPlayerCharacter(lua_State* L);
 int lua_GetPlayerActor(lua_State* L);
+int lua_ClearMessages(lua_State* L);
 int lua_ShowMissionComment(lua_State* L);
 int lua_EndAllLifeEvents(lua_State* L);
 
@@ -88,3 +89,8 @@ int lua_SetGameAspectRatio(lua_State* L);
 int lua_GetGameAspectRatio(lua_State* L);
 int lua_SetGameFOVFactor(lua_State* L);
 int lua_GetGameFOVFactor(lua_State* L);
+
+int lua_GetClosestCharacterSnapLocationAt(lua_State* L);
+int lua_GetNearestAttractorPositionAt(lua_State* L);
+
+int lua_GetModelHandleFromGadget(lua_State* L);

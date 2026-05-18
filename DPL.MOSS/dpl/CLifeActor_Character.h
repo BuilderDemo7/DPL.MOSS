@@ -15,7 +15,8 @@ class CLifeActor_Character : CLifeActor
 {
 public:
 	void CustomInitialise(ECharacterType skin, Matrix matrix, EWeapons weapon = eWeapon70_Revolver, float initialHealth = 1.0f, float felony = 0.0f, CLifeActor_Vehicle* initialVehicle = NULL, int initialVehicleSeat = 0, bool createFromStart = true, bool addToFelonyManager = false, bool doNotUseIdleAnims = false, bool isPlayer = false, bool ignorePlayerRegister = false, bool keepSkin = false, int playerNumber = 0, CLifeEventData* pEventData = NULL);
-	
+	void InitialiseFromLifeCharacter(CLifeInstance_Character* pLCharacter, CLifeEventData* pEventData = NULL);
+
 	Vector4 position(unsigned int gameStepIndex);
 	Vector4 GetPosition();
 
@@ -23,7 +24,8 @@ public:
 
 	void* m_pEntity; // ILifeEntity
 
-	int field8;
+	bool m_created;
+	char __m_created_padding0[0x3]; // bool32 padding
 
 	CWeapon m_weapon;
 

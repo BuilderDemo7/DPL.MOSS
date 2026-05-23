@@ -16,6 +16,7 @@ extern void Init_Lua_MetaTable_Vector(lua_State* LST);
 int lua_VectorAdd(lua_State* L);
 int lua_VectorSub(lua_State* L);
 int lua_VectorMul(lua_State* L);
+int lua_VectorDiv(lua_State* L);
 
 int lua_VectorNew(lua_State* L);
 int lua_VectorDestroy(lua_State* L);

@@ -25,6 +25,7 @@
 #include "..\dpl\AIManager.h"
 #include "..\dpl\CGadgetHandler.h"
 #include "..\dpl\AttractorManager.h"
+#include "..\dpl\CWipeManager.h"
 
 #include <iostream>
 
@@ -51,6 +52,91 @@ int lua_GetEra(lua_State* L)
 	lua_pushinteger(L, era);
 
 	return 1;
+}
+
+int lua_ScreenFade(lua_State* L)
+{
+	const char* direction = luaL_checkstring(L, 1);
+	float duration = luaL_optnumber(L, 2, 0.5f);
+	Lua_Vector** baseColor = (Lua_Vector**)luaL_testudata(L, 3, g_LuaVectorMetaTable);
+	Lua_Vector** targetColor = (Lua_Vector**)luaL_testudata(L, 4, g_LuaVectorMetaTable);
+	
+	int nargs = lua_gettop(L); // number of arguments
+
+	bool fadeAudio = false;
+	if (nargs > 4)
+		fadeAudio = lua_toboolean(L, 5);
+
+	float r1, g1, b1;
+	float r2, g2, b2;
+	r1 = 0.0f;
+	g1 = 0.0f;
+	b1 = 0.0f;
+	r2 = 0.0f;
+	g2 = 0.0f;
+	b2 = 0.0f;
+	
+	if (baseColor != NULL)
+	{
+		Lua_Vector* pBaseColor = *baseColor;
+
+		r1 = pBaseColor->X;
+		g1 = pBaseColor->Y;
+		b1 = pBaseColor->Z;
+	}
+	if (targetColor != NULL)
+	{
+		Lua_Vector* pTargetColor = *targetColor;
+
+		r2 = pTargetColor->X;
+		g2 = pTargetColor->Y;
+		b2 = pTargetColor->Z;
+	}
+
+	auto wiMan = CWipeManager::GetInstance();
+	if (wiMan != NULL)
+	{
+		float alpha1 = 0.0f;
+		float alpha2 = 0.0f;
+		bool fadeToBlack = false;
+
+		if (strcmp(direction, "out") == 0)
+		{
+			alpha1 = 1.0f;
+			alpha2 = 1.0f;
+			fadeToBlack = false;
+		}
+		else if (strcmp(direction, "in") == 0)
+		{
+			alpha1 = 0.0f;
+			alpha2 = 1.0f;
+			fadeToBlack = true;
+		}
+		else if (strcmp(direction, "clear") == 0)
+		{
+			alpha1 = 0.0f;
+			alpha2 = 0.0f;
+			fadeToBlack = false;
+		}
+
+		Vector4 color1 = Vector4();
+		Vector4 color2 = Vector4();
+
+		color1.X = r1;
+		color1.Y = g1;
+		color1.Z = b1;
+
+		color2.X = r2;
+		color2.Y = g2;
+		color2.Z = b2;
+
+		color1.W = alpha1;
+		color2.W = alpha2;
+
+		wiMan->ScreenFade(color1, color2, duration, fadeAudio, fadeToBlack);
+	}
+
+	return 0;
 }
 
 int lua_SetVehicleDensity(lua_State* L)
@@ -603,6 +689,101 @@ int lua_ToggleFreeCam(lua_State* L)
 	return 0;
 }
 
+int lua_ToggleHUD(lua_State* L)
+{
+	bool status = lua_toboolean(L, 1);
+
+	void* Singleton_GameOverlayManager = *(void**)0x70c71c;
+
+	// EnableOverlays__19CGameOverlayManagerb
+	((void(__thiscall*)(void*, bool))0x4b754a)(Singleton_GameOverlayManager, status);
+	// EnableOverheadMap__19CGameOverlayManagerb
+	((void(__thiscall*)(void*, bool))0x4b76d7)(Singleton_GameOverlayManager, status);
+
+	return 0;
+}
+
+int lua_ToggleOverlays(lua_State* L)
+{
+	bool status = lua_toboolean(L, 1);
+
+	void* Singleton_GameOverlayManager = *(void**)0x70c71c;
+
+	// EnableOverlays__19CGameOverlayManagerb
+	((void(__thiscall*)(void*, bool))0x4b754a)(Singleton_GameOverlayManager, status);
+
+	return 0;
+}
+
+int lua_ToggleOverheadMap(lua_State* L)
+{
+	bool status = lua_toboolean(L, 1);
+
+	void* Singleton_GameOverlayManager = *(void**)0x70c71c;
+
+	// EnableOverheadMap__19CGameOverlayManagerb
+	((void(__thiscall*)(void*, bool))0x4b76d7)(Singleton_GameOverlayManager, status);
+
+	return 0;
+}
+
+int lua_ToggleOverlayElement(lua_State* L)
+{
+	int whichOverlay = luaL_checkinteger(L, 1);
+	bool status = lua_toboolean(L, 2);
+
+	auto gameOverlayMan = GetGameOverlayManager();
+	if (gameOverlayMan != NULL)
+	{
+		CGameOverlay* over = *(CGameOverlay**)(gameOverlayMan + 0x450);
+
+		if (status)
+			over->EnableOverlayElement(whichOverlay);
+		else
+			over->DisableOverlayElement(whichOverlay);
+	}
+	
+	return 0;
+}
+
+int lua_ToggleOverlayGroup(lua_State* L)
+{
+	int whichGroup = luaL_checkinteger(L, 1);
+	bool status = lua_toboolean(L, 2);
+
+	auto gameOverlayMan = GetGameOverlayManager();
+	if (gameOverlayMan != NULL)
+	{
+		CGameOverlay* over = *(CGameOverlay**)(gameOverlayMan + 0x450);
+
+		if (status)
+			over->EnableOverlayGroup(whichGroup);
+		else
+			over->DisableOverlayGroup(whichGroup);
+	}
+
+	return 0;
+}
+
+int lua_AssignValuesToOverlayElement(lua_State* L)
+{
+	int whichOverlay = luaL_checkinteger(L, 1);
+	int val1 = luaL_checkinteger(L, 2);
+	int val2 = luaL_optinteger(L, 3, 0);
+	int val3 = luaL_optinteger(L, 4, 0);
+	int val4 = luaL_optinteger(L, 5, 0);
+
+	auto gameOverlayMan = GetGameOverlayManager();
+	if (gameOverlayMan != NULL)
+	{
+		CGameOverlay* over = *(CGameOverlay**)(gameOverlayMan + 0x450);
+
+		over->AssignValuesToOverlayElement(whichOverlay, val1, val2, val3, val4);
+	}
+
+	return 0;
+}
+
 int lua_ToggleIGCS(lua_State* L)
 {
 	bool status = lua_toboolean(L, 1);
@@ -730,6 +911,28 @@ int lua_GetGameViewport(lua_State* L)
 		(CPCViewport**)lua_newuserdata(L, sizeof(CPCViewport*));
 
 	*udata = CPCViewport::GetSimulationViewport();
+
+	luaL_getmetatable(L, g_ViewportMetaName);
+	lua_setmetatable(L, -2);
+
+	return 1;
+}
+
+int lua_GetOverheadMapViewport(lua_State* L)
+{
+	auto ovMap = GetOverheadMap();
+
+	if (ovMap == NULL)
+	{
+		lua_pushnil(L);
+		return 1;
+	}
+
+	// Allocate Lua-managed memory for the struct directly
+	CPCViewport** udata =
+		(CPCViewport**)lua_newuserdata(L, sizeof(CPCViewport*));
+
+	*udata = ovMap->m_piViewport;
 
 	luaL_getmetatable(L, g_ViewportMetaName);
 	lua_setmetatable(L, -2);
@@ -1521,6 +1724,39 @@ int lua_GetCameraRightVector(lua_State* L)
 	Lua_Vector* vecRes = *(Lua_Vector**)udata;
 
 	Vector4 pos = Vector4(cam->m_Matrix.right.X, cam->m_Matrix.right.Y, cam->m_Matrix.right.Z, 1.0f);
+
+	vecRes->X = pos.X;
+	vecRes->Y = pos.Y;
+	vecRes->Z = pos.Z;
+
+	luaL_getmetatable(L, g_LuaVectorMetaTable);
+	lua_setmetatable(L, -2);
+
+	return 1; // number of return(s)
+}
+
+int lua_GetDeltaTime(lua_State* L)
+{
+	void* Singleton_Time = *(void**)(0x70c5b0); // CGameTime *
+
+	float deltaT = *(float*)Singleton_Time;
+
+	lua_pushnumber(L, deltaT);
+
+	return 1;
+}
+
+int lua_GetCameraUpVector(lua_State* L)
+{
+	GameCamera* cam = GameCamera::GetInstance();
+
+	// Allocate Lua-managed memory for the struct directly
+	void** udata = (void**)lua_newuserdata(L, sizeof(void*));
+	*udata = new Lua_Vector();
+
+	Lua_Vector* vecRes = *(Lua_Vector**)udata;
+
+	Vector4 pos = Vector4(cam->m_Matrix.up.X, cam->m_Matrix.up.Y, cam->m_Matrix.up.Z, 1.0f);
 
 	vecRes->X = pos.X;
 	vecRes->Y = pos.Y;

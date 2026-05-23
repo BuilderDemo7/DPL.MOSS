@@ -11,6 +11,9 @@ public:
 	// Input_impl input;
 	// input = get_input(&input, EInputAction_Pause);
 	virtual Input_impl* get_input(Input_impl *__return_storage_ptr__, EInputAction eAction) = 0;
+	Input_impl* get_input_HACK(Input_impl *__return_storage_ptr__, EInputAction eAction);
+
+	int GetVTableAddress();
 
 	Input_impl * GetModifiableInput(EInputAction eAction);
 };

@@ -55,11 +55,25 @@ void ParkVehicle(Vehicle vehicle)
 void SetVehicleDensity(float density, [ AIManagerVehicleTypeEnum vehicleDensityType = -1)
 
 Viewport GetGameViewport()
+Viewport GetOverheadMapViewport()
 
 Vector GetClosestCharacterSnapLocationAt(Vector atPosition, [ float radius = 400.0)
 Vector GetNearestAttractorPositionAt(Vector atPosition, int attractorType, [ float radius = 400.0)
 
 int GetModelHandleFromGadget(EGadgetType gadget)
+
+void ScreenFade(string direction["in", "out", "clear"], [ float duration = 0.5, Vector fromColor = Vector.new(0,0,0), Vector toColor = Vector.new(0,0,0), bool fadeAudio = false)
+
+void ToggleHUD(bool status)
+void ToggleOverlays(bool status)
+void ToggleOverheadMap(bool status)
+
+# W.I.P, this crashes the game
+void ToggleOverlayElement(EOverlayID whichOverlay, bool status)
+void ToggleOverlayGroup(EOverlayGroup whichGroup, bool status)
+void AssignValuesToOverlayElement(EOverlayID whichOverlay, int val1, [ int val2 = 0, int val3 = 0, int val4 = 0)
+
+float GetDeltaTime()
 
 # HUD
 
@@ -104,6 +118,7 @@ void SetCameraPosition(Vector pos) # doesn't work quite right
 Vector GetCameraPosition()
 Vector GetCameraForwardVector()
 Vector GetCameraRightVector()
+Vector GetCameraUpVector()
 
 void ToggleFreeCam(bool status, [ int gamepadId = 0)
 
@@ -292,6 +307,8 @@ Vector Vehicle:GetForward() : Vector Vehicle:GetForwardVector()
 Vector Vehicle:GetRight() : Vector Vehicle:GetRightVector()
 void Vehicle:SetVelocity(float x, float y, float z) : Vehicle:SetVelocity(Vector velocity)
 Vector Vehicle:GetVelocity()
+void Vehicle:SetAngularVelocity(float x, float y, float z, float w) : Vehicle:SetVelocity(Quaternion angularVel)
+Quaternion Vehicle:GetAngularVelocity()
 void Vehicle:SetRotation(Quaternion rotation)
 Quaternion Vehicle:GetRotation()
 Character Vehicle:GetDriver()
@@ -512,6 +529,7 @@ void Viewport:SetWidth(float width)
 float Viewport:SetPosition(float fX, float fY) : float Viewport:SetViewportPosition(float fX, float fY)
 void Viewport:AddSpriteInstance(int materialId, float x, float y, float sx, float sy, [ int whichSubstance = 0, float topLeftU = 0.0, float topLeftV = 0.0, float bottomRightU = 1.0, float bottomRightV = 1.0, float r = 1.0, float g = 1.0, float b = 1.0, float a = 1.0)
 void Viewport:AddStaticInstance(int modelHandle, ELodType modelLOD, Vector rightVec, Vector upVec, Vector forwardVec, Vector position, [ float alpha = 1.0, int whichSubstance = 0, int roomMask = 1, float r = 1.0, float g = 1.0, float b = 1.0)
+void Viewport:AddStaticInstance(int modelHandle, ELodType modelLOD, Quaternion rotation, float scale, Vector position, [ float alpha = 1.0, int whichSubstance = 0, int roomMask = 1, float r = 1.0, float g = 1.0, float b = 1.0)
 
 # AICharacterAttack
 intptr_t AICharacterAttack:GetPointer() # Life::Node::Character::Attack::Class*

@@ -58,6 +58,10 @@ int lua_VehicleActorIndex(lua_State* L)
 		lua_pushcfunction(L, lua_GetVehicleActorRightVector);
 		return 1;
 	}
+	else if (strcmp(key, "GetUpVector") == 0) {
+		lua_pushcfunction(L, lua_GetVehicleActorUpVector);
+		return 1;
+	}
 	else if (strcmp(key, "Create") == 0 || strcmp(key, "Instantiate") == 0) {
 		lua_pushcfunction(L, lua_InstantiateVehicleActor);
 		return 1;
@@ -135,6 +139,33 @@ int lua_GetVehicleActorRightVector(lua_State* L)
 	fwd.X = mt.right.X;
 	fwd.Y = mt.right.Y;
 	fwd.Z = mt.right.Z;
+
+	vecRes->X = fwd.X;
+	vecRes->Y = fwd.Y;
+	vecRes->Z = fwd.Z;
+
+	luaL_getmetatable(L, g_LuaVectorMetaTable);
+	lua_setmetatable(L, -2);
+
+	return 1; // number of return(s)
+}
+
+int lua_GetVehicleActorUpVector(lua_State* L)
+{
+	CLifeActor_Vehicle* avehicle = *(CLifeActor_Vehicle**)luaL_checkudata(L, 1, g_VehicleActorMetaName);
+
+	// Allocate Lua-managed memory for the struct directly
+	void** udata = (void**)lua_newuserdata(L, sizeof(void*));
+	*udata = new Lua_Vector();
+
+	Lua_Vector* vecRes = *(Lua_Vector**)udata;
+
+	Vector4 fwd = Vector4();
+	Matrix mt = avehicle->GetMatrix();
+
+	fwd.X = mt.up.X;
+	fwd.Y = mt.up.Y;
+	fwd.Z = mt.up.Z;
 
 	vecRes->X = fwd.X;
 	vecRes->Y = fwd.Y;

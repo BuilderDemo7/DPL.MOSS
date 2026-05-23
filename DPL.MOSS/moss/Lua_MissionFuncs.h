@@ -80,6 +80,7 @@ int lua_FindClosestVehicleForEntry(lua_State* L);
 int lua_GetCameraPosition(lua_State* L);
 int lua_GetCameraForwardVector(lua_State* L);
 int lua_GetCameraRightVector(lua_State* L);
+int lua_GetCameraUpVector(lua_State* L);
 
 int lua_SetVehicleDensity(lua_State* L);
 
@@ -94,3 +95,17 @@ int lua_GetClosestCharacterSnapLocationAt(lua_State* L);
 int lua_GetNearestAttractorPositionAt(lua_State* L);
 
 int lua_GetModelHandleFromGadget(lua_State* L);
+
+int lua_GetOverheadMapViewport(lua_State* L);
+
+int lua_ScreenFade(lua_State* L);
+
+int lua_ToggleHUD(lua_State* L);
+int lua_ToggleOverlays(lua_State* L);
+int lua_ToggleOverheadMap(lua_State* L);
+
+int lua_ToggleOverlayElement(lua_State* L);
+int lua_AssignValuesToOverlayElement(lua_State* L);
+int lua_ToggleOverlayGroup(lua_State* L);
+
+int lua_GetDeltaTime(lua_State* L);

@@ -1,4 +1,5 @@
 #include "Lua_Viewport.h"
+#include "..\dpl\MathFuncs.h"
 
 const char* g_ViewportMetaName = "Viewport";
 
@@ -197,19 +198,78 @@ int lua_ViewportAddStaticInstance(lua_State* L)
 	int modelHandle = luaL_checkinteger(L, 2);
 	int modelLOD = luaL_checkinteger(L, 3);
 
-	Lua_Vector* matrix1 = *(Lua_Vector**)luaL_checkudata(L, 4, g_LuaVectorMetaTable);
-	Lua_Vector* matrix2 = *(Lua_Vector**)luaL_checkudata(L, 5, g_LuaVectorMetaTable);
-	Lua_Vector* matrix3 = *(Lua_Vector**)luaL_checkudata(L, 6, g_LuaVectorMetaTable);
-	Lua_Vector* matrix4 = *(Lua_Vector**)luaL_checkudata(L, 7, g_LuaVectorMetaTable);
+	Matrix theMtx = Matrix();
 
-	float alpha = luaL_optnumber(L, 8, 1.0f);
+	int paramsRestIdStart = 8;
+	bool hasScaleParam = false;
 
-	int whichSubstance = luaL_optinteger(L, 9, 0);
-	int roomMask = luaL_optinteger(L, 10, 1);
+	Lua_Quaternion** rotation = (Lua_Quaternion**)luaL_testudata(L, 4, g_LuaQuaternionMetaTable);
 
-	float r = luaL_optnumber(L, 11, 1.0f);
-	float g = luaL_optnumber(L, 12, 1.0f);
-	float b = luaL_optnumber(L, 13, 1.0f);
+	if (rotation == NULL)
+	{
+		Lua_Vector* matrix1 = *(Lua_Vector**)luaL_checkudata(L, 4, g_LuaVectorMetaTable);
+		Lua_Vector* matrix2 = *(Lua_Vector**)luaL_checkudata(L, 5, g_LuaVectorMetaTable);
+		Lua_Vector* matrix3 = *(Lua_Vector**)luaL_checkudata(L, 6, g_LuaVectorMetaTable);
+
+		theMtx.right.X = matrix1->X;
+		theMtx.right.Y = matrix1->Y;
+		theMtx.right.Z = matrix1->Z;
+
+		theMtx.up.X = matrix2->X;
+		theMtx.up.Y = matrix2->Y;
+		theMtx.up.Z = matrix2->Z;
+
+		theMtx.forward.X = matrix3->X;
+		theMtx.forward.Y = matrix3->Y;
+		theMtx.forward.Z = matrix3->Z;
+
+		paramsRestIdStart = 7;
+	}
+	else
+	{
+		paramsRestIdStart = 6;
+		hasScaleParam = true;
+
+		Lua_Quaternion* rot = *rotation;
+		theMtx = math_initFromQandV3((Vector4*)rot, Vector(0, 0, 0));
+	
+		
+	}
+	float scale = 1.0f;
+		if (hasScaleParam)
+			luaL_optnumber(L, paramsRestIdStart - 1, 1.0f);
+
+	Lua_Vector* matrix4 = *(Lua_Vector**)luaL_checkudata(L, paramsRestIdStart, g_LuaVectorMetaTable);
+
+	if (hasScaleParam)
+	{
+		//if (scale != 1.0f)
+		{
+			theMtx.forward.X *= scale;
+			theMtx.forward.Y *= scale;
+			theMtx.forward.Z *= scale;
+			theMtx.up.X *= scale;
+			theMtx.up.Y *= scale;
+			theMtx.up.Z *= scale;
+			theMtx.right.X *= scale;
+			theMtx.right.Y *= scale;
+			theMtx.right.Z *= scale;
+		}
+	}
+
+	theMtx.pos.X = matrix4->X;
+	theMtx.pos.Y = matrix4->Y;
+	theMtx.pos.Z = matrix4->Z;
+	theMtx.___pad = 1.0f;
+
+	float alpha = luaL_optnumber(L, paramsRestIdStart+1, 1.0f);
+
+	int whichSubstance = luaL_optinteger(L, paramsRestIdStart+2, 0);
+	int roomMask = luaL_optinteger(L, paramsRestIdStart+3, 1);
+
+	float r = luaL_optnumber(L, paramsRestIdStart+4, 1.0f);
+	float g = luaL_optnumber(L, paramsRestIdStart+5, 1.0f);
+	float b = luaL_optnumber(L, paramsRestIdStart+6, 1.0f);
 
 	SStaticInstance instance = SStaticInstance();
 	instance.distanceFromCamera = 0.0f;
@@ -223,21 +283,7 @@ int lua_ViewportAddStaticInstance(lua_State* L)
 	instance.colour.Y = g;
 	instance.colour.Z = b;
 
-	instance.mtxWorldTransform.pos.X = matrix4->X;
-	instance.mtxWorldTransform.pos.Y = matrix4->Y;
-	instance.mtxWorldTransform.pos.Z = matrix4->Z;
-
-	instance.mtxWorldTransform.right.X = matrix1->X;
-	instance.mtxWorldTransform.right.Y = matrix1->Y;
-	instance.mtxWorldTransform.right.Z = matrix1->Z;
-
-	instance.mtxWorldTransform.up.X = matrix2->X;
-	instance.mtxWorldTransform.up.Y = matrix2->Y;
-	instance.mtxWorldTransform.up.Z = matrix2->Z;
-
-	instance.mtxWorldTransform.forward.X = matrix3->X;
-	instance.mtxWorldTransform.forward.Y = matrix3->Y;
-	instance.mtxWorldTransform.forward.Z = matrix3->Z;
+	instance.mtxWorldTransform = theMtx;
 
 	vp->AddStaticInstance(&instance);
 

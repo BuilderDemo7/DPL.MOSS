@@ -71,6 +71,10 @@ int lua_HelicopterIndex(lua_State* L)
 		lua_pushcfunction(L, lua_GetHelicopterRightVector);
 		return 1;
 	}
+	else if (strcmp(key, "GetUpVector") == 0) {
+		lua_pushcfunction(L, lua_GetHelicopterUpVector);
+		return 1;
+	}
 	else if (strcmp(key, "GetDamage") == 0) {
 		lua_pushcfunction(L, lua_GetHelicopterDamage);
 		return 1;
@@ -415,6 +419,34 @@ int lua_GetHelicopterRightVector(lua_State* L)
 	fwd.X = mt.right.X;
 	fwd.Y = mt.right.Y;
 	fwd.Z = mt.right.Z;
+
+	vecRes->X = fwd.X;
+	vecRes->Y = fwd.Y;
+	vecRes->Z = fwd.Z;
+
+	luaL_getmetatable(L, g_LuaVectorMetaTable);
+	lua_setmetatable(L, -2);
+
+	return 1; // number of return(s)
+}
+
+int lua_GetHelicopterUpVector(lua_State* L)
+{
+	AIHelicopterClass* heli = *(AIHelicopterClass**)luaL_checkudata(L, 1, g_HelicopterMetaName);
+
+	// Allocate Lua-managed memory for the struct directly
+	void** udata = (void**)lua_newuserdata(L, sizeof(void*));
+	*udata = new Lua_Vector();
+
+	Lua_Vector* vecRes = *(Lua_Vector**)udata;
+
+	Vector4 fwd = Vector4();
+	Matrix mt = Matrix();
+	heli->GetMatrix(&mt);
+
+	fwd.X = mt.up.X;
+	fwd.Y = mt.up.Y;
+	fwd.Z = mt.up.Z;
 
 	vecRes->X = fwd.X;
 	vecRes->Y = fwd.Y;

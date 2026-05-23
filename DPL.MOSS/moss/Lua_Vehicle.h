@@ -40,6 +40,9 @@ int lua_GetVehicleRotation(lua_State* L);
 int lua_SetVehicleVelocity(lua_State* L);
 int lua_GetVehicleVelocity(lua_State* L);
 
+int lua_SetVehicleAngularVelocity(lua_State* L);
+int lua_GetVehicleAngularVelocity(lua_State* L);
+
 int lua_SetVehicleAngle(lua_State* L);
 int lua_GetVehicleAngle(lua_State* L);
 
@@ -56,6 +59,7 @@ int lua_SendVehicleManipulationPacket(lua_State* L);
 
 int lua_GetVehicleForwardVector(lua_State* L);
 int lua_GetVehicleRightVector(lua_State* L);
+int lua_GetVehicleUpVector(lua_State* L);
 
 int lua_ResetVehicleCustomData(lua_State* L);
 int lua_VehicleAddCustomDataPart(lua_State* L);

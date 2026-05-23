@@ -31,6 +31,7 @@ int lua_GetCharacterActorRotation(lua_State* L);
 
 int lua_GetCharacterActorForwardVector(lua_State* L);
 int lua_GetCharacterActorRightVector(lua_State* L);
+int lua_GetCharacterActorUpVector(lua_State* L);
 
 int lua_CharacterActorGoWander(lua_State* L);
 int lua_CharacterActorStopWander(lua_State* L);

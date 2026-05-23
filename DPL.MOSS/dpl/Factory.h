@@ -32,6 +32,10 @@ enum EFactoryType
 	EFactoryType_LifeNode_PlayAudio = 0xdd,
 	EFactoryType_CharacterAttackLifeNode = 0x94,
 	EFactoryType_VehiclePathMoveLifeNode = 0x9d,
+
+	EFactoryType_Vehicle = 0x142,
+	EFactoryType_Crane = 0x14b,
+	EFactoryType_Forklift = 0x14c,
 };
 
 namespace hamster

@@ -40,6 +40,14 @@ int lua_VehicleIndex(lua_State* L)
 		lua_pushcfunction(L, lua_SetVehicleVelocity);
 		return 1;
 	}
+	else if (strcmp(key, "SetAngularVelocity") == 0) {
+		lua_pushcfunction(L, lua_SetVehicleAngularVelocity);
+		return 1;
+	}
+	else if (strcmp(key, "GetAngularVelocity") == 0) {
+		lua_pushcfunction(L, lua_GetVehicleAngularVelocity);
+		return 1;
+	}
 	else if (strcmp(key, "GetVelocity") == 0) {
 		lua_pushcfunction(L, lua_GetVehicleVelocity);
 		return 1;
@@ -106,6 +114,10 @@ int lua_VehicleIndex(lua_State* L)
 	}
 	else if (strcmp(key, "GetRightVector") == 0 || strcmp(key, "GetRight") == 0) {
 		lua_pushcfunction(L, lua_GetVehicleRightVector);
+		return 1;
+	}
+	else if (strcmp(key, "GetUpVector") == 0) {
+		lua_pushcfunction(L, lua_GetVehicleUpVector);
 		return 1;
 	}
 	else if (strcmp(key, "SetAngle") == 0 || strcmp(key, "SetHeading") == 0) {
@@ -668,6 +680,34 @@ int lua_GetVehicleRightVector(lua_State* L)
 	return 1; // number of return(s)
 }
 
+int lua_GetVehicleUpVector(lua_State* L)
+{
+	CVehicle* vehicle = *(CVehicle**)luaL_checkudata(L, 1, g_VehicleMetaName); // param 1
+
+	// Allocate Lua-managed memory for the struct directly
+	void** udata = (void**)lua_newuserdata(L, sizeof(void*));
+	*udata = new Lua_Vector();
+
+	Lua_Vector* vecRes = *(Lua_Vector**)udata;
+
+	Vector4 fwd = Vector4();
+	Matrix mt = Matrix();
+	vehicle->GetMatrix(&mt);
+
+	fwd.X = mt.up.X;
+	fwd.Y = mt.up.Y;
+	fwd.Z = mt.up.Z;
+
+	vecRes->X = fwd.X;
+	vecRes->Y = fwd.Y;
+	vecRes->Z = fwd.Z;
+
+	luaL_getmetatable(L, g_LuaVectorMetaTable);
+	lua_setmetatable(L, -2);
+
+	return 1; // number of return(s)
+}
+
 int lua_SetVehiclePosition(lua_State* L) 
 {
 	CVehicle* vehicle = *(CVehicle**)luaL_checkudata(L, 1, g_VehicleMetaName); // param 1
@@ -880,6 +920,39 @@ int lua_SetVehicleRotation(lua_State* L)
 	return 0;  // number of return(s)
 }
 
+int lua_SetVehicleAngularVelocity(lua_State* L)
+{
+	CVehicle* vehicle = *(CVehicle**)luaL_checkudata(L, 1, g_VehicleMetaName); // param 1
+
+	int nargs = lua_gettop(L) - 1; // number of arguments after 'self'
+
+	float x, y, z, w;
+
+	if (nargs == 1) {
+		// Single argument: expect a Vector
+		Lua_Quaternion* vec = *(Lua_Quaternion**)luaL_checkudata(L, 2, g_LuaQuaternionMetaTable);
+		x = vec->X;
+		y = vec->Y;
+		z = vec->Z;
+		w = vec->W;
+	}
+	else if (nargs == 4) {
+		// Three numbers
+		x = (float)luaL_checknumber(L, 2);
+		y = (float)luaL_checknumber(L, 3);
+		z = (float)luaL_checknumber(L, 4);
+		w = (float)luaL_checknumber(L, 5);
+	}
+	else {
+		return luaL_error(L, "Expected 1 Quaternion or 4 numbers");
+	}
+
+	Vector4 rotation = Vector4(x, y, z, w);
+	vehicle->SetAngularVelocity(&rotation);
+
+	return 0;  // number of return(s)
+}
+
 int lua_GetVehicleRotation(lua_State* L) 
 { 
 	CVehicle* vehicle = *(CVehicle**)luaL_checkudata(L, 1, g_VehicleMetaName); // param 1
@@ -891,6 +964,29 @@ int lua_GetVehicleRotation(lua_State* L)
 	Lua_Quaternion* vecRes = *(Lua_Quaternion**)udata;
 
 	Vector4 rotation = vehicle->GetDirection();
+
+	vecRes->X = rotation.X;
+	vecRes->Y = rotation.Y;
+	vecRes->Z = rotation.Z;
+	vecRes->W = rotation.W;
+
+	luaL_getmetatable(L, g_LuaQuaternionMetaTable);
+	lua_setmetatable(L, -2);
+
+	return 1; // number of return(s)
+}
+
+int lua_GetVehicleAngularVelocity(lua_State* L)
+{
+	CVehicle* vehicle = *(CVehicle**)luaL_checkudata(L, 1, g_VehicleMetaName); // param 1
+
+	// Allocate Lua-managed memory for the struct directly
+	void** udata = (void**)lua_newuserdata(L, sizeof(void*));
+	*udata = new Lua_Quaternion();
+
+	Lua_Quaternion* vecRes = *(Lua_Quaternion**)udata;
+
+	Vector4 rotation = vehicle->GetAngularVelocity();
 
 	vecRes->X = rotation.X;
 	vecRes->Y = rotation.Y;

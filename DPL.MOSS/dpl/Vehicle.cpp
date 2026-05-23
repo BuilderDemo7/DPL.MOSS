@@ -441,7 +441,7 @@ Matrix* CVehicle::GetMatrix(Matrix* mat)
 #ifndef PROPER_MATRIX
 	return (Matrix*)((*(int*)(this->GetPointer() + 0x2C)) + 0x20);
 #else
-	return ((Matrix*(__thiscall*)(CVehicle*, Matrix*))*(int*)(GetHandlingVTableAddress() + 8))(this, mat); // 0x58bd65 for cars
+	return ((Matrix*(__thiscall*)(IHandlingInternal*, Matrix*))*(int*)(GetHandlingVTableAddress() + 8))(GetHandling().m_pPointer, mat); // 0x58bd65 for cars
 #endif
 }
 

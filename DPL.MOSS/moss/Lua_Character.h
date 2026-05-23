@@ -39,6 +39,7 @@ int lua_CharacterSetArrested(lua_State* L);
 
 int lua_GetCharacterForwardVector(lua_State* L);
 int lua_GetCharacterRightVector(lua_State* L);
+int lua_GetCharacterUpVector(lua_State* L);
 
 int lua_CharacterSetHealth(lua_State* L);
 int lua_CharacterGetHealth(lua_State* L);

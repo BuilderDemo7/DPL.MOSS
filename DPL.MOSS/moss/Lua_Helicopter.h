@@ -27,6 +27,7 @@ int lua_GetHelicopterDesiredHeading(lua_State* L);
 
 int lua_GetHelicopterForwardVector(lua_State* L);
 int lua_GetHelicopterRightVector(lua_State* L);
+int lua_GetHelicopterUpVector(lua_State* L);
 
 int lua_HelicopterStepTo(lua_State* L);
 

@@ -31,3 +31,4 @@ int lua_GetVehicleActorRotation(lua_State* L);
 
 int lua_GetVehicleActorForwardVector(lua_State* L);
 int lua_GetVehicleActorRightVector(lua_State* L);
+int lua_GetVehicleActorUpVector(lua_State* L);

@@ -34,8 +34,7 @@ SMapItem* COverheadMap::FindItem(SMapItem* item)
 
 CGameOverlayManager* GetGameOverlayManager()
 {
-	// 0x70C71C is what was meant to be here maybe?
-	return (CGameOverlayManager*)(*(int*)(0x0070C558));
+	return *(CGameOverlayManager**)(0x70c71c);
 }
 
 void CGameOverlayManager::Draw(int Viewport)
@@ -46,6 +45,31 @@ void CGameOverlayManager::Draw(int Viewport)
 void CGameOverlayManager::Toggle(bool toggled)
 {
 	((void(__thiscall*)(CGameOverlayManager*, bool))0x5718A7)(this, toggled);
+}
+
+void CGameOverlay::EnableOverlayElement(int eWhichOverlay)
+{
+	((void(__thiscall*)(CGameOverlay*, int))0x4b5ae3)(this, eWhichOverlay);
+}
+
+void CGameOverlay::DisableOverlayElement(int eWhichOverlay)
+{
+	((void(__thiscall*)(CGameOverlay*, int))0x4b5aff)(this, eWhichOverlay);
+}
+
+void CGameOverlay::EnableOverlayGroup(int eWhichGroup)
+{
+	((void(__thiscall*)(CGameOverlay*, int))0x4b5a97)(this, eWhichGroup);
+}
+
+void CGameOverlay::DisableOverlayGroup(int eWhichGroup)
+{
+	((void(__thiscall*)(CGameOverlay*, int))0x4b5aab)(this, eWhichGroup);
+}
+
+void CGameOverlay::AssignValuesToOverlayElement(int eWhichOverlay, int iVal1, int iVal2, int iVal3, int iVal4)
+{
+	((void(__thiscall*)(CGameOverlay*, int, int, int, int, int))0x4b5b1b)(this, eWhichOverlay, iVal1, iVal2, iVal3, iVal4);
 }
 
 void CGameOverlay::ActivatePager()

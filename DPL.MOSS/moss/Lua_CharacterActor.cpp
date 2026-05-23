@@ -60,6 +60,10 @@ int lua_CharacterActorIndex(lua_State* L)
 		lua_pushcfunction(L, lua_GetCharacterActorRightVector);
 		return 1;
 	}
+	else if (strcmp(key, "GetUpVector") == 0) {
+		lua_pushcfunction(L, lua_GetCharacterActorUpVector);
+		return 1;
+	}
 	else if (strcmp(key, "Create") == 0 || strcmp(key, "Instantiate") == 0) {
 		lua_pushcfunction(L, lua_InstantiateCharacterActor);
 		return 1;
@@ -410,6 +414,12 @@ int lua_GetCharacterActorForwardVector(lua_State* L)
 }
 
 int lua_GetCharacterActorRightVector(lua_State* L)
+{
+	// TODO
+	return 0;
+}
+
+int lua_GetCharacterActorUpVector(lua_State* L)
 {
 	// TODO
 	return 0;

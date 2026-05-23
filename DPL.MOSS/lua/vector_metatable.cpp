@@ -27,6 +27,10 @@ void Init_Lua_MetaTable_Vector(lua_State* LST)
 	lua_pushcfunction(LST, lua_VectorMul);
 	lua_setfield(LST, -2, "__mul");
 
+	// set divide
+	lua_pushcfunction(LST, lua_VectorDiv);
+	lua_setfield(LST, -2, "__div");
+
 	lua_pop(LST, 1);
 
 	// Create a table
@@ -152,6 +156,47 @@ int lua_VectorMul(lua_State* L)
 	vecRes->X = vecA->X * vecB->X;
 	vecRes->Y = vecA->Y * vecB->Y;
 	vecRes->Z = vecA->Z * vecB->Z;
+
+#ifdef LUA_VECTOR_DEBUGLOG_CALLS
+	printf("vecRes -> %p\n", vecRes);
+#endif
+
+#ifdef LUA_VECTOR_DEBUGLOG_CALLS
+	printf("[return] -> %p (userdata)\n", udata);
+#endif
+
+#ifdef LUA_VECTOR_DEBUGLOG_CALLS
+	std::cout << "== == ==" << std::endl;
+#endif
+
+	return 1;
+}
+
+int lua_VectorDiv(lua_State* L)
+{
+#ifdef LUA_VECTOR_DEBUGLOG_CALLS
+	std::cout << "lua_VectorMul" << std::endl;
+#endif
+
+	Lua_Vector* vecA = *(Lua_Vector**)luaL_checkudata(L, 1, g_LuaVectorMetaTable); // Vector A
+	Lua_Vector* vecB = *(Lua_Vector**)luaL_checkudata(L, 2, g_LuaVectorMetaTable); // Vector B
+
+#ifdef LUA_VECTOR_DEBUGLOG_CALLS
+	printf("vecA -> %p\n", vecA);
+	printf("vecB -> %p\n", vecB);
+#endif
+
+	void** udata = (void**)lua_newuserdata(L, sizeof(void*));
+	*udata = new Lua_Vector();
+
+	luaL_getmetatable(L, g_LuaVectorMetaTable);
+	lua_setmetatable(L, -2);
+
+	Lua_Vector* vecRes = *(Lua_Vector**)udata;
+
+	vecRes->X = vecA->X / vecB->X;
+	vecRes->Y = vecA->Y / vecB->Y;
+	vecRes->Z = vecA->Z / vecB->Z;
 
 #ifdef LUA_VECTOR_DEBUGLOG_CALLS
 	printf("vecRes -> %p\n", vecRes);

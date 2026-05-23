@@ -862,6 +862,17 @@ void Init_Lua_Funcs()
 	lua_register(L, "AddAllWeaponsForPlayer", lua_AddAllWeaponsForPlayer); // void AddAllWeaponsForPlayer()
 	
 	lua_register(L, "GetGameViewport", lua_GetGameViewport); // Viewport GetGameViewport()
+	lua_register(L, "GetOverheadMapViewport", lua_GetOverheadMapViewport); // Viewport GetOverheadMapViewport()
+
+	lua_register(L, "ScreenFade", lua_ScreenFade); // void ScreenFade(string direction["in", "out", "clear"], [ float duration = 0.5, Vector fromColor = Vector.new(0,0,0), Vector toColor = Vector.new(0,0,0), bool fadeAudio = false) 
+
+	lua_register(L, "ToggleHUD", lua_ToggleHUD); // void ToggleHUD(bool status)
+	lua_register(L, "ToggleOverlays", lua_ToggleOverlays); // void ToggleOverlays(bool status)
+	lua_register(L, "ToggleOverheadMap", lua_ToggleOverheadMap); // void ToggleOverheadMap(bool status)
+	
+	lua_register(L, "ToggleOverlayElement", lua_ToggleOverlayElement); // void ToggleOverlayElement(EOverlayID whichOverlay, bool status)
+	lua_register(L, "ToggleOverlayGroup", lua_ToggleOverlayGroup); // void ToggleOverlayGroup(EOverlayGroup whichGroup, bool status)
+	lua_register(L, "AssignValuesToOverlayElement", lua_AssignValuesToOverlayElement); // void AssignValuesToOverlayElement(EOverlayID whichOverlay, int val1, [ int val2 = 0, int val3 = 0, int val4 = 0)
 
 	lua_register(L, "SetGameAspectRatio", lua_SetGameAspectRatio); // void SetGameAspectRatio(float aspectRatio)
 	lua_register(L, "GetGameAspectRatio", lua_GetGameAspectRatio); // float GetGameAspectRatio()
@@ -931,12 +942,15 @@ void Init_Lua_Funcs()
 	lua_register(L, "GetCameraPosition", lua_GetCameraPosition); // Vector GetCameraPosition()
 	lua_register(L, "GetCameraForwardVector", lua_GetCameraForwardVector); // Vector GetCameraForwardVector()
 	lua_register(L, "GetCameraRightVector", lua_GetCameraRightVector); // Vector GetCameraRightVector()
+	lua_register(L, "GetCameraUpVector", lua_GetCameraUpVector); // Vector GetCameraUpVector()
 	lua_register(L, "CreateCameraSelect", lua_CreateCameraSelect); // CameraSelect CreateCameraSelect(ECameraSelectType cameraType, LifeActor target, ECameraSelect_VehicleCamType vehiclePosition, [ float duration = 60.0, float zoom = 1.0, float motionBlur = 0.0, float speed = 1.0, float blendTime = 0.0)
 	lua_register(L, "CreateCamera", lua_CreateCamera); // Camera CreateCamera(Vector position, Quaternion rotation, [ LifeActor attachTo = nil, LifeActor lookAt = nil)
 	lua_register(L, "ToggleFreeCam", lua_ToggleFreeCam); // void ToggleFreeCam(bool status, [ int gamepadId = 0)
 
 	// IGCs
 	lua_register(L, "ToggleIGCS", lua_ToggleIGCS); // void ToggleIGCS(bool status)
+
+	lua_register(L, "GetDeltaTime", lua_GetDeltaTime); // float GetDeltaTime()
 
 	// prop
 	lua_register(L, "CreateProp", lua_CreateProp); // Prop CreateProp(Vector position, EGadgetType gadgetType, [ Quaternion rotation, bool canbeTargeted = false, bool startCreated = true)

@@ -7,6 +7,16 @@ Input_impl * CInputManager::GetModifiableInput(EInputAction eAction)
 	return (Input_impl*)((this + 0x10) + (index * sizeof(Input_impl)));
 }
 
+Input_impl* CInputManager::get_input_HACK(Input_impl *__return_storage_ptr__, EInputAction eAction)
+{
+	return ((Input_impl*(__thiscall*)(CInputManager*, Input_impl *__return_storage_ptr__, EInputAction eAction))*(int*)(GetVTableAddress() + 4))(this, __return_storage_ptr__, eAction);
+}
+
+int CInputManager::GetVTableAddress()
+{
+	return *(int*)(this);
+}
+
 CInputManager* GetSimulationInputManager()
 {
 	return *(CInputManager**)0x70c6ec;

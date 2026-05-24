@@ -171,7 +171,12 @@ public:
 	//struct SLifeEventData__129_10098 m_lifeEvents_SoftSave[256];
 
 	bool IsShowingIcons();
-	void RunEvent(int EventID);
+	void RepeatMission(int EventID);
+
+	void AutoSave();
+
+	void EnableIncidentalSpooling();
+	void DisableIncidentalSpooling(bool killAll);
 
 	bool SetLifeEventStatus(int eID, int eStatus, bool fromStatusControl);
 };

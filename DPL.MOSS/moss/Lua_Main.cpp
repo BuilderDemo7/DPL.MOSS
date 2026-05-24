@@ -803,6 +803,13 @@ void Init_Lua_Funcs()
 	lua_register(L, "ClearMessages", lua_ClearMessages); // void ClearMessages()
 	lua_register(L, "ShowMissionComment", lua_ShowMissionComment); // void ShowMissionComment(float duration, string message)
 	lua_register(L, "EndAllLifeEvents", lua_EndAllLifeEvents); // void EndAllLifeEvents()
+	lua_register(L, "SetLifeEventStatus", lua_SetLifeEventStatus); // void SetLifeEventStatus(int eventId, int eStatus, [ bool fromStatusControl = false)
+	lua_register(L, "DisableIncidentalSpooling", lua_DisableIncidentalSpooling); // void DisableIncidentalSpooling(bool killAll = false)
+	lua_register(L, "EnableIncidentalSpooling", lua_EnableIncidentalSpooling); // void EnableIncidentalSpooling()
+	lua_register(L, "AutoSave", lua_AutoSave); // void AutoSave()
+
+	lua_register(L, "SetHamsterRandomSeed", lua_SetHamsterRandomSeed); // void SetHamsterRandomSeed(int seed)
+	lua_register(L, "GetHamsterRandomSeed", lua_GetHamsterRandomSeed); // int GetHamsterRandomSeed()
 
 	lua_register(L, "SetGameDifficulty", lua_SetGameDifficulty); // void SetGameDifficulty(int difficultyLevel)
 	lua_register(L, "GetGameDifficulty", lua_GetGameDifficulty); // int GetGameDifficulty()

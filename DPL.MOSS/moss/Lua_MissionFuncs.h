@@ -109,3 +109,13 @@ int lua_AssignValuesToOverlayElement(lua_State* L);
 int lua_ToggleOverlayGroup(lua_State* L);
 
 int lua_GetDeltaTime(lua_State* L);
+
+int lua_SetLifeEventStatus(lua_State* L);
+
+int lua_DisableIncidentalSpooling(lua_State* L);
+int lua_EnableIncidentalSpooling(lua_State* L);
+
+int lua_SetHamsterRandomSeed(lua_State* L);
+int lua_GetHamsterRandomSeed(lua_State* L);
+
+int lua_AutoSave(lua_State* L);

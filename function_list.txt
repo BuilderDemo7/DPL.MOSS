@@ -68,12 +68,22 @@ void ToggleHUD(bool status)
 void ToggleOverlays(bool status)
 void ToggleOverheadMap(bool status)
 
-# W.I.P, this crashes the game
+* W.I.P, this crashes the game
 void ToggleOverlayElement(EOverlayID whichOverlay, bool status)
 void ToggleOverlayGroup(EOverlayGroup whichGroup, bool status)
 void AssignValuesToOverlayElement(EOverlayID whichOverlay, int val1, [ int val2 = 0, int val3 = 0, int val4 = 0)
 
 float GetDeltaTime()
+
+void SetLifeEventStatus(int eventId, int eStatus, [ bool fromStatusControl = false)
+
+void DisableIncidentalSpooling(bool killAll = false)
+void EnableIncidentalSpooling()
+
+void AutoSave()
+
+void SetHamsterRandomSeed(int seed)
+int GetHamsterRandomSeed()
 
 # HUD
 

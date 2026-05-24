@@ -26,6 +26,7 @@
 #include "..\dpl\CGadgetHandler.h"
 #include "..\dpl\AttractorManager.h"
 #include "..\dpl\CWipeManager.h"
+#include "..\dpl\CLifeProgression.h"
 
 #include <iostream>
 
@@ -35,6 +36,69 @@ int lua_EndAllLifeEvents(lua_State* L)
 	
 	if (evman != NULL)
 		evman->EndAllLifeEvents();
+
+	return 0;
+}
+
+int lua_SetLifeEventStatus(lua_State* L)
+{
+	int eventId = luaL_checkinteger(L, 1);
+	int eStatus = luaL_checkinteger(L, 2);
+	
+	int nargs = lua_gettop(L); // number of arguments
+
+	bool fromStatusControl = false;
+	if (nargs > 2)
+	{
+		fromStatusControl = lua_toboolean(L, 3);
+	}
+
+	auto progression = GetLifeProgression();
+	if (progression != NULL)
+	{
+		progression->SetLifeEventStatus(eventId, eStatus, fromStatusControl);
+	}
+
+	return 0;
+}
+
+int lua_DisableIncidentalSpooling(lua_State* L)
+{
+	int nargs = lua_gettop(L); // number of arguments
+
+	bool killAll = false;
+	if (nargs > 0)
+	{
+		killAll = lua_toboolean(L, 1);
+	}
+
+	auto progression = GetLifeProgression();
+	if (progression != NULL)
+	{
+		progression->DisableIncidentalSpooling(killAll);
+	}
+
+	return 0;
+}
+
+int lua_EnableIncidentalSpooling(lua_State* L)
+{
+	auto progression = GetLifeProgression();
+	if (progression != NULL)
+	{
+		progression->EnableIncidentalSpooling();
+	}
+
+	return 0;
+}
+
+int lua_AutoSave(lua_State* L)
+{
+	auto progression = GetLifeProgression();
+	if (progression != NULL)
+	{
+		progression->AutoSave();
+	}
 
 	return 0;
 }
@@ -324,6 +388,22 @@ int lua_GetCharacterInstances(lua_State* L)
 	}
 
 	return 1; // return the table
+}
+
+int lua_SetHamsterRandomSeed(lua_State* L)
+{
+	int seed = luaL_checkinteger(L, 1);
+
+	*(int*)(0x7103E8) = seed;
+
+	return 0;
+}
+
+int lua_GetHamsterRandomSeed(lua_State* L)
+{
+	lua_pushinteger(L, *(int*)(0x7103E8));
+
+	return 1;
 }
 
 int lua_SetSpoolCentre(lua_State* L)

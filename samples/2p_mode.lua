@@ -105,7 +105,7 @@ function create2Pcharacter()
 			spawnDist = 5
 			g_2p_initialVehicle = CreateVehicle(53, pos.X+spawnDist,pos.Y,pos.Z+spawnDist, 0, false, 1, 1)
 		end
-		g_2p_character = CreateCharacter(g_2p_skin, pos.X+spawnDist,pos.Y,pos.Z+spawnDist, 0, false, 0, health, 0.0, g_2p_initialVehicle, 0, true, false, isPlayer, ignorePlayerRegister, false, 1)
+		g_2p_character = CreateCharacter(g_2p_skin, pos.X+spawnDist,pos.Y,pos.Z+spawnDist, 0, false, 0, health, 0.0, g_2p_initialVehicle, 0, 0.5, true, false, isPlayer, ignorePlayerRegister, false, 1)
 	end
 end
 

@@ -18,6 +18,7 @@ function step()
 	if gameStarted then
 		timer_incidental = timer_incidental + timer_genStep
 		if timer_incidental >= 60 then
+			timer_incidental = 0
 			EnableIncidentalSpooling()
 		end
 	end

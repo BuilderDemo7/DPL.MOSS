@@ -120,3 +120,13 @@ function step_noclip()
 		end
 	end
 end
+
+function step()
+	if GetAsyncKeyState(noclip_togglekey1) ~= 0 and WasKeyPressedOnce(noclip_togglekey2) then
+		toggle_noclip()
+	end
+	
+	if (noclip_on and gameStarted) then
+		step_noclip()
+	end
+end

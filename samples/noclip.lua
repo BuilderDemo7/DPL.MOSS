@@ -41,9 +41,9 @@ function toggle_noclip()
 	end
 end
 
-function draw_mission()
-	DrawText(tostring(GetDeltaTime()), 0.5, 0.5)
-end
+--function draw_mission()
+--	DrawText(tostring(GetDeltaTime()), 0.5, 0.5)
+--end
 
 function step_noclip()
 	local throttle = 0

@@ -22,7 +22,7 @@ public:
 
 	void* vtable;
 
-	void* m_pEntity; // ILifeEntity
+	void* m_pEntity; // ILifeEntity, NOTE: this was meant to be CLifeEntity_Character without a pointer, containing what's below
 
 	bool m_created;
 	char __m_created_padding0[0x3]; // bool32 padding

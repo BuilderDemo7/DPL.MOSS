@@ -27,6 +27,7 @@
 #include "..\dpl\AttractorManager.h"
 #include "..\dpl\CWipeManager.h"
 #include "..\dpl\CLifeProgression.h"
+#include "..\dpl\InGameMovie.h"
 
 #include <iostream>
 
@@ -62,6 +63,55 @@ int lua_SetLifeEventStatus(lua_State* L)
 	return 0;
 }
 
+int lua_RequestLifeEvent(lua_State* L)
+{
+	float x, y, z;
+
+	Lua_Vector* vec = *(Lua_Vector**)luaL_checkudata(L, 1, g_LuaVectorMetaTable);
+	x = vec->X;
+	y = vec->Y;
+	z = vec->Z;
+
+	int eventId = luaL_checkinteger(L, 2);
+
+	int nargs = lua_gettop(L); // number of arguments
+
+	bool floating = false;
+	if (nargs > 2)
+	{
+		floating = lua_toboolean(L, 3);
+	}
+
+	CLifeProgression::RequestLifeEvent(Vector4(x,y,z,1), eventId, floating);
+
+	return 0;
+}
+
+int lua_RepeatMission(lua_State* L)
+{
+	int eventId = luaL_checkinteger(L, 1);
+
+	auto progression = GetLifeProgression();
+	if (progression != NULL)
+	{
+		progression->RepeatMission(eventId);
+	}
+
+	return 0;
+}
+
+int lua_PlayingPlotOrMiniLifeEvent(lua_State* L)
+{
+	bool status = false;
+
+	auto progression = GetLifeProgression();
+	if (progression != NULL)
+		status = progression->PlayingPlotOrMiniLifeEvent();
+	
+	lua_pushboolean(L, status);
+	return 1;
+}
+
 int lua_DisableIncidentalSpooling(lua_State* L)
 {
 	int nargs = lua_gettop(L); // number of arguments
@@ -76,6 +126,33 @@ int lua_DisableIncidentalSpooling(lua_State* L)
 	if (progression != NULL)
 	{
 		progression->DisableIncidentalSpooling(killAll);
+	}
+
+	return 0;
+}
+
+int lua_PlayMovie(lua_State* L)
+{
+	const char*	szFileName = luaL_checkstring(L, 1);
+	
+	int nargs = lua_gettop(L); // number of arguments
+	
+	bool bLoop = false;
+	if (nargs > 1)
+	{
+		bLoop = lua_toboolean(L, 2);
+	}
+
+	bool bPauseAtEnd = false;
+	if (nargs > 2)
+	{
+		bPauseAtEnd = lua_toboolean(L, 3);
+	}
+
+	auto igM = GetInGameMovie();
+	if (igM != NULL)
+	{
+		igM->PlayMovie(szFileName, bLoop, bPauseAtEnd);
 	}
 
 	return 0;
@@ -1627,8 +1704,36 @@ int lua_SetMasterSpeedMultiplier(lua_State* L)
 	return 0;
 }
 
+int lua_Explosion(lua_State* L)
+{
+	void * Singleton_killkillkill = *(void**)0x70c6c8;
+
+	Lua_Vector* vec = *(Lua_Vector**)luaL_checkudata(L, 1, g_LuaVectorMetaTable);
+	float explosionImpulseScale = luaL_optnumber(L, 2, 2.0f);
+	float explosionRange = luaL_optnumber(L, 3, 8.5f);
+	int weapontype = luaL_optinteger(L, 4, 6); // gren. launcher
+	int explosionType = luaL_optinteger(L, 5, 2); // big
+
+	int funcaddr = 0x52e55e; //(*(int*)Singleton_killkillkill) + 0xc;
+
+	Vector daVec = Vector(vec->X, vec->Y, vec->Z);
+	((void(__thiscall*)(void*, float, float, float, int, float, float, int, int, CVehicle*))funcaddr)(Singleton_killkillkill, daVec.X, daVec.Y, daVec.Z, 0, explosionImpulseScale, explosionRange, weapontype, explosionType, NULL);
+
+	return 0;
+}
+
 int lua_LaunchVEdit(lua_State* L)
 {
+	int nargs = lua_gettop(L);
+
+	bool tutorial = false;
+	if (nargs > 0)
+	{
+		tutorial = lua_toboolean(L, 1);
+	}
+
+	*(bool*)0x6e756c = tutorial;
+
 	void* Singleton_SystemConfig = *(void**)0x70c558;
 
 	if (Singleton_SystemConfig != NULL)
@@ -1813,6 +1918,21 @@ int lua_GetCameraRightVector(lua_State* L)
 	lua_setmetatable(L, -2);
 
 	return 1; // number of return(s)
+}
+
+// lerp() function
+int lua_LinearInterpolate(lua_State* L)
+{
+	float res = 0.0f;
+
+	float lhs = luaL_checknumber(L, 1);
+	float rhs = luaL_checknumber(L, 2);
+	float t = luaL_checknumber(L, 3);
+	
+	res = ((float(__stdcall*)(float, float, float t))0x57c1c0)(lhs, rhs, t);
+
+	lua_pushnumber(L, res);
+	return 1;
 }
 
 int lua_GetDeltaTime(lua_State* L)

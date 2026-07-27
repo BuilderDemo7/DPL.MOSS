@@ -119,3 +119,13 @@ int lua_SetHamsterRandomSeed(lua_State* L);
 int lua_GetHamsterRandomSeed(lua_State* L);
 
 int lua_AutoSave(lua_State* L);
+
+int lua_PlayMovie(lua_State* L);
+
+int lua_LinearInterpolate(lua_State* L);
+
+int lua_Explosion(lua_State* L);
+
+int lua_PlayingPlotOrMiniLifeEvent(lua_State* L);
+int lua_RequestLifeEvent(lua_State* L);
+int lua_RepeatMission(lua_State* L);

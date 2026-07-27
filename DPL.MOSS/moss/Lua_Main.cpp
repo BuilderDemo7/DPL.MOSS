@@ -35,6 +35,7 @@
 // DPL
 #include "..\dpl\CFontManager.h"
 #include "..\dpl\AIManager.h"
+#include "..\dpl\AttractorManager.h"
 
 bool g_bLuaScriptsLoaded = false;
 bool g_bLuaScriptsStarted = false;
@@ -655,6 +656,25 @@ void Init_Lua_Constants()
 	lua_pushinteger(L, AIManagerVehicleTypeEnum::CivilianParkedAttractedTaxi); lua_setglobal(L, "AIManagerVehicleTypeEnum_CivilianParkedAttractedTaxi");
 	lua_pushinteger(L, AIManagerVehicleTypeEnum::CivilianParkedAttractedGoKart); lua_setglobal(L, "AIManagerVehicleTypeEnum_CivilianParkedAttractedGoKart");
 	lua_pushinteger(L, AIManagerVehicleTypeEnum::NumberOf); lua_setglobal(L, "AIManagerVehicleTypeEnum_NumberOf");
+	
+	// EAttractorType
+	lua_pushinteger(L, EAttractorType::EAttractorType_None); lua_setglobal(L, "AttractorType_None");
+	lua_pushinteger(L, EAttractorType::EAttractorType_ParkedVehicle); lua_setglobal(L, "AttractorType_ParkedVehicle");
+	lua_pushinteger(L, EAttractorType::EAttractorType_AntiParking); lua_setglobal(L, "AttractorType_AntiParking");
+	lua_pushinteger(L, EAttractorType::EAttractorType_Tree); lua_setglobal(L, "AttractorType_Tree");
+	lua_pushinteger(L, EAttractorType::EAttractorType_StreetLight); lua_setglobal(L, "AttractorType_StreetLight");
+	lua_pushinteger(L, EAttractorType::EAttractorType_TrafficLight); lua_setglobal(L, "AttractorType_TrafficLight");
+	lua_pushinteger(L, EAttractorType::EAttractorType_Sound); lua_setglobal(L, "AttractorType_Sound");
+	lua_pushinteger(L, EAttractorType::EAttractorType_ParticleEffect); lua_setglobal(L, "AttractorType_ParticleEffect");
+	lua_pushinteger(L, EAttractorType::EAttractorType_VolumeParticleEffect); lua_setglobal(L, "AttractorType_VolumeParticleEffect");
+	lua_pushinteger(L, EAttractorType::EAttractorType_Collectable); lua_setglobal(L, "AttractorType_Collectable");
+	lua_pushinteger(L, EAttractorType::EAttractorType_CharacterSnapToLocation); lua_setglobal(L, "AttractorType_CharacterSnapToLocation");
+	lua_pushinteger(L, EAttractorType::EAttractorType_GunEffect); lua_setglobal(L, "AttractorType_GunEffect");
+	lua_pushinteger(L, EAttractorType::EAttractorType_GarageDisplayPosition); lua_setglobal(L, "AttractorType_GarageDisplayPosition");
+	lua_pushinteger(L, EAttractorType::EAttractorType_SoundVolume); lua_setglobal(L, "AttractorType_SoundVolume");
+	lua_pushinteger(L, EAttractorType::EAttractorType_EnvironmentLight); lua_setglobal(L, "AttractorType_EnvironmentLight");
+	lua_pushinteger(L, EAttractorType::EAttractorType_ParkedPed); lua_setglobal(L, "AttractorType_ParkedPed");
+	lua_pushinteger(L, EAttractorType::EAttractorType_NumberOf); lua_setglobal(L, "AttractorType_NumberOf");
 
 	// alphanumerics
 	lua_pushinteger(L, '0');
@@ -807,6 +827,11 @@ void Init_Lua_Funcs()
 	lua_register(L, "DisableIncidentalSpooling", lua_DisableIncidentalSpooling); // void DisableIncidentalSpooling(bool killAll = false)
 	lua_register(L, "EnableIncidentalSpooling", lua_EnableIncidentalSpooling); // void EnableIncidentalSpooling()
 	lua_register(L, "AutoSave", lua_AutoSave); // void AutoSave()
+	lua_register(L, "PlayMovie", lua_PlayMovie); // void PlayMovie(string fileName, [ bool loop = false, bool pauseAtEnd = false)
+
+	lua_register(L, "RepeatMission", lua_RepeatMission); // void RepeatMission(int eID)
+	lua_register(L, "RequestLifeEvent", lua_RequestLifeEvent); // void RequestLifeEvent(Vector position, int eID, [ bool floating = false)
+	lua_register(L, "PlayingPlotOrMiniLifeEvent", lua_PlayingPlotOrMiniLifeEvent); // bool PlayingPlotOrMiniLifeEvent()
 
 	lua_register(L, "SetHamsterRandomSeed", lua_SetHamsterRandomSeed); // void SetHamsterRandomSeed(int seed)
 	lua_register(L, "GetHamsterRandomSeed", lua_GetHamsterRandomSeed); // int GetHamsterRandomSeed()
@@ -873,6 +898,8 @@ void Init_Lua_Funcs()
 
 	lua_register(L, "ScreenFade", lua_ScreenFade); // void ScreenFade(string direction["in", "out", "clear"], [ float duration = 0.5, Vector fromColor = Vector.new(0,0,0), Vector toColor = Vector.new(0,0,0), bool fadeAudio = false) 
 
+	lua_register(L, "LinearInterpolate", lua_LinearInterpolate); // float LinearInterpolate(float a, float b, float t)
+
 	lua_register(L, "ToggleHUD", lua_ToggleHUD); // void ToggleHUD(bool status)
 	lua_register(L, "ToggleOverlays", lua_ToggleOverlays); // void ToggleOverlays(bool status)
 	lua_register(L, "ToggleOverheadMap", lua_ToggleOverheadMap); // void ToggleOverheadMap(bool status)
@@ -894,6 +921,8 @@ void Init_Lua_Funcs()
 	lua_register(L, "GetCameraMapItem", lua_GetCameraMapItem); // MapItem GetCameraMapItem()
 	lua_register(L, "GetMapMarkerItem", lua_GetMapMarkerItem); // MapItem GetMapMarkerItem()
 
+	lua_register(L, "Explosion", lua_Explosion); // void Explosion(Vector explosionAt, [ float explosionImpulseScale = 2.0, float explosionRange = 8.5, int weaponType = 6, int explosionType = 2)
+
 	lua_register(L, "GetVehicleInstances", lua_GetVehicleInstances); // { Vehicle } GetVehicleInstances()
 	lua_register(L, "FindClosestVehicleForEntry", lua_FindClosestVehicleForEntry); // Vehicle: vehicle, EVehicleDoor: closestDoor FindClosestVehicleForEntry(Character character, [ bool shyOfPassengers = false, bool willDrive = true, bool checkBack = true)
 	
@@ -914,6 +943,7 @@ void Init_Lua_Funcs()
 	lua_register(L, "meminject", lua_meminject); // void meminject(uint address, intptr_t labelPtr, int type); 
 	lua_register(L, "memalloc", lua_memalloc); // intptr_t memalloc(uint size)
 	lua_register(L, "memfree", lua_memfree); // void memfree(intptr_t blockPtr)
+	lua_register(L, "memexecute", lua_memexecute); // void memexecute(intptr_t labelPtr)
 
 	// cast funcs
 	lua_register(L, "castfloat", lua_castfloat); // float castfloat(string buffer, [ int offset = 0) 

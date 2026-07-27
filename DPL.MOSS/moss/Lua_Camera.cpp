@@ -65,6 +65,10 @@ int lua_CameraIndex(lua_State* L)
 		lua_pushcfunction(L, lua_SetCameraActorPosition);
 		return 1;
 	}
+	else if (strcmp(key, "GetPosition") == 0) {
+		lua_pushcfunction(L, lua_GetCameraActorPosition);
+		return 1;
+	}
 	else if (strcmp(key, "SetRotation") == 0) {
 		lua_pushcfunction(L, lua_SetCameraActorRotation);
 		return 1;
@@ -84,6 +88,28 @@ int lua_CameraIndex(lua_State* L)
 	}
 
 	return 1;
+}
+
+int lua_GetCameraActorPosition(lua_State* L)
+{
+	CLifeActor_Camera* camera = *(CLifeActor_Camera**)luaL_checkudata(L, 1, g_CameraMetaName);
+
+	// Allocate Lua-managed memory for the struct directly
+	void** udata = (void**)lua_newuserdata(L, sizeof(void*));
+	*udata = new Lua_Vector();
+
+	Lua_Vector* vecRes = *(Lua_Vector**)udata;
+
+	Vector pos = camera->m_matrix.pos;
+
+	vecRes->X = pos.X;
+	vecRes->Y = pos.Y;
+	vecRes->Z = pos.Z;
+
+	luaL_getmetatable(L, g_LuaVectorMetaTable);
+	lua_setmetatable(L, -2);
+
+	return 1;  // number of return(s)
 }
 
 int lua_SetCameraActorPosition(lua_State* L)

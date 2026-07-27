@@ -7,6 +7,7 @@ int lua_mempatch(lua_State* L);
 int lua_meminject(lua_State* L);
 int lua_memalloc(lua_State* L);
 int lua_memfree(lua_State* L);
+int lua_memexecute(lua_State* L);
 
 int lua_castfloat(lua_State* L);
 int lua_castdouble(lua_State* L);

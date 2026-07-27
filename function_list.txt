@@ -32,12 +32,17 @@ void draw_targets() # called every frame the target manager is drawn (e.g. objec
 
 # Mission Functions
 
+void RepeatMission(int eID)
+
+void RequestLifeEvent(Vector position, int eID, [ bool floating = false)
+bool PlayingPlotOrMiniLifeEvent()
+
 Character GetPlayerCharacter()
 Character_Actor GetPlayerActor()
 void ClearMessages() # clear mission comments
 void ShowMissionComment(float duration, string message)
 void EndAllLifeEvents() # exclude all missions!
-void LaunchVEdit() # launches the garage menu
+void LaunchVEdit(bool tutorial = false) # launches the garage menu
 
 { Vehicle } GetVehicleInstances() # NOTE: not the same as GetLifeInstances() and not much controllable as Vehicle_LifeInstance or Vehicle_Actor
 { Character } GetCharacterInstances([ int role = -1) # NOTE: if role is equal to -1 it will get characters from all roles (including player as first of the list, not the same as GetLifeInstances() and not much controllable as Character_LifeInstance or Character_Actor
@@ -47,7 +52,7 @@ void SetSpoolCentre(float x, float z) # useful for defining area to be loaded ar
 float GetWorldTime()
 void SetWorldTime(float newHour)
 
-void ParkVehicle(Vehicle vehicle)
+void ParkVehicle(Vehicle vehicle) # deprecated
 
 { string } GetPlaylistFileNames()
 { int } GetPlaylistOrder()
@@ -84,6 +89,10 @@ void AutoSave()
 
 void SetHamsterRandomSeed(int seed)
 int GetHamsterRandomSeed()
+
+void PlayMovie(string fileName, [ bool loop = false, bool pauseAtEnd = false)
+
+void Explosion(Vector explosionAt, [ float explosionImpulseScale = 2.0, float explosionRange = 8.5, int weaponType = 6, int explosionType = 2)
 
 # HUD
 
@@ -207,6 +216,7 @@ void mempatch(uint address, intptr_t labelPtr)
 void meminject(uint address, intptr_t labelPtr, int type)
 intptr_t memalloc(uint size)
 void memfree(intptr_t blockPtr)
+void memexecute(intptr_t labelPtr)
 
 # Memory Cast
 * WARNING: Please check if the address is valid otherwise it will cause the game to crash with access violation.
@@ -225,6 +235,7 @@ Character castCharacter(intptr_t address)
 Vehicle castVehicle(intptr_t address)
 Helicopter castHelicopter(intptr_t address)
 MapItem castMapItem(intptr_t address)
+userdata castmetatable(intptr_t address, string metatableName)
 
 # Input
 
@@ -237,6 +248,8 @@ float: value, bool: debounce GetInputInfo(EInputAction action) # gets input dire
 Vehicle: vehicle, EVehicleDoor: closestDoor FindClosestVehicleForEntry(Character character, [ bool shyOfPassengers = false, bool willDrive = true, bool checkBack = true)
 
 # Math
+
+float LinearInterpolate(float a, float b, float t) # same effect as lerp()
 
 float GetDistanceBetweenPoints2D(float x1, float y1, float x2, float y2)
 float GetDistanceBetweenPoints3D(float x1, float y1, float z1, float x2, float y2, float z2)
@@ -256,6 +269,9 @@ Vector Vector.new([ float x = 0, float y = 0, float = z) # local vec = Vector.ne
 
 void Vector:Destroy()
 Vector Vector:operator*(Vector a, Vector b) # expression: a * b
+Vector Vector:operator*(Vector v, float n) # expression: v * n
+Vector Vector:operator/(Vector a, Vector b) # expression: a / b
+Vector Vector:operator/(Vector v, float n) # expression: v / n
 Vector Vector:operator+(Vector a, Vector b) # expression: a + b
 Vector Vector:operator-(Vector a, Vector b) # expression: a - b
 
@@ -386,6 +402,10 @@ void Character_Actor:ChaseTarget(LifeActor target, [ float speed = 30.0, float a
 void Character_Actor:StopChasingTarget(LifeActor target)
 void Character_Actor:AddObjectiveIcon(ObjectiveIconDisplayType displayType, [ ObjVisibility_MinimapAndModel visibility = ObjVisibility_MinimapAndModel, bool displayMinimapArrow = false, bool displayAsCop = false, float additionalHeightOffset = 0.0, int lifeEventType = 0)
 void Character_Actor:RemoveObjectiveIcon(ObjectiveIconDisplayType displayType, [ ObjVisibility_MinimapAndModel visibility = ObjVisibility_MinimapAndModel, bool displayMinimapArrow = false, bool displayAsCop = false, float additionalHeightOffset = 0.0, int lifeEventType = 0)
+void Character_Actor:SetPositionChangePerGameStep(Vector position)
+Vector Character_Actor:GetPositionChangePerGameStep()
+void Character_Actor:SetConstrainPositionChange(bool status)
+bool Character_Actor:GetConstrainPositionChange()
 int Character_Actor:hamsterFactoryType()
 
 # Point_Actor
@@ -424,6 +444,10 @@ Character Character_LifeInstance:GetInstance()
 intptr_t Character_LifeInstance:GetPointer() # CLifeInstance_Character*
 void Character_LifeInstance:SetPosition(Vector position)
 Vector Character_LifeInstance:GetPosition()
+void Character_LifeInstance:SetPositionChangePerGameStep(Vector position)
+Vector Character_LifeInstance:GetPositionChangePerGameStep()
+void Character_LifeInstance:SetConstrainPositionChange(bool status)
+bool Character_LifeInstance:GetConstrainPositionChange()
 void Character_LifeInstance:UnregisterSpoolHandler() # disable ping-out, useful for players or permanent/constant loaded instances
 Character_Actor Character_LifeInstance:PromoteToLifeActor()
 

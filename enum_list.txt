@@ -250,3 +250,24 @@ enum ELodType {
 	LT_LODS = 1055,
 	LT_CAMERADISTANCESET = 2048
 };
+
+enum EAttractorType
+{
+	AttractorType_None = 0,
+	AttractorType_ParkedVehicle = 1,
+	AttractorType_AntiParking = 2,
+	AttractorType_Tree = 3,
+	AttractorType_StreetLight = 4,
+	AttractorType_TrafficLight = 5,
+	AttractorType_Sound = 6,
+	AttractorType_ParticleEffect = 7,
+	AttractorType_VolumeParticleEffect = 8,
+	AttractorType_Collectable = 9,
+	AttractorType_CharacterSnapToLocation = 10,
+	AttractorType_GunEffect = 11,
+	AttractorType_GarageDisplayPosition = 12,
+	AttractorType_SoundVolume = 13,
+	AttractorType_EnvironmentLight = 14,
+	AttractorType_ParkedPed = 15,
+	AttractorType_NumberOf = 16
+};

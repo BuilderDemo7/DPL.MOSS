@@ -32,7 +32,17 @@ void CLifeProgression::EnableIncidentalSpooling()
 	((void(__thiscall*)(CLifeProgression*))0x470a64)(this);
 }
 
+bool CLifeProgression::PlayingPlotOrMiniLifeEvent()
+{
+	return ((bool(__thiscall*)(CLifeProgression*))0x4702ed)(this);
+}
+
 bool CLifeProgression::SetLifeEventStatus(int eID, int eStatus, bool fromStatusControl)
 {
 	return ((bool(__thiscall*)(CLifeProgression*, int, int, bool))0x47148c)(this, eID, eStatus, fromStatusControl);
+}
+
+void CLifeProgression::RequestLifeEvent(Vector4 position, int eID, bool floating)
+{
+	((void(__fastcall*)(Vector4, int, bool))0x4704a4)(position, eID, floating);
 }

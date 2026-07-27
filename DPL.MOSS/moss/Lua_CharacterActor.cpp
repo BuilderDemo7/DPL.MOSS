@@ -105,6 +105,22 @@ int lua_CharacterActorIndex(lua_State* L)
 		lua_pushcfunction(L, lua_RemoveObjectiveIconFromLifeActor);
 		return 1;
 	}
+	else if (strcmp(key, "SetPositionChangePerGameStep") == 0) {
+		lua_pushcfunction(L, lua_SetCharacterActorPositionChangePerGameStep);
+		return 1;
+	}
+	else if (strcmp(key, "GetPositionChangePerGameStep") == 0) {
+		lua_pushcfunction(L, lua_GetCharacterActorPositionChangePerGameStep);
+		return 1;
+	}
+	else if (strcmp(key, "SetConstrainPositionChange") == 0) {
+		lua_pushcfunction(L, lua_SetCharacterActorConstrainPositionChange);
+		return 1;
+	}
+	else if (strcmp(key, "GetConstrainPositionChange") == 0) {
+		lua_pushcfunction(L, lua_GetCharacterActorConstrainPositionChange);
+		return 1;
+	}
 	else if (strcmp(key, "hamsterFactoryType") == 0 || strcmp(key, "FactoryType") == 0) {
 		int facType = -1;
 
@@ -665,4 +681,74 @@ int lua_InstantiateCharacterActor(lua_State* L)
 
 	((CLifeActor*)acharacter)->Create();
 	return 0;
+}
+
+int lua_SetCharacterActorPositionChangePerGameStep(lua_State* L)
+{
+	CLifeActor_Character* acharacter = *(CLifeActor_Character**)luaL_checkudata(L, 1, g_CharacterActorMetaName);
+
+	int nargs = lua_gettop(L) - 1; // number of arguments after 'self'
+
+	float x, y, z;
+
+	if (nargs == 1) {
+		// Single argument: expect a Vector
+		Lua_Vector* vec = *(Lua_Vector**)luaL_checkudata(L, 2, g_LuaVectorMetaTable);
+		x = vec->X;
+		y = vec->Y;
+		z = vec->Z;
+	}
+	else if (nargs == 3) {
+		// Three numbers
+		x = (float)luaL_checknumber(L, 2);
+		y = (float)luaL_checknumber(L, 3);
+		z = (float)luaL_checknumber(L, 4);
+	}
+	else {
+		return luaL_error(L, "Expected 1 Vector or 3 numbers");
+	}
+
+	Vector4 pos = Vector4(x, y, z, 1);
+	acharacter->m_positionChangePerGameStep = pos;
+
+	return 0;  // number of return(s)
+}
+
+int lua_GetCharacterActorPositionChangePerGameStep(lua_State* L)
+{
+	CLifeActor_Character* acharacter = *(CLifeActor_Character**)luaL_checkudata(L, 1, g_CharacterActorMetaName);
+
+	// Allocate Lua-managed memory for the struct directly
+	void** udata = (void**)lua_newuserdata(L, sizeof(void*));
+	*udata = new Lua_Vector();
+
+	Lua_Vector* vecRes = *(Lua_Vector**)udata;
+
+	Vector4 pos = acharacter->m_positionChangePerGameStep;
+
+	vecRes->X = pos.X;
+	vecRes->Y = pos.Y;
+	vecRes->Z = pos.Z;
+
+	luaL_getmetatable(L, g_LuaVectorMetaTable);
+	lua_setmetatable(L, -2);
+
+	return 1; // number of return(s)
+}
+
+int lua_SetCharacterActorConstrainPositionChange(lua_State* L)
+{
+	CLifeActor_Character* acharacter = *(CLifeActor_Character**)luaL_checkudata(L, 1, g_CharacterActorMetaName);
+	bool status = lua_toboolean(L, 2);
+
+	acharacter->m_constrainPositionChange = status;
+	return 1;
+}
+
+int lua_GetCharacterActorConstrainPositionChange(lua_State* L)
+{
+	CLifeActor_Character* acharacter = *(CLifeActor_Character**)luaL_checkudata(L, 1, g_CharacterActorMetaName);
+
+	lua_pushboolean(L, acharacter->m_constrainPositionChange);
+	return 1;
 }

@@ -177,8 +177,12 @@ public:
 
 	void EnableIncidentalSpooling();
 	void DisableIncidentalSpooling(bool killAll);
+	
+	bool PlayingPlotOrMiniLifeEvent();
 
 	bool SetLifeEventStatus(int eID, int eStatus, bool fromStatusControl);
+
+	static void RequestLifeEvent(Vector4 position, int eID, bool floating);
 };
 
 CLifeProgression* GetLifeProgression();

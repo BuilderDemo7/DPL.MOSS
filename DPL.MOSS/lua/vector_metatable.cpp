@@ -138,6 +138,27 @@ int lua_VectorMul(lua_State* L)
 #endif
 
 	Lua_Vector* vecA = *(Lua_Vector**)luaL_checkudata(L, 1, g_LuaVectorMetaTable); // Vector A
+
+	// number multiplication
+	if (luaL_testudata(L, 2, g_LuaVectorMetaTable) == NULL)
+	{
+		float num = luaL_checknumber(L, 2);
+
+		void** udata = (void**)lua_newuserdata(L, sizeof(void*));
+		*udata = new Lua_Vector();
+
+		luaL_getmetatable(L, g_LuaVectorMetaTable);
+		lua_setmetatable(L, -2);
+
+		Lua_Vector* vecRes = *(Lua_Vector**)udata;
+
+		vecRes->X = vecA->X * num;
+		vecRes->Y = vecA->Y * num;
+		vecRes->Z = vecA->Z * num;
+
+		return 1;
+	}
+
 	Lua_Vector* vecB = *(Lua_Vector**)luaL_checkudata(L, 2, g_LuaVectorMetaTable); // Vector B
 
 #ifdef LUA_VECTOR_DEBUGLOG_CALLS
@@ -179,6 +200,27 @@ int lua_VectorDiv(lua_State* L)
 #endif
 
 	Lua_Vector* vecA = *(Lua_Vector**)luaL_checkudata(L, 1, g_LuaVectorMetaTable); // Vector A
+
+	// number multiplication
+	if (luaL_testudata(L, 2, g_LuaVectorMetaTable) == NULL)
+	{
+		float num = luaL_checknumber(L, 2);
+
+		void** udata = (void**)lua_newuserdata(L, sizeof(void*));
+		*udata = new Lua_Vector();
+
+		luaL_getmetatable(L, g_LuaVectorMetaTable);
+		lua_setmetatable(L, -2);
+
+		Lua_Vector* vecRes = *(Lua_Vector**)udata;
+
+		vecRes->X = vecA->X / num;
+		vecRes->Y = vecA->Y / num;
+		vecRes->Z = vecA->Z / num;
+
+		return 1;
+	}
+
 	Lua_Vector* vecB = *(Lua_Vector**)luaL_checkudata(L, 2, g_LuaVectorMetaTable); // Vector B
 
 #ifdef LUA_VECTOR_DEBUGLOG_CALLS

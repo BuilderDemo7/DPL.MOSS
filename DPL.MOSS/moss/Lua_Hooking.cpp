@@ -110,6 +110,15 @@ int lua_WasKeyPressedOnce(lua_State* L)
 	return 1;  // number of return(s)
 }
 
+int lua_memexecute(lua_State* L)
+{
+	int address = luaL_checkinteger(L, 1);
+
+	((void(__cdecl*)())address)();
+
+	return 0;
+}
+
 int lua_castfloat(lua_State* L)
 {
 	const char* data = luaL_checkstring(L, 1);

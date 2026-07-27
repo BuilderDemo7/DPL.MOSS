@@ -16,6 +16,12 @@ int lua_GetCharacterInstancePointer(lua_State* L);
 int lua_SetCharacterInstancePosition(lua_State* L);
 int lua_GetCharacterInstancePosition(lua_State* L);
 
+int lua_SetCharacterInstancePositionChangePerGameStep(lua_State* L);
+int lua_GetCharacterInstancePositionChangePerGameStep(lua_State* L);
+
+int lua_SetCharacterInstanceConstrainPositionChange(lua_State* L);
+int lua_GetCharacterInstanceConstrainPositionChange(lua_State* L);
+
 int lua_UnregisterCharacterInstanceSpoolHandler(lua_State* L);
 
 int lua_PromoteCharacterInstanceToLifeActor(lua_State* L);

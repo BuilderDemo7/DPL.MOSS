@@ -41,3 +41,9 @@ int lua_CharacterActorStopDrivingToTarget(lua_State* L);
 
 int lua_CharacterActorChaseTarget(lua_State* L);
 int lua_CharacterActorStopChasingTarget(lua_State* L);
+
+int lua_SetCharacterActorPositionChangePerGameStep(lua_State* L);
+int lua_GetCharacterActorPositionChangePerGameStep(lua_State* L);
+
+int lua_SetCharacterActorConstrainPositionChange(lua_State* L);
+int lua_GetCharacterActorConstrainPositionChange(lua_State* L);
